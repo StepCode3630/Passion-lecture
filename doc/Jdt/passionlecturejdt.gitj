@@ -1,0 +1,39 @@
+{
+  "repoUrl": "https://github.com/StepCode3630/Passion-lecture",
+  "projectName": "PassionLectureJdt",
+  "branch": "main",
+  "me": "StepCode3630",
+  "journalStartDate": null,
+  "exceptions": [
+    {
+      "id": "92578066-e4d9-4d18-ae09-689a350f67cc",
+      "type": "commitless",
+      "name": "chore: Explication du cdc par le prof",
+      "description": "",
+      "date": "2026-02-10T12:10:00.000Z",
+      "duration": 35,
+      "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "55d966f1-0e8c-4ca1-b4db-9ade63f179dc",
+      "type": "commitless",
+      "name": "chore: Création des tâches à faire",
+      "description": "",
+      "date": "2026-02-10T12:50:00.000Z",
+      "duration": 60,
+      "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "fec14bd1-0ed2-4c6d-945c-2d01ea45958f",
+      "type": "commitless",
+      "name": "chore: Création de la maquette figma",
+      "description": "",
+      "date": "2026-02-10T14:05:00.000Z",
+      "duration": 140,
+      "status": "WIP",
+      "author": "StepCode3630"
+    }
+  ]
+}
