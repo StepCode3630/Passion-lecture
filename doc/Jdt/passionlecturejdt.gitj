@@ -28,7 +28,7 @@
     {
       "id": "fec14bd1-0ed2-4c6d-945c-2d01ea45958f",
       "type": "commitless",
-      "name": "chore: Création de la maquette figma",
+      "name": "feat: Création de la maquette figma",
       "description": "",
       "date": "2026-02-10T15:05",
       "duration": 130,
@@ -38,7 +38,7 @@
     {
       "id": "bf05ee6d-0945-4566-ac9d-1b95446911e6",
       "type": "commitless",
-      "name": "Chore: Maquette figma",
+      "name": "feat: Maquette figma",
       "description": "",
       "date": "2026-02-11T08:00",
       "duration": 60,
@@ -48,11 +48,31 @@
     {
       "id": "d8b36066-4150-450b-9222-c4b617cdda7f",
       "type": "commitless",
-      "name": "Chore: Création des routes http",
+      "name": "feat: Création des routes http",
       "description": "",
       "date": "2026-02-11T09:00",
       "duration": 35,
-      "status": "WIP",
+      "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "054a0240-2372-4329-8387-941f1eac2276",
+      "type": "commitless",
+      "name": "chore: analyse de la maquette, tableau de routes et du backlog",
+      "description": "Analyse par le prof",
+      "date": "2026-02-11T09:50",
+      "duration": 15,
+      "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "7625ce2a-0103-4a83-8687-9fc401606340",
+      "type": "commitless",
+      "name": "fix:page contact dans la maquette",
+      "description": "",
+      "date": "2026-02-11T09:05:00.000Z",
+      "duration": 10,
+      "status": "DONE",
       "author": "StepCode3630"
     }
   ]
