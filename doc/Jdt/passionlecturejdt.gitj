@@ -30,8 +30,28 @@
       "type": "commitless",
       "name": "chore: Création de la maquette figma",
       "description": "",
-      "date": "2026-02-10T14:05:00.000Z",
-      "duration": 140,
+      "date": "2026-02-10T15:05",
+      "duration": 130,
+      "status": "WIP",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "bf05ee6d-0945-4566-ac9d-1b95446911e6",
+      "type": "commitless",
+      "name": "Chore: Maquette figma",
+      "description": "",
+      "date": "2026-02-11T08:00",
+      "duration": 60,
+      "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "d8b36066-4150-450b-9222-c4b617cdda7f",
+      "type": "commitless",
+      "name": "Chore: Création des routes http",
+      "description": "",
+      "date": "2026-02-11T09:00",
+      "duration": 35,
       "status": "WIP",
       "author": "StepCode3630"
     }
