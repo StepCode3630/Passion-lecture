@@ -1,3 +1,5 @@
+<!-- cette page affiche liste livre, crée filtre par catégorie, filtre coté frontend, rend le titre cliquable, rend pseudo cliquable -->
+
 <template>
   <section class="page">
     <h1>Livres</h1>
@@ -54,18 +56,24 @@ import { computed, ref } from "vue"
 import { RouterLink } from "vue-router"
 import { books, users } from "@/data/mockData.js"
 
+// selectedCategory est une ref qui stocke la catégorie sélectionnée dans le select
 const selectedCategory = ref("")
 
+// ici on utilise computed pour créer une liste unique de catégories à partir des livres, triée par ordre alphabétique
 const categories = computed(() => {
   const set = new Set(books.map((b) => b.category))
   return Array.from(set).sort()
 })
 
+// computed permet de recalculer automatiquement filteredBooks quand selectedCategory change
+// cette fonction filtre les livres selon la catégorie sélectionnée, ou retourne tous les livres si aucune catégorie n'est sélectionnée
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books
   return books.filter((b) => b.category === selectedCategory.value)
 })
 
+
+// cette fonction prend un userId et retourne le pseudo de l'utilisateur correspondant, ou un message d'erreur si l'utilisateur n'est pas trouvé
 function getUserPseudo(userId) {
   const user = users.find((u) => u.id === userId)
   return user ? user.pseudo : "Utilisateur non trouvé"
