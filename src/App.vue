@@ -14,6 +14,12 @@
     <footer class="footer">
       <small>Passion Lecture 2026</small>
     </footer>
+  <div id="layout">
+    <AppHeader />
+
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
@@ -58,5 +64,18 @@ import { RouterLink, RouterView } from "vue-router"
   border-top: 1px solid #ddd;
   padding: 12px 16px;
   text-align: center;
+import { RouterView } from 'vue-router'
+// Importation du composant
+import AppHeader from './components/appHeader.vue'
+</script>
+
+<style>
+/* Styles globaux pour toute l'app */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+main {
+  min-height: calc(100vh - 80px); /* Ajuste selon la taille du header */
 }
 </style>

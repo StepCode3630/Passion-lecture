@@ -5,6 +5,8 @@ import HomeView from "@/views/HomeView.vue"
 import BooksListView from "@/views/BooksListView.vue"
 import BookDetailView from "@/views/BookDetailView.vue"
 import UserDetailView from "@/views/UserDetailView.vue"
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -27,6 +29,26 @@ const router = createRouter({
     // pour fallback
     // : pathMatch(.*)* est une syntaxe spéciale qui capture tous les chemins qui ne correspondent à aucune route définie
     { path: "/:pathMatch(.*)*", redirect: "/" },
+    {
+      path: '/',
+      name: 'home',
+      component: HomeView,
+    },
+    {
+      path: '/mes-livres',
+      name: 'books-list',
+      component: HomeView,
+    },
+    {
+      path: '/decouvrir',
+      name: 'discover',
+      component: HomeView,
+    },
+    {
+      path: '/compte',
+      name: 'profile',
+      component: HomeView,
+    },
   ],
 })
 
