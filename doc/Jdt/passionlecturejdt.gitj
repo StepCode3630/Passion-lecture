@@ -84,6 +84,16 @@
       "duration": 60,
       "status": "DONE",
       "author": "StepCode3630"
+    },
+    {
+      "id": "eb144a77-afdc-4b9c-a4d1-88b24f498e62",
+      "type": "commitless",
+      "name": "chore: Explication du prof ",
+      "description": "",
+      "date": "2026-02-24T12:10:00.000Z",
+      "duration": 25,
+      "status": "DONE",
+      "author": "StepCode3630"
     }
   ]
 }

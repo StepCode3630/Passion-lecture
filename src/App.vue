@@ -1,11 +1,26 @@
-<script setup></script>
-
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <div id="layout">
+    <AppHeader />
+
+    <main>
+      <RouterView />
+    </main>
+  </div>
 </template>
 
-<style scoped></style>
+<script setup>
+import { RouterView } from 'vue-router'
+// Importation du composant
+import AppHeader from './components/appHeader.vue'
+</script>
+
+<style>
+/* Styles globaux pour toute l'app */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+main {
+  min-height: calc(100vh - 80px); /* Ajuste selon la taille du header */
+}
+</style>
