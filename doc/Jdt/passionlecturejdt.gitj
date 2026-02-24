@@ -84,6 +84,26 @@
       "duration": 60,
       "status": "DONE",
       "author": "StepCode3630"
+    },
+    {
+      "id": "dff62609-eccd-48de-bc12-9379e9d79ae6",
+      "type": "commitless",
+      "name": "chore(cdc, rapport)(camille)",
+      "description": "lecture du cdc, analyse de la maquette faites, lecture et comprehension des issues sur github par rapport au cdc",
+      "date": "2026-02-17T13:33",
+      "duration": 30,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "b76b8a64-c42d-4471-97f6-4d335c2a662d",
+      "type": "commitless",
+      "name": "chore(rapport)(Camille)",
+      "description": "Ecriture du rapport selon les issues github",
+      "date": "2026-02-17T13:35",
+      "duration": 45,
+      "status": "Done",
+      "author": "StepCode3630"
     }
   ]
 }
