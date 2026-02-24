@@ -11,7 +11,7 @@
 <script setup>
 import { RouterView } from 'vue-router'
 // Importation du composant
-import AppHeader from './components/appheader.vue'
+import AppHeader from './components/appHeader.vue'
 </script>
 
 <style>

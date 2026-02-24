@@ -45,51 +45,30 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
+import BookServices from '@/services/BookServices' // Importation du service API
 
-const ouvrages = ref([
-  {
-    id: 1,
-    titre: 'Bleach',
-    auteur: 'Tite Kubo',
-    user: 'Tom',
-    image:
-      'https://tse1.mm.bing.net/th/id/OIP.XFoKdlqqqjKRiCCv9mHOmgHaLK?w=600&h=904&rs=1&pid=ImgDetMain&o=7&rm=3',
-  },
-  {
-    id: 2,
-    titre: 'Les Misérables',
-    auteur: 'Victor Hugo',
-    user: 'Jean-Val',
-    image: 'https://m.media-amazon.com/images/I/613R0HknEEL.jpg',
-  },
-  {
-    id: 3,
-    titre: 'Mamie Gangster',
-    auteur: 'David Walliams',
-    user: 'Lucas',
-    image: 'https://www.librest.com/cache/img/livres/209/9782226247209.jpg',
-  },
-  {
-    id: 4,
-    titre: '1984',
-    auteur: 'George Orwell',
-    user: 'Sonia',
-    image: 'https://m.media-amazon.com/images/I/91SZSW8qSsL.jpg',
-  },
-  {
-    id: 5,
-    titre: "L'Étranger",
-    auteur: 'Albert Camus',
-    user: 'Marc',
-    image: 'https://cdn1.booknode.com/book_cover/995/full/letranger-995411.jpg',
-  },
-])
+// 1. État réactif
+const ouvrages = ref([]) // Liste des livres (chargée via l'API)
+const carouselTrack = ref(null) // Référence vers l'élément HTML pour le scroll
+const scrollLeftPosition = ref(0) // Position actuelle du scroll
+const maxScroll = ref(0) // Valeur maximale de scroll possible
 
-const carouselTrack = ref(null)
-const scrollLeftPosition = ref(0)
-const maxScroll = ref(0)
+// 2. Chargement des données au montage du composant
+onMounted(async () => {
+  try {
+    const response = await BookServices.getBooks()
+    ouvrages.value = response.data
 
-// Fonction pour mettre à jour les positions pour les boutons disabled
+    // On attend un petit peu que le DOM se dessine pour calculer le scroll max
+    setTimeout(() => {
+      updateScrollPosition()
+    }, 100)
+  } catch (error) {
+    console.error('Erreur lors de la récupération des ouvrages :', error)
+  }
+})
+
+// 3. Logique du Carousel
 const updateScrollPosition = () => {
   if (carouselTrack.value) {
     scrollLeftPosition.value = carouselTrack.value.scrollLeft
@@ -97,23 +76,23 @@ const updateScrollPosition = () => {
   }
 }
 
-// Calculs pour savoir si les boutons doivent être grisés
+// Calculs pour activer/désactiver les flèches
 const isAtStart = computed(() => scrollLeftPosition.value <= 0)
-const isAtEnd = computed(() => scrollLeftPosition.value >= maxScroll.value - 5) // -5 pour la marge d'erreur des navigateurs
+const isAtEnd = computed(() => scrollLeftPosition.value >= maxScroll.value - 5)
 
 const scroll = (direction) => {
+  // On définit la largeur d'un scroll (ici, la largeur visible de la fenêtre)
   const scrollAmount = carouselTrack.value.clientWidth
+
   if (direction === 'left') {
     carouselTrack.value.scrollLeft -= scrollAmount
   } else {
     carouselTrack.value.scrollLeft += scrollAmount
   }
-}
 
-// Initialisation au montage
-onMounted(() => {
-  updateScrollPosition()
-})
+  // On met à jour la position après le mouvement
+  setTimeout(updateScrollPosition, 500)
+}
 </script>
 
 <style scoped>

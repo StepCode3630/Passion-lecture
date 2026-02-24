@@ -1,0 +1,39 @@
+{
+  "books": [
+    {
+      "id": 1,
+      "titre": "Bleach",
+      "auteur": "Tite Kubo",
+      "user": "Tom",
+      "image": "https://tse1.mm.bing.net/th/id/OIP.XFoKdlqqqjKRiCCv9mHOmgHaLK?w=600&h=904&rs=1&pid=ImgDetMain&o=7&rm=3"
+    },
+    {
+      "id": 2,
+      "titre": "Les Misérables",
+      "auteur": "Victor Hugo",
+      "user": "Jean-Val",
+      "image": "https://m.media-amazon.com/images/I/613R0HknEEL.jpg"
+    },
+    {
+      "id": 3,
+      "titre": "Mamie Gangster",
+      "auteur": "David Walliams",
+      "user": "Lucas",
+      "image": "https://www.librest.com/cache/img/livres/209/9782226247209.jpg"
+    },
+    {
+      "id": 4,
+      "titre": "1984",
+      "auteur": "George Orwell",
+      "user": "Sonia",
+      "image": "https://m.media-amazon.com/images/I/91SZSW8qSsL.jpg"
+    },
+    {
+      "id": 5,
+      "titre": "L'Étranger",
+      "auteur": "Albert Camus",
+      "user": "Marc",
+      "image": "https://cdn1.booknode.com/book_cover/995/full/letranger-995411.jpg"
+    }
+  ]
+}
