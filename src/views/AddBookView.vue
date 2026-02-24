@@ -2,7 +2,7 @@
   <section class="page">
     <h1>Ajouter un ouvrage</h1>
 
-    <p v-if="!currentUser" class="avertissment">Se connecter pour ajouter un livre.</p>
+    <p v-if="!actualUser" class="avertissment">Se connecter pour ajouter un livre.</p>
 
     <form v-else class="form" @submit.prevent="manualSubmit">
       <!-- titre -->
