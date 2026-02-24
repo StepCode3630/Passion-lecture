@@ -13,9 +13,9 @@
 
     <h2>Livres de {{ user.pseudo }}</h2>
     <ul>
-      <li v-for="b in userBooks" :key="b.id">
-        <RouterLink :to="{ name: 'book-detail', params: { id: b.id } }">
-          {{ b.title }}
+      <li v-for="book in userBooks" :key="book.id">
+        <RouterLink :to="{ name: 'book-detail', params: { id: book.id } }">
+          {{ book.title }}
         </RouterLink>
       </li>
     </ul>
@@ -44,14 +44,14 @@ const props = defineProps({
 
 // la const user utilise computed pour trouver l'utilisateur correspondant à l'ID dans les paramètres de l'URL
 // en cherchant dans la liste des utilisateurs. Si l'utilisateur n'est pas trouvé, user.value sera undefined et on affichera un message d'erreur.
-const user = computed(() => users.find((u) => String(u.id) === props.id))
+const user = computed(() => users.find((user) => String(user.id) === props.id))
 
 // ici on utilise computed pour créer une liste de livres qui appartiennent à l'utilisateur trouvé
 // Si user.value est undefined donc utilisateur non trouvé, on retourne une liste vide.
 // sinon on filtre la liste des livres pour ne garder que ceux dont le userId correspond à l'ID de l'utilisateur.
 const userBooks = computed(() => {
   if (!user.value) return []
-  return books.filter((b) => b.userId === user.value.id)
+  return books.filter((book) => book.userId === user.value.id)
 })
 </script>
 
