@@ -17,16 +17,16 @@
           <div class="books-track" ref="carouselTrack" @scroll="updateScrollPosition">
             <div v-for="livre in ouvrages" :key="livre.id" class="book-card">
               <div class="card-content">
-                <img :src="livre.image" :alt="livre.titre" class="cover" />
+                <img :src="livre.imagePath" :alt="livre.title" class="cover" />
 
                 <div class="info-overlay">
-                  <h3 class="title">{{ livre.titre }}</h3>
-                  <p class="author">{{ livre.auteur }}</p>
+                  <h3 class="title">{{ livre.title }}</h3>
+                  <p class="author">{{ livre.writer.firstname + ' ' + livre.writer.lastname }}</p>
 
                   <div class="hover-details">
                     <div class="stars">★★★★★</div>
                     <p class="added-by">
-                      Ajouté par : <span>{{ livre.user }}</span>
+                      Ajouté par : <span>{{ livre.user.username }}</span>
                     </p>
                   </div>
                 </div>
