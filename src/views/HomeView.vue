@@ -1,20 +1,20 @@
 <template>
   <div class="home">
     <div class="hero-section">
-      <h1>Découvrez l'art de la lecture</h1>
-      <p>Partagez, ajoutez et commentez les ouvrages de la communauté ETML !</p>
+      <h1>Découvrez l'art de la lecture avec Passion Lecture</h1>
+      <p>Vous pouvez partagez, ajoutez et commentez les ouvrages de la communautés de l’ETML</p>
     </div>
 
     <section class="carousel-container">
       <h2 class="section-title">Nouveautés</h2>
 
       <div class="carousel-navigation">
-        <button class="nav-btn prev" @click="scroll('left')">
+        <button class="nav-btn prev" @click="scroll('left')" :disabled="isAtStart">
           <span class="arrow">◀</span>
         </button>
 
         <div class="carousel-window">
-          <div class="books-track" ref="carouselTrack">
+          <div class="books-track" ref="carouselTrack" @scroll="updateScrollPosition">
             <div v-for="livre in ouvrages" :key="livre.id" class="book-card">
               <div class="card-content">
                 <img :src="livre.image" :alt="livre.titre" class="cover" />
@@ -35,7 +35,7 @@
           </div>
         </div>
 
-        <button class="nav-btn next" @click="scroll('right')">
+        <button class="nav-btn next" @click="scroll('right')" :disabled="isAtEnd">
           <span class="arrow">▶</span>
         </button>
       </div>
@@ -44,9 +44,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
-// 1. Liste de 5 ouvrages minimum
 const ouvrages = ref([
   {
     id: 1,
@@ -61,14 +60,14 @@ const ouvrages = ref([
     titre: 'Les Misérables',
     auteur: 'Victor Hugo',
     user: 'Jean-Val',
-    image: 'https://m.media-amazon.com/images/I/81AsVpYmH5L.jpg',
+    image: 'https://m.media-amazon.com/images/I/613R0HknEEL.jpg',
   },
   {
     id: 3,
     titre: 'Mamie Gangster',
     auteur: 'David Walliams',
     user: 'Lucas',
-    image: 'https://m.media-amazon.com/images/I/91M-M9uS6lL.jpg',
+    image: 'https://www.librest.com/cache/img/livres/209/9782226247209.jpg',
   },
   {
     id: 4,
@@ -82,54 +81,67 @@ const ouvrages = ref([
     titre: "L'Étranger",
     auteur: 'Albert Camus',
     user: 'Marc',
-    image: 'https://m.media-amazon.com/images/I/81S7mS2-Z0L.jpg',
+    image: 'https://cdn1.booknode.com/book_cover/995/full/letranger-995411.jpg',
   },
 ])
 
-// 2. Logique du carousel
 const carouselTrack = ref(null)
+const scrollLeftPosition = ref(0)
+const maxScroll = ref(0)
+
+// Fonction pour mettre à jour les positions pour les boutons disabled
+const updateScrollPosition = () => {
+  if (carouselTrack.value) {
+    scrollLeftPosition.value = carouselTrack.value.scrollLeft
+    maxScroll.value = carouselTrack.value.scrollWidth - carouselTrack.value.clientWidth
+  }
+}
+
+// Calculs pour savoir si les boutons doivent être grisés
+const isAtStart = computed(() => scrollLeftPosition.value <= 0)
+const isAtEnd = computed(() => scrollLeftPosition.value >= maxScroll.value - 5) // -5 pour la marge d'erreur des navigateurs
 
 const scroll = (direction) => {
-  const scrollAmount = carouselTrack.value.clientWidth / 1 // On scroll de la largeur visible
+  const scrollAmount = carouselTrack.value.clientWidth
   if (direction === 'left') {
     carouselTrack.value.scrollLeft -= scrollAmount
   } else {
     carouselTrack.value.scrollLeft += scrollAmount
   }
 }
+
+// Initialisation au montage
+onMounted(() => {
+  updateScrollPosition()
+})
 </script>
 
 <style scoped>
-/* --- MISE EN PAGE GÉNÉRALE --- */
+/* ... (Tes styles précédents restent identiques) ... */
+
 .home {
   padding: 2rem;
   font-family: 'Courier New', Courier, monospace;
 }
-
 .hero-section {
   text-align: center;
   margin-bottom: 3rem;
 }
-
 .section-title {
   font-weight: bold;
   margin-bottom: 20px;
   padding-left: 50px;
 }
-
-/* --- CAROUSEL STRUCTURE --- */
 .carousel-navigation {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
-
 .carousel-window {
-  width: 900px; /* Ajusté pour 3 livres d'environ 280px + gaps */
-  overflow: hidden; /* Cache les livres 4 et 5 */
+  width: 900px;
+  overflow: hidden;
 }
-
 .books-track {
   display: flex;
   gap: 20px;
@@ -137,22 +149,16 @@ const scroll = (direction) => {
   overflow-x: hidden;
   padding: 20px 0;
 }
-
-/* --- CALCUL POUR AFFICHER EXACTEMENT 3 LIVRES --- */
 .book-card {
-  /* (100% de la fenêtre - les gaps) / 3 */
   min-width: calc((100% - 40px) / 3);
   text-align: center;
   transition: transform 0.3s ease;
 }
-
-/* --- STYLE DES CARTES --- */
 .card-content {
   padding: 15px;
   border-radius: 25px;
   transition: all 0.4s ease;
 }
-
 .cover {
   width: 100%;
   height: 350px;
@@ -160,11 +166,9 @@ const scroll = (direction) => {
   border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
-
 .info-overlay {
   margin-top: 15px;
 }
-
 .title {
   font-size: 1.2rem;
   margin: 0;
@@ -173,38 +177,31 @@ const scroll = (direction) => {
   font-size: 0.9rem;
   color: #666;
 }
-
-/* --- ÉLÉMENTS HOVER (CACHÉS) --- */
 .hover-details {
   max-height: 0;
   opacity: 0;
   transition: all 0.4s ease;
   overflow: hidden;
 }
-
 .stars {
   color: #f39c12;
   font-size: 1.2rem;
   margin: 10px 0;
 }
-
 .added-by {
   font-size: 0.85rem;
   border-bottom: 1px solid #333;
   display: inline-block;
 }
-
-/* --- EFFET HOVER (INSPIRÉ DU SCREEN) --- */
 .book-card:hover .card-content {
-  background-color: #94b3c1; /* Le bleu-gris du screen */
+  background-color: #94b3c1;
 }
-
 .book-card:hover .hover-details {
   max-height: 100px;
   opacity: 1;
 }
 
-/* --- BOUTONS --- */
+/* --- STYLE DES BOUTONS --- */
 .nav-btn {
   background: #a8d1e7;
   border: 1px solid #333;
@@ -214,7 +211,7 @@ const scroll = (direction) => {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .prev {
@@ -223,7 +220,21 @@ const scroll = (direction) => {
 .next {
   border-radius: 10px 50% 50% 10px;
 }
-.nav-btn:hover {
+
+.nav-btn:hover:not(:disabled) {
   background: #8bb8d0;
+  transform: scale(1.05);
+}
+
+/* --- STYLE DISABLED --- */
+.nav-btn:disabled {
+  background: #d1d1d1; /* Gris clair */
+  border-color: #999;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.nav-btn:disabled .arrow {
+  color: #777;
 }
 </style>
