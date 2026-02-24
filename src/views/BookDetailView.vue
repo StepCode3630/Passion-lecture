@@ -41,14 +41,14 @@ const props = defineProps({
 // Si le livre n'est pas trouvé on affiche un message d'erreur.
 const book = computed(() => {
   if (route.state && route.state.book) return route.state.book
-  return books.find((b) => String(b.id) === props.id)
+  return books.find((book) => String(book.id) === props.id)
 })
 
 // computed pour trouver le pseudo de l'utilisateur qui a posté le livre, ou afficher "Utilisateur inconnu" si l'utilisateur n'est pas trouvé
 // on cherche l'utilisateur dans la liste des utilisateurs en comparant son ID avec le userId du livre, et on retourne son pseudo si trouvé, sinon un message d'erreur.
 const userPseudo = computed(() => {
   if (!book.value) return ''
-  const user = users.find((u) => u.id === book.value.userId)
+  const user = users.find((user) => user.id === book.value.userId)
   return user ? user.pseudo : 'Utilisateur inconnu'
 })
 </script>

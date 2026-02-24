@@ -9,8 +9,8 @@
         Catégorie
         <select v-model="selectedCategory">
           <option value="">Toutes</option>
-          <option v-for="cat in categories" :key="cat" :value="cat">
-            {{ cat }}
+          <option v-for="categorie in categories" :key="catategorie" :value="categorie">
+            {{ categorie }}
           </option>
         </select>
       </label>
@@ -25,43 +25,35 @@
           </RouterLink>
         </h2>
 
-        <p class="meta">
-          <strong>Auteur :</strong> {{ book.author }}
-        </p>
+        <p class="meta"><strong>Auteur :</strong> {{ book.author }}</p>
 
         <!-- pour pseudo cliquable vers détail user -->
         <p class="meta">
           <strong>Posté par :</strong>
-          <RouterLink
-            :to="{ name: 'user-detail', params: { id: book.userId } }"
-          >
+          <RouterLink :to="{ name: 'user-detail', params: { id: book.userId } }">
             {{ getUserPseudo(book.userId) }}
           </RouterLink>
         </p>
 
-        <p class="meta">
-          <strong>Catégorie :</strong> {{ book.category }}
-        </p>
+        <p class="meta"><strong>Catégorie :</strong> {{ book.category }}</p>
       </article>
 
-      <p v-if="filteredBooks.length === 0" class="empty">
-        Rien dans cette catégorie
-      </p>
+      <p v-if="filteredBooks.length === 0" class="empty">Rien dans cette catégorie</p>
     </div>
   </section>
 </template>
 
 <script setup>
-import { computed, ref } from "vue"
-import { RouterLink } from "vue-router"
-import { books, users } from "@/data/mockData.js"
+import { computed, ref } from 'vue'
+import { RouterLink } from 'vue-router'
+import { books, users } from '@/data/mockData.js'
 
 // selectedCategory est une ref qui stocke la catégorie sélectionnée dans le select
-const selectedCategory = ref("")
+const selectedCategory = ref('')
 
 // ici on utilise computed pour créer une liste unique de catégories à partir des livres, triée par ordre alphabétique
 const categories = computed(() => {
-  const set = new Set(books.map((b) => b.category))
+  const set = new Set(books.map((book) => book.category))
   return Array.from(set).sort()
 })
 
@@ -69,14 +61,13 @@ const categories = computed(() => {
 // cette fonction filtre les livres selon la catégorie sélectionnée, ou retourne tous les livres si aucune catégorie n'est sélectionnée
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books
-  return books.filter((b) => b.category === selectedCategory.value)
+  return books.filter((book) => book.category === selectedCategory.value)
 })
-
 
 // cette fonction prend un userId et retourne le pseudo de l'utilisateur correspondant, ou un message d'erreur si l'utilisateur n'est pas trouvé
 function getUserPseudo(userId) {
-  const user = users.find((u) => u.id === userId)
-  return user ? user.pseudo : "Utilisateur non trouvé"
+  const user = users.find((user) => user.id === userId)
+  return user ? user.pseudo : 'Utilisateur non trouvé'
 }
 </script>
 
