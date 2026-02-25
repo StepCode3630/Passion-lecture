@@ -35,4 +35,15 @@ export default {
   deleteBook(id) {
     return apiClient.delete('/books/' + id)
   },
+  // ... dans ton objet export default
+  async addComment(commentData) {
+    // Envoie le commentaire vers http://localhost:3000/comments
+    return apiClient.post('/comments', commentData)
+  },
+
+  // src/services/BookServices.js
+  // src/services/BookServices.js
+  getComments() {
+    return apiClient.get('/comments')
+  },
 }
