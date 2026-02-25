@@ -96,13 +96,6 @@
       "author": "StepCode3630"
     },
     {
-      "id": "b76b8a64-c42d-4471-97f6-4d335c2a662d",
-      "type": "commitless",
-      "name": "chore(rapport)(Camille)",
-      "description": "Ecriture du rapport selon les issues github",
-      "date": "2026-02-17T13:35",
-      "duration": 45,
-      "status": "Done",
       "id": "eb144a77-afdc-4b9c-a4d1-88b24f498e62",
       "type": "commitless",
       "name": "chore: Explication du prof ",
@@ -110,6 +103,46 @@
       "date": "2026-02-24T12:10:00.000Z",
       "duration": 25,
       "status": "DONE",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "c898ff13-37d8-4878-9caa-508e253a26d5",
+      "type": "commitless",
+      "name": "feat(BooksListView.vue) Camille",
+      "description": "crée une page book list, afficher titre, auteur pseudo.",
+      "date": "2026-02-19T08:08",
+      "duration": 50,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "a334b4d2-a348-4ece-9261-643d15150dd1",
+      "type": "commitless",
+      "name": "feat(bookDetailView) Camille",
+      "description": "crée page book detail",
+      "date": "2026-02-19T08:00:00.000Z",
+      "duration": 15,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "18a3285d-d9cf-4edc-9240-4fdae9e1cdbc",
+      "type": "commitless",
+      "name": "feat(userDetailView.vue) Camille",
+      "description": "Tache en relation avec la tache #4, il était plus facile de la réaliser avec pour réussir la tache 4\r\n\r\nfeat(userdetail): implémentation de la page détail utilisateur dans srx views : userDetailView.vue\r\nAffichage des informations d’un utilisateur et de la liste de ses livres",
+      "date": "2026-02-19T09:20",
+      "duration": 45,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "3d8cbe02-9dee-4cdb-8798-8b07030fcec9",
+      "type": "commitless",
+      "name": "feat(booksListView.vue) Camille",
+      "description": " implémentation de la liste d’ouvrages avec filtre par catégorie\r\nCreate de BooksListView dans src views avec des donnée statique simulées. crée lien vers les détails d un ouvrage. titre et pseudo cliquable.filtre coté front end",
+      "date": "2026-02-19T09:00:00.000Z",
+      "duration": 90,
+      "status": "Done",
       "author": "StepCode3630"
     }
   ]
