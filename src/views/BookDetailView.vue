@@ -174,6 +174,18 @@ const averageRating = computed(() => {
   return average.toFixed(1)
 })
 </script>
+<!-- <script>
+const averageRating = computed(() => {
+  if (comments.value.length === 0) return 0
+
+  const totalStars = comments.value.reduce((acc, comment) => {
+    return acc + Number(comment.stars)
+  }, 0)
+  const average = totalStars / comments.value.length
+
+  return average.toFixed(1)
+})
+</script> -->
 
 <style scoped>
 .detail-page {

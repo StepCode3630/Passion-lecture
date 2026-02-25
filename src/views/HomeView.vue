@@ -28,7 +28,10 @@
                     <p class="author">{{ livre.writer.firstname + ' ' + livre.writer.lastname }}</p>
 
                     <div class="hover-details">
-                      <div class="stars">★★★★★</div>
+                      <div class="stars-row">
+                        <!-- <span class="avereage-number">{{ averageRating }}</span> -->
+                        <span class="star">5★</span>
+                      </div>
                       <p class="added-by">
                         Ajouté par : <span>{{ livre.user.username }}</span>
                       </p>
@@ -226,5 +229,12 @@ const scroll = (direction) => {
 
 .nav-btn:disabled .arrow {
   color: #777;
+}
+
+.stars-row {
+  text-align: center;
+  margin-top: 10px;
+  color: #ffb400;
+  font-size: 1.5rem;
 }
 </style>
