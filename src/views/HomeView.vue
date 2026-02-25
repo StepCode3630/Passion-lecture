@@ -17,7 +17,7 @@
           <div class="books-track" ref="carouselTrack" @scroll="updateScrollPosition">
             <div v-for="livre in ouvrages" :key="livre.id" class="book-card">
               <div class="card-content">
-                <img :src="livre.imagePath" :alt="livre.title" class="cover" />
+                <a href=""><img :src="livre.imagePath" :alt="livre.title" class="cover" /></a>
 
                 <div class="info-overlay">
                   <h3 class="title">{{ livre.title }}</h3>
