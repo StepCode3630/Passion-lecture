@@ -144,6 +144,26 @@
       "duration": 90,
       "status": "Done",
       "author": "StepCode3630"
+    },
+    {
+      "id": "d13543b7-3c79-462f-b874-39e763589ebe",
+      "type": "commitless",
+      "name": "feat(AddBookView.vue) Camille",
+      "description": "Créer une page AddBookView.vue, formulaire avec champs: titre, catégorie, pages, résumé, auteur, éditeur, année, image (url), extrait (lien pdf), Validation des champs ( required, année valide, pages > 0), champ userID automatique",
+      "date": "2026-02-24T07:36:00.000Z",
+      "duration": 135,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "a2075afc-4b1d-48e2-a6cc-037ddb4716be",
+      "type": "commitless",
+      "name": "feat(addBookView.vue) Camille",
+      "description": "validation des champs obligatoire avec contrôle required, année, valide, nbr de page >0, userId ajout automatique",
+      "date": "2026-02-19T07:42:00.000Z",
+      "duration": 45,
+      "status": "Done",
+      "author": "StepCode3630"
     }
   ]
 }

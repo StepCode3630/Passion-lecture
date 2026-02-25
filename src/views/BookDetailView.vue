@@ -15,6 +15,8 @@
       </RouterLink>
     </p>
 
+    <RouterLink :to="{ name: 'book-edit', params: { id: book.id } }"> Modifier </RouterLink>
+
     <RouterLink to="/books">Retour à la liste</RouterLink>
   </section>
 
