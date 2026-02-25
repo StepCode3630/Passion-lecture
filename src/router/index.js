@@ -26,8 +26,8 @@ const router = createRouter({
       component: HomeView,
     },
     {
-      path: '/books/_id',
-      name: 'book-dettails',
+      path: '/books/:id',
+      name: 'book-details',
       component: BookDetailView,
       props: true, // Permet de recevoir l'id directement comme une "prop"
     },
