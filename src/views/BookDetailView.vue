@@ -6,7 +6,8 @@
       <div class="cover-column">
         <img :src="book.imagePath" :alt="book.title" class="book-cover" />
         <div class="stars-row">
-          <span v-for="i in 5" :key="i" class="star">★</span>
+          <span class="avereage-number">{{ averageRating }}</span>
+          <span class="star">★</span>
         </div>
       </div>
 
@@ -100,7 +101,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import BookServices from '@/services/BookServices'
 
@@ -161,6 +162,17 @@ const submitComment = async () => {
     isSubmitting.value = false
   }
 }
+
+const averageRating = computed(() => {
+  if (comments.value.length === 0) return 0
+
+  const totalStars = comments.value.reduce((acc, comment) => {
+    return acc + Number(comment.stars)
+  }, 0)
+  const average = totalStars / comments.value.length
+
+  return average.toFixed(1)
+})
 </script>
 
 <style scoped>
@@ -352,5 +364,22 @@ const submitComment = async () => {
   text-align: center;
   padding: 100px;
   font-size: 1.5rem;
+}
+
+.rating-display {
+  text-align: center;
+  margin-top: 15px;
+}
+
+.average-number {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.vote-count {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: -5px;
 }
 </style>
