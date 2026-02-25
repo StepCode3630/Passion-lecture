@@ -1,130 +1,148 @@
 <template>
-  <section class="page" v-if="book">
-    <h1>Modifier les données d'un ouvrage</h1>
+  <section class="page">
+    <h1>Ajouter un nouveau livre</h1>
 
-    <!-- -->
-    <p v-if="!okEdit" class="avertissement">
-      Vous ne pouvez pas faire de modification sur ce livre.
-    </p>
+    <p v-if="!actualUser">Vous devez être connecté pour ajouter un livre.</p>
 
-    <form v-else class="form" @submit.prevent="validEdit">
+    <form v-else @submit.prevent="submitForm">
       <label>
-        Titre ouvrage
-        <input v-model.trim="form.title" type="text" />
+        Titre du livre
+        <input v-model="form.title" type="text" />
       </label>
 
       <label>
         Catégorie
-        <input v-model.trim="form.category" type="text" />
+        <input v-model="form.category" type="text" />
       </label>
 
       <label>
         Résumé
-        <input v-model.trim="form.resume" type="text" />
+        <textarea v-model="form.summary" rows="4"></textarea>
       </label>
 
       <label>
         Auteur
-        <input v-model.trim="form.author" type="text" />
+        <input v-model="form.author" type="text" />
       </label>
+
+      <label>
+        Éditeur
+        <input v-model="form.editor" type="text" />
+      </label>
+
+      <label>
+        Année de publication
+        <input v-model.number="form.year" type="number" />
+      </label>
+
+      <label>
+        Image (URL)
+        <input v-model="form.image" type="url" />
+      </label>
+
+      <label>
+        PDF (URL)
+        <input v-model="form.pdf" type="text" />
+      </label>
+
+      <button type="submit">Ajouter le livre</button>
     </form>
-
-    <label>
-      editeur
-      <input v-model.trim="form.editor" type="text" />
-    </label>
-
-    <label>
-      Année
-      <input v-model.number="form.year" type="number" />
-    </label>
-
-    <label>
-      Image
-      <input v-model.trim="form.image" type="url" />
-    </label>
-
-    <label>
-      PDF
-      <input v-model.trim="form.pdf" type="text" />
-    </label>
-
-    <button><strong> Enregistrer </strong></button>
-  </section>
-
-  <section v-else class="page">
-    <p><strong> Ce livre n'existe pas </strong></p>
-    <RouterLink to="/books"> Retour </RouterLink>
   </section>
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router'
 import { reactive, computed } from 'vue'
-// AJOUTER CHEMIN JUSTE
-import { books } from '@/'
-import { actualUser } from '@/'
+import { useRouter } from 'vue-router'
+// JSON entre livres et utilisateurs
+import data from '@/data/mockData.json'
+
+// récup les livres et utilisateurs
+const books = data.books
+const users = data.users
 
 const router = useRouter()
 
+//récup l'utilisateur connecté stocké en localStorage
+function getActualUser() {
+  return JSON.parse(localStorage.getItem('user'))
+}
+
 const actualUser = computed(() => getActualUser())
-// export function getActualUser() {
-// return JSON.parse(localStorage.getItem('user'))
-//}
 
-// trouver livre et index tableau
-const book = books.find((book) => String(book.id) === props.id)
-const index = books.findIndex((book) => book.id === book.id)
-
-// récup id depuis url
-const props = defineProps({
-  id: { type: String, required: true },
-})
-
-// vérification des droits user ou admin
-const okEdit = computed(() => {
-  if (!actualUser.value || !book) return false
-  return actualUser.value.id === book.userId || actualUser.value.role === 'admin'
-})
-
-// validation modification
-function validEdit() {
-  if (!okEdit.value) return
-}
-
-// form
+// Formulaire prérempli
 const form = reactive({
-  title: book?.title || '',
-  category: book?.category || '',
-  pages: book?.pages || 1,
-  resume: book?.resume || '',
-  author: book?.author || '',
-  editor: book?.editor || '',
-  year: book?.year || '',
-  image: book?.image || '',
-  pdf: book?.pdf || '',
+  title: '',
+  category: '',
+  summary: '',
+  author: '',
+  editor: '',
+  year: new Date().getFullYear(),
+  image: '',
+  pdf: '',
 })
 
-// utilisation de ... stread operator qui compie toute les props de l objet la
-// copie ancien livre + ecrase avec valeur form
-// modifie que valeur changé les autres reste
-if (index !== -1) {
-  books[index] = {
-    ...books[index],
-    ...form,
+// pour ajouter le livre
+function submitForm() {
+  if (!actualUser.value) {
+    alert('Vous devez être connecté pour ajouter un livre.')
+    return
   }
-}
 
-//retour sur detail
-router.push({
-  name: 'book-detail',
-  params: { id: book.id },
-})
+  // Création du nouveau livre
+  const newBook = {
+    id: Date.now().toString(), // ID simple basé sur timestamp
+    title: form.title,
+    category: form.category,
+    summary: form.summary,
+    author: form.author,
+    editor: form.editor,
+    year: form.year,
+    image: form.image,
+    pdf: form.pdf,
+    //relie le livre à l'utilisateur connecté
+    userId: actualUser.value.id,
+  }
+
+  // ajoute livre dans tableau
+  books.push(newBook)
+
+  //vers la page détail du livre
+  router.push({
+    name: 'book-detail',
+    params: { id: newBook.id },
+  })
+}
 </script>
 
 <style scoped>
 .page {
   max-width: 900px;
   margin: 0 auto;
+  padding: 20px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+}
+
+input,
+textarea {
+  padding: 6px 10px;
+  font-family: inherit;
+}
+
+button {
+  width: 150px;
+  padding: 10px;
+  margin-top: 10px;
+  font-weight: bold;
+  cursor: pointer;
 }
 </style>
