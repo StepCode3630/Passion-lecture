@@ -104,6 +104,16 @@
       "duration": 30,
       "status": "DONE",
       "author": "StepCode3630"
+    },
+    {
+      "id": "d30ef5c9-0c40-4f04-93c6-1ab779e804af",
+      "type": "commitless",
+      "name": "feat: création de la page détails pour chaque ouvrage",
+      "description": "voir les commits pour plus de détails",
+      "date": "2026-02-25T10:21:00.000Z",
+      "duration": 180,
+      "status": "DONE",
+      "author": "StepCode3630"
     }
   ]
 }
