@@ -5,7 +5,7 @@
     <p v-if="!actualUser" class="avertissment">Se connecter pour ajouter un livre.</p>
 
     <form v-else class="form" @submit.prevent="manualSubmit">
-      <!-- titre -->
+      <!-- titre (test merge) -->
       <label>
         <input v-model.trim="form.title" type="text" />
       </label>
