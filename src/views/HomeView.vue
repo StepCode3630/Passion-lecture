@@ -16,21 +16,29 @@
         <div class="carousel-window">
           <div class="books-track" ref="carouselTrack" @scroll="updateScrollPosition">
             <div v-for="livre in ouvrages" :key="livre.id" class="book-card">
-              <div class="card-content">
-                <a href=""><img :src="livre.imagePath" :alt="livre.title" class="cover" /></a>
+              <RouterLink
+                :to="{ name: 'book-details', params: { id: livre.id } }"
+                class="book-card-link"
+              >
+                <div class="card-content">
+                  <img :src="livre.imagePath" :alt="livre.title" class="cover" />
 
-                <div class="info-overlay">
-                  <h3 class="title">{{ livre.title }}</h3>
-                  <p class="author">{{ livre.writer.firstname + ' ' + livre.writer.lastname }}</p>
+                  <div class="info-overlay">
+                    <h3 class="title">{{ livre.title }}</h3>
+                    <p class="author">{{ livre.writer.firstname + ' ' + livre.writer.lastname }}</p>
 
-                  <div class="hover-details">
-                    <div class="stars">★★★★★</div>
-                    <p class="added-by">
-                      Ajouté par : <span>{{ livre.user.username }}</span>
-                    </p>
+                    <div class="hover-details">
+                      <div class="stars-row">
+                        <!-- <span class="avereage-number">{{ averageRating }}</span> -->
+                        <span class="star">5★</span>
+                      </div>
+                      <p class="added-by">
+                        Ajouté par : <span>{{ livre.user.username }}</span>
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -133,6 +141,12 @@ const scroll = (direction) => {
   text-align: center;
   transition: transform 0.3s ease;
 }
+
+.book-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
 .card-content {
   padding: 15px;
   border-radius: 25px;
@@ -215,5 +229,12 @@ const scroll = (direction) => {
 
 .nav-btn:disabled .arrow {
   color: #777;
+}
+
+.stars-row {
+  text-align: center;
+  margin-top: 10px;
+  color: #ffb400;
+  font-size: 1.5rem;
 }
 </style>
