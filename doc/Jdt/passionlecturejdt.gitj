@@ -109,9 +109,9 @@
       "id": "d30ef5c9-0c40-4f04-93c6-1ab779e804af",
       "type": "commitless",
       "name": "feat: création de la page détails pour chaque ouvrage",
-      "description": "voir les commits pour plus de détails",
-      "date": "2026-02-25T10:21:00.000Z",
-      "duration": 180,
+      "description": "",
+      "date": "2026-02-25T11:21",
+      "duration": 40,
       "status": "DONE",
       "author": "StepCode3630"
     },
@@ -127,6 +127,29 @@
       "status": "Done",
       "author": "StepCode3630",
       "patch": true
+    },
+    {
+      "id": "1f6bcc21-9288-4c4b-9ff2-fe2ac05647be",
+      "type": "commitpatch",
+      "sha": "0ffbacf26be6a6d0936a3e92ed77cc569426f674",
+      "url": "https://github.com/StepCode3630/Passion-lecture/commit/0ffbacf26be6a6d0936a3e92ed77cc569426f674",
+      "name": "fix: petite erreurs",
+      "description": "",
+      "date": "2026-03-03T14:54:00.000Z",
+      "duration": 2,
+      "status": "Done",
+      "author": "StepCode3630",
+      "patch": true
+    },
+    {
+      "id": "db2c6085-deec-4d0d-befa-bfd524d138f1",
+      "type": "commitless",
+      "name": "chore: aide avec Camille concernant une erreur persistante pour modifier un ouvrage",
+      "description": "",
+      "date": "2026-03-03T16:21:00.000Z",
+      "duration": 70,
+      "status": "DONE",
+      "author": "StepCode3630"
     }
   ]
 }

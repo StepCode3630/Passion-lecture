@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BookDetailView from '../views/BookDetailView.vue'
 import BookMyList from '@/views/BookMyList.vue'
+import addBookView from '@/views/addBookView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -31,6 +32,11 @@ const router = createRouter({
       name: 'book-details',
       component: BookDetailView,
       props: true, // Permet de recevoir l'id directement comme une "prop"
+    },
+    {
+      path: '/books/add',
+      name: 'ajouter',
+      component: addBookView,
     },
   ],
 })
