@@ -47,6 +47,8 @@
 import { computed, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import { books, users } from '@/data/mockData.js'
+import { onMounted } from 'vue'
+import BookServices from '@/services/BookServices'
 
 // selectedCategory est une ref qui stocke la catégorie sélectionnée dans le select
 const selectedCategory = ref('')

@@ -54,20 +54,16 @@
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 // JSON entre livres et utilisateurs
-import data from '@/data/mockData.json'
+import { BookServices } from '@/services/BookServices'
 
-// récup les livres et utilisateurs
-const books = data.books
-const users = data.users
+const props = defineProps({
+  id: { type: String, required: true },
+})
 
 const router = useRouter()
 
-//récup l'utilisateur connecté stocké en localStorage
-function getActualUser() {
-  return JSON.parse(localStorage.getItem('user'))
-}
-
-const actualUser = computed(() => getActualUser())
+// récupérer le livre via le service
+const book = computed(() => BookServices.getBooks().find((book) => book.id === props.id))
 
 // Formulaire prérempli
 const form = reactive({
@@ -81,36 +77,27 @@ const form = reactive({
   pdf: '',
 })
 
-// pour ajouter le livre
+// Création du nouveau livre
+// ID simple basé sur timestamp
+if (book.value) {
+  form.title = book.value.title
+  form.category = book.value.category
+  form.summary = book.value.summary
+  form.author = book.value.author
+  form.editor = book.value.editor
+  form.year = book.value.year
+  form.image = book.value.image
+  form.pdf = book.value.pdf
+}
+
 function submitForm() {
-  if (!actualUser.value) {
-    alert('Vous devez être connecté pour ajouter un livre.')
-    return
-  }
+  if (!book.value) return
 
-  // Création du nouveau livre
-  // ID simple basé sur timestamp
-  const newBook = {
-    id: Date.now().toString(),
-    title: form.title,
-    category: form.category,
-    summary: form.summary,
-    author: form.author,
-    editor: form.editor,
-    year: form.year,
-    image: form.image,
-    pdf: form.pdf,
-    //relie le livre à l'utilisateur connecté
-    userId: actualUser.value.id,
-  }
+  Object.assign(book.value, form)
 
-  // ajoute livre dans tableau
-  books.push(newBook)
-
-  //vers la page détail du livre
   router.push({
     name: 'book-detail',
-    params: { id: newBook.id },
+    params: { id: book.value.id },
   })
 }
 </script>

@@ -32,7 +32,7 @@
 <script setup>
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { books, users } from '@/data/mockData.js'
+import { BookServices } from '@/services/BookServices'
 
 // avec defineProps on récupère l'ID de l'utilisateur depuis les paramètres de l'URL
 //on cherche l'utilisateur correspondant dans la liste des utilisateurs
@@ -42,16 +42,13 @@ const props = defineProps({
   id: { type: String, required: true },
 })
 
-// la const user utilise computed pour trouver l'utilisateur correspondant à l'ID dans les paramètres de l'URL
-// en cherchant dans la liste des utilisateurs. Si l'utilisateur n'est pas trouvé, user.value sera undefined et on affichera un message d'erreur.
-const user = computed(() => users.find((user) => String(user.id) === props.id))
+// récupérer via services l'utilisateur via le service
+const user = computed(() => BookServices.getUserById(Number(props.id)))
 
-// ici on utilise computed pour créer une liste de livres qui appartiennent à l'utilisateur trouvé
-// Si user.value est undefined donc utilisateur non trouvé, on retourne une liste vide.
-// sinon on filtre la liste des livres pour ne garder que ceux dont le userId correspond à l'ID de l'utilisateur.
+// récupérer les livres de l'utilisateur par services
 const userBooks = computed(() => {
   if (!user.value) return []
-  return books.filter((book) => book.userId === user.value.id)
+  return BookServices.getBooksByUserId(user.value.id)
 })
 </script>
 
