@@ -114,6 +114,19 @@
       "duration": 180,
       "status": "DONE",
       "author": "StepCode3630"
+    },
+    {
+      "id": "1c08d9f6-bc1b-4589-a61b-81d10a943a43",
+      "type": "commitpatch",
+      "sha": "eb5f4580573b7c811822391cf7b15c39ac2828ad",
+      "url": "https://github.com/StepCode3630/Passion-lecture/commit/eb5f4580573b7c811822391cf7b15c39ac2828ad",
+      "name": "feat(footer): création du composant footer et l'intégré dans app.vue",
+      "description": "",
+      "date": "2026-03-03T12:51:00.000Z",
+      "duration": 10,
+      "status": "Done",
+      "author": "StepCode3630",
+      "patch": true
     }
   ]
 }
