@@ -1,7 +1,8 @@
 <template>
   <section class="page">
-    <h1>Livres</h1>
+    <h1 class="section-title">Livres</h1>
 
+    <!-- FILTRE CATÉGORIE -->
     <div class="filters">
       <label class="label">
         Catégorie
@@ -14,21 +15,28 @@
       </label>
     </div>
 
-    <div class="list">
+    <!-- LISTE DES LIVRES -->
+    <div class="books-track">
       <article v-for="book in filteredBooks" :key="book.id" class="book-card">
-        <RouterLink :to="{ name: 'book-detail', params: { id: book.id } }" class="book-card-link">
-          <img class="cover" :src="book.imagePath" :alt="book.title" />
+        <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="book-card-link">
           <div class="card-content">
-            <h2 class="title">{{ book.title }}</h2>
-            <p class="author">{{ book.writer?.firstname }} {{ book.writer?.lastname }}</p>
-            <p class="meta">Posté par : {{ getUserPseudo(book.userId) }}</p>
-            <p class="meta">Catégorie : {{ book.category?.label || 'Inconnue' }}</p>
+            <img :src="book.imagePath" alt="Couverture" class="cover" />
+            <div class="info-overlay">
+              <h2 class="title">{{ book.title }}</h2>
+              <p class="author">
+                {{ book.writer?.firstname || '' }} {{ book.writer?.lastname || '' }}
+              </p>
+              <p class="meta">
+                <strong>Catégorie :</strong> {{ book.category?.label || 'Inconnue' }}
+              </p>
+              <p class="meta"><strong>Posté par :</strong> {{ getUserPseudo(book.userId) }}</p>
+            </div>
           </div>
         </RouterLink>
       </article>
-
-      <p v-if="filteredBooks.length === 0" class="empty">Rien dans cette catégorie</p>
     </div>
+
+    <p v-if="filteredBooks.length === 0" class="empty">Rien dans cette catégorie</p>
   </section>
 </template>
 
@@ -43,7 +51,7 @@ const selectedCategory = ref('')
 const books = BookServices.books || []
 const users = BookServices.users || []
 
-// Extraire catégories uniques depuis le JSON
+// Récupérer toutes les catégories uniques
 const categories = computed(() => {
   const map = new Map()
   books.forEach((book) => {
@@ -54,13 +62,13 @@ const categories = computed(() => {
   return Array.from(map.values())
 })
 
-// Filtrer les livres selon la catégorie
+// Filtrer les livres selon la catégorie sélectionnée
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books
   return books.filter((book) => book.category?.label === selectedCategory.value)
 })
 
-// Récupérer pseudo utilisateur
+// Fonction pour récupérer le pseudo de l'utilisateur
 function getUserPseudo(userId) {
   const user = users.find((u) => String(u.id) === String(userId))
   return user ? user.username || user.pseudo || 'Utilisateur inconnu' : 'Utilisateur inconnu'
@@ -68,51 +76,43 @@ function getUserPseudo(userId) {
 </script>
 
 <style scoped>
+/* CONTENEUR PRINCIPAL */
 .page {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 20px;
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
 }
 
-h1 {
-  font-size: 2.2rem;
+/* TITRE DE SECTION */
+.section-title {
   font-weight: bold;
-  margin-bottom: 30px;
-  color: #2c3e50;
+  margin-bottom: 2rem;
 }
 
+/* FILTRE CATÉGORIE */
 .filters {
-  margin-bottom: 25px;
+  margin-bottom: 2rem;
   display: flex;
   justify-content: center;
-  gap: 20px;
 }
 
 .label {
   display: flex;
   flex-direction: column;
-  font-weight: bold;
-  color: #2c3e50;
-  font-size: 0.95rem;
+  gap: 6px;
 }
 
 select {
-  padding: 8px 12px;
-  border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 6px 12px;
   font-family: inherit;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  border-radius: 6px;
+  border: 1px solid #ccc;
 }
 
-select:hover {
-  border-color: #2c3e50;
-}
-
-.list {
+/* LISTE DES LIVRES */
+.books-track {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -120,67 +120,60 @@ select:hover {
 }
 
 .book-card {
-  width: 250px;
-  background-color: #f9f9f9;
-  border-radius: 15px;
+  width: 280px;
+  border-radius: 25px;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
-  transition:
-    transform 0.3s ease,
-    background-color 0.3s ease;
-  text-align: left;
+  text-align: center;
+  background-color: #f4f7f8;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
 }
 
 .book-card-link {
   text-decoration: none;
   color: inherit;
-  display: block;
-}
-
-.cover {
-  width: 100%;
-  height: 320px;
-  object-fit: cover;
-  border-bottom: 1px solid #ddd;
-}
-
-.card-content {
-  padding: 12px 14px;
-}
-
-.title {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin: 0 0 6px;
-}
-
-.author {
-  font-size: 0.95rem;
-  color: #555;
-  margin: 0 0 6px;
-}
-
-.meta {
-  font-size: 0.9rem;
-  color: #666;
-  margin: 2px 0;
 }
 
 .book-card:hover {
   transform: translateY(-5px);
-  background-color: #e0f0f7;
 }
 
-.empty {
-  font-style: italic;
+.card-content {
+  padding: 15px;
+}
+
+.cover {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.info-overlay {
+  margin-top: 12px;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.author {
+  font-size: 0.95rem;
   color: #666;
-  margin-top: 20px;
+  margin: 4px 0;
 }
 
-/* Responsive */
-@media (max-width: 600px) {
-  .book-card {
-    width: 100%;
-  }
+.meta {
+  font-size: 0.85rem;
+  margin: 2px 0;
+}
+
+/* MESSAGE QUAND AUCUN LIVRE */
+.empty {
+  margin-top: 2rem;
+  font-style: italic;
+  color: #777;
 }
 </style>
