@@ -17,7 +17,7 @@
 
             <div class="hover-actions">
               <button class="action-btn edit" @click.stop.prevent="goToEdit(book.id)">✏️</button>
-              <button class="action-btn delete" @click.stop.prevent="confirmDelete(book.id)">
+              <button class="action-btn delete" @click.stop.prevent="removeBook(book.id)">
                 🗑️
               </button>
             </div>
@@ -29,39 +29,37 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import BookServices from '@/services/BookServices'
+import { ref, onMounted } from 'vue'
 
 const books = ref([])
-const router = useRouter()
 
+// Fonction pour charger (ou recharger) les livres
 const loadBooks = async () => {
-  try {
-    const response = await BookServices.getBooks()
-    books.value = response.data
-  } catch (error) {
-    console.error('Erreur chargement liste:', error)
-  }
+  const response = await BookServices.getBooks()
+  books.value = response.data
 }
 
 onMounted(loadBooks)
 
-const goToEdit = (id) => {
-  // Redirige vers la page de modification (on verra ce formulaire après)
-  router.push(`/books/edit/${id}`)
-}
+// LA FONCTION DE SUPPRESSION
+const removeBook = async (id) => {
+  // 1. Sécurité : Toujours demander confirmation
+  if (confirm('Es-tu sûr de vouloir supprimer ce livre ?')) {
+    try {
+      // 2. Appel au serveur
+      await BookServices.deleteBook(id)
 
-// const confirmDelete = async (id) => {
-//   if (confirm('Voulez-vous vraiment supprimer cet ouvrage ?')) {
-//     try {
-//       await BookServices.deleteBook(id)
-//       await loadBooks() // Recharge la liste après suppression
-//     } catch (error) {
-//       alert('Erreur lors de la suppression')
-//     }
-//   }
-// }
+      // 3. Mise à jour de l'interface (on recharge la liste)
+      await loadBooks()
+
+      alert('Livre supprimé avec succès !')
+    } catch (error) {
+      console.error('Erreur lors de la suppression :', error)
+      alert('Impossible de supprimer le livre.')
+    }
+  }
+}
 </script>
 
 <style scoped>
