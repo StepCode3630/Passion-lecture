@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BookDetailView from '../views/BookDetailView.vue'
+import BooksListView from '../views/BooksListView.vue'
+import AddBookView from '../views/AddBookView.vue'
+import EditBookView from '../views/EditBookView.vue'
+import UserDetailView from '../views/UserDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -29,7 +33,28 @@ const router = createRouter({
       path: '/books/:id',
       name: 'book-details',
       component: BookDetailView,
-      props: true, // Permet de recevoir l'id directement comme une "prop"
+      // on peut recevoir l'id directement comme une prop
+      props: true,
+    },
+    {
+      path: '/books',
+      name: 'books-list',
+      component: BooksListView,
+    },
+    {
+      path: '/books/add',
+      name: 'book-add',
+      component: AddBookView,
+    },
+    {
+      path: '/books/:id/edit',
+      name: 'books-edit',
+      component: EditBookView,
+    },
+    {
+      path: '/users/:id',
+      name: 'user-details',
+      component: UserDetailView,
     },
   ],
 })
