@@ -285,6 +285,41 @@
         "createdAt": "2026-02-22T07:48:00.000+00:00",
         "updatedAt": "2026-02-22T07:48:00.000+00:00"
       }
+    },
+    {
+      "title": "Le passeur",
+      "numberOfPages": 200,
+      "pdfLink": "https://i0.wp.com/bouquinbourg.fr/wp-content/uploads/2020/07/Le-passeur-Lois-Lowry.jpg?resize=768%2C1149&ssl=1",
+      "abstract": "Utopie",
+      "editor": "Gallimard",
+      "editionYear": 1900,
+      "imagePath": "https://i0.wp.com/bouquinbourg.fr/wp-content/uploads/2020/07/Le-passeur-Lois-Lowry.jpg?resize=768%2C1149&ssl=1",
+      "createdAt": "2026-03-03T16:16:51.271Z",
+      "updatedAt": "2026-03-03T16:16:51.271Z",
+      "categoryId": "cat_1271",
+      "writerId": "writer_1271",
+      "userId": "1",
+      "category": {
+        "id": "cat_1271",
+        "label": "Romand",
+        "createdAt": "2026-03-03T16:16:51.271Z",
+        "updatedAt": "2026-03-03T16:16:51.271Z"
+      },
+      "writer": {
+        "id": "writer_1271",
+        "lastname": "Worid",
+        "firstname": "Lois",
+        "createdAt": "2026-03-03T16:16:51.271Z",
+        "updatedAt": "2026-03-03T16:16:51.271Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      },
+      "id": "UTD9YuH"
     }
   ],
   "profile": {
