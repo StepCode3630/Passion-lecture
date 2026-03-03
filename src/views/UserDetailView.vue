@@ -32,7 +32,7 @@
 <script setup>
 import { computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { BookServices } from '@/services/BookServices'
+import BookServices from '@/services/BookServices'
 
 // avec defineProps on récupère l'ID de l'utilisateur depuis les paramètres de l'URL
 //on cherche l'utilisateur correspondant dans la liste des utilisateurs

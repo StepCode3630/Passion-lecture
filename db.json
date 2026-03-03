@@ -285,6 +285,107 @@
         "createdAt": "2026-02-22T07:48:00.000+00:00",
         "updatedAt": "2026-02-22T07:48:00.000+00:00"
       }
+    },
+    {
+      "id": "36d5",
+      "title": "DHH",
+      "numberOfPages": 2,
+      "pdfLink": "http://localhost:5173/books/add",
+      "abstract": "SS",
+      "editor": "qr",
+      "editionYear": 2026,
+      "imagePath": "http://localhost:5173/books/add",
+      "category": {
+        "id": "1772552275687",
+        "label": "DJDJ"
+      },
+      "writer": {
+        "firstname": "tzzz",
+        "lastname": ""
+      },
+      "userId": "1"
+    },
+    {
+      "id": "81ec",
+      "title": "",
+      "numberOfPages": 1,
+      "pdfLink": "",
+      "abstract": "",
+      "editor": "",
+      "editionYear": 2026,
+      "imagePath": "",
+      "category": {
+        "id": "1772552595609",
+        "label": ""
+      },
+      "writer": {
+        "firstname": "",
+        "lastname": ""
+      },
+      "userId": "1"
+    },
+    {
+      "id": "c880",
+      "title": "le chien",
+      "numberOfPages": 1,
+      "pdfLink": "https://www.bing.com/search?qs=HS&pq=chatgpt&sk=CSYN1&sc=13-7&pglt=43&q=chatgpt&cvid=b66b0be7f8894b899a8cb87bc5d8d2e7&gs_lcrp=EgRlZGdlKgYIABAAGEAyBggAEAAYQDIGCAEQLhhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAuGEAyBggGEEUYPDIGCAcQRRg8MgYICBBFGDwyCAgJEOkHGPxV0gEIMTc1OGowajGoAgCwAgA&FORM=ANNAB1&DAF0=1&PC=U531&ntref=1",
+      "abstract": "jajaja",
+      "editor": "salu",
+      "editionYear": 2026,
+      "imagePath": "https://www.bing.com/search?qs=HS&pq=chatgpt&sk=CSYN1&sc=13-7&pglt=43&q=chatgpt&cvid=b66b0be7f8894b899a8cb87bc5d8d2e7&gs_lcrp=EgRlZGdlKgYIABAAGEAyBggAEAAYQDIGCAEQLhhAMgYIAhAAGEAyBggDEAAYQDIGCAQQABhAMgYIBRAuGEAyBggGEEUYPDIGCAcQRRg8MgYICBBFGDwyCAgJEOkHGPxV0gEIMTc1OGowajGoAgCwAgA&FORM=ANNAB1&DAF0=1&PC=U531&ntref=1",
+      "categoryId": "1772553001634",
+      "writerId": "1772553001634",
+      "userId": "1",
+      "createdAt": "2026-03-03T15:50:01.634Z",
+      "updatedAt": "2026-03-03T15:50:01.634Z",
+      "category": {
+        "id": "1772553001634",
+        "label": "rom",
+        "createdAt": "2026-03-03T15:50:01.634Z",
+        "updatedAt": "2026-03-03T15:50:01.634Z"
+      },
+      "writer": {
+        "id": "1772553001634",
+        "firstname": "vit",
+        "lastname": "go",
+        "createdAt": "2026-03-03T15:50:01.634Z",
+        "updatedAt": "2026-03-03T15:50:01.634Z"
+      }
+    },
+    {
+      "id": "450b",
+      "title": "ss",
+      "numberOfPages": 1,
+      "pdfLink": "http://localhost:5173/books/add",
+      "abstract": "ss",
+      "editor": "ss",
+      "editionYear": 2026,
+      "imagePath": "http://localhost:5173/books/add",
+      "categoryId": "1772553797693",
+      "writerId": "1772553797693",
+      "userId": "1",
+      "createdAt": "2026-03-03T16:03:17.693Z",
+      "updatedAt": "2026-03-03T16:03:17.693Z",
+      "category": {
+        "id": "1772553797693",
+        "label": "ss",
+        "createdAt": "2026-03-03T16:03:17.693Z",
+        "updatedAt": "2026-03-03T16:03:17.693Z"
+      },
+      "writer": {
+        "id": "1772553797693",
+        "firstname": "ss",
+        "lastname": "ss",
+        "createdAt": "2026-03-03T16:03:17.693Z",
+        "updatedAt": "2026-03-03T16:03:17.693Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-03-03T16:03:17.693Z",
+        "updatedAt": "2026-03-03T16:03:17.693Z"
+      }
     }
   ],
   "profile": {

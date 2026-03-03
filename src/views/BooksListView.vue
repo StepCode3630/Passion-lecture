@@ -1,5 +1,3 @@
-<!-- cette page affiche liste livre, crée filtre par catégorie, filtre coté frontend, rend le titre cliquable, rend pseudo cliquable -->
-
 <template>
   <section class="page">
     <h1>Livres</h1>
@@ -9,7 +7,7 @@
         Catégorie
         <select v-model="selectedCategory">
           <option value="">Toutes</option>
-          <option v-for="categorie in categories" :key="catategorie" :value="categorie">
+          <option v-for="categorie in categories" :key="categorie" :value="categorie">
             {{ categorie }}
           </option>
         </select>
@@ -18,16 +16,17 @@
 
     <div class="list">
       <article v-for="book in filteredBooks" :key="book.id" class="card">
-        <!-- pour titre cliquable sur détail sur livre -->
         <h2 class="title">
-          <RouterLink :to="{ name: 'book-detail', params: { id: book.id } }">
+          <RouterLink :to="{ name: 'book-details', params: { id: book.id } }">
             {{ book.title }}
           </RouterLink>
         </h2>
 
-        <p class="meta"><strong>Auteur :</strong> {{ book.author }}</p>
+        <p class="meta">
+          <strong>Auteur :</strong>
+          {{ book.writer?.firstname || '' }} {{ book.writer?.lastname || '' }}
+        </p>
 
-        <!-- pour pseudo cliquable vers détail user -->
         <p class="meta">
           <strong>Posté par :</strong>
           <RouterLink :to="{ name: 'user-detail', params: { id: book.userId } }">
@@ -35,7 +34,7 @@
           </RouterLink>
         </p>
 
-        <p class="meta"><strong>Catégorie :</strong> {{ book.category }}</p>
+        <p class="meta"><strong>Catégorie :</strong> {{ book.category?.label || 'Inconnue' }}</p>
       </article>
 
       <p v-if="filteredBooks.length === 0" class="empty">Rien dans cette catégorie</p>
@@ -44,32 +43,35 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { ref, computed } from 'vue'
 import { RouterLink } from 'vue-router'
-import { books, users } from '@/data/mockData.js'
-import { onMounted } from 'vue'
 import BookServices from '@/services/BookServices'
 
-// selectedCategory est une ref qui stocke la catégorie sélectionnée dans le select
 const selectedCategory = ref('')
 
-// ici on utilise computed pour créer une liste unique de catégories à partir des livres, triée par ordre alphabétique
+// Tolérance si books ou users sont undefined
+const books = BookServices.books || []
+const users = BookServices.users || []
+
+// Extraire catégories uniques en filtrant null/undefined
 const categories = computed(() => {
-  const set = new Set(books.map((book) => book.category))
+  const set = new Set()
+  books.forEach((book) => {
+    if (book.category?.label) set.add(book.category.label)
+  })
   return Array.from(set).sort()
 })
 
-// computed permet de recalculer automatiquement filteredBooks quand selectedCategory change
-// cette fonction filtre les livres selon la catégorie sélectionnée, ou retourne tous les livres si aucune catégorie n'est sélectionnée
+// Filtrer livres selon la catégorie sélectionnée
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books
-  return books.filter((book) => book.category === selectedCategory.value)
+  return books.filter((book) => book.category?.label === selectedCategory.value)
 })
 
-// cette fonction prend un userId et retourne le pseudo de l'utilisateur correspondant, ou un message d'erreur si l'utilisateur n'est pas trouvé
+// Pseudo utilisateur
 function getUserPseudo(userId) {
-  const user = users.find((user) => user.id === userId)
-  return user ? user.pseudo : 'Utilisateur non trouvé'
+  const user = users.find((u) => String(u.id) === String(userId))
+  return user ? user.username || user.pseudo || 'Utilisateur inconnu' : 'Utilisateur inconnu'
 }
 </script>
 
@@ -77,6 +79,7 @@ function getUserPseudo(userId) {
 .page {
   max-width: 900px;
   margin: 0 auto;
+  padding: 20px;
 }
 
 .filters {

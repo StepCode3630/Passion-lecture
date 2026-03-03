@@ -22,7 +22,7 @@ const router = createRouter({
     {
       path: '/decouvrir',
       name: 'discover',
-      component: HomeView,
+      component: BooksListView,
     },
     {
       path: '/compte',

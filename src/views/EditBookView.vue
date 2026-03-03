@@ -54,7 +54,7 @@
 import { reactive, computed } from 'vue'
 import { useRouter } from 'vue-router'
 // JSON entre livres et utilisateurs
-import { BookServices } from '@/services/BookServices'
+import BookServices from '@/services/BookServices'
 
 const props = defineProps({
   id: { type: String, required: true },
@@ -78,7 +78,6 @@ const form = reactive({
 })
 
 // Création du nouveau livre
-// ID simple basé sur timestamp
 if (book.value) {
   form.title = book.value.title
   form.category = book.value.category

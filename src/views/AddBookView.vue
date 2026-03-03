@@ -2,179 +2,253 @@
   <section class="page">
     <h1>Ajouter un ouvrage</h1>
 
-    <p v-if="!actualUser" class="avertissment">Se connecter pour ajouter un livre.</p>
-
-    <form v-else class="form" @submit.prevent="manualSubmit">
-      <!-- titre -->
-      <label>
+    <form class="form" @submit.prevent="submit">
+      <div class="row">
+        <label>Titre *</label>
         <input v-model.trim="form.title" type="text" />
-      </label>
-      <p v-if="erreur.title" class="erreur">{{ erreur.title }}</p>
+        <p v-if="errors.title" class="error">{{ errors.title }}</p>
+      </div>
 
-      <!-- catégorie livre -->
-      <label>
-        <input v-model.trim="form.category" type="text" />
-      </label>
-      <p v-if="erreur.category" class="erreur">{{ erreur.category }}</p>
+      <div class="row">
+        <label>Catégorie *</label>
+        <input v-model.trim="form.category" type="text" placeholder="Ex: Roman" />
+        <p v-if="errors.category" class="error">{{ errors.category }}</p>
+      </div>
 
-      <!-- nbr de page -->
-      <label>
+      <div class="row">
+        <label>Pages *</label>
         <input v-model.number="form.pages" type="number" min="1" />
-      </label>
-      <p v-if="erreur.pages" class="erreur">{{ erreur.pages }}</p>
+        <p v-if="errors.pages" class="error">{{ errors.pages }}</p>
+      </div>
 
-      <!-- résumé livre -->
-      <label>
-        <textarea v-model.trim="form.sumarry" rows="4"></textarea>
-      </label>
-      <p v-if="erreur.summary" class="erreur">{{ erreur.sumarry }}</p>
+      <div class="row">
+        <label>Résumé *</label>
+        <textarea v-model.trim="form.summary" rows="4"></textarea>
+        <p v-if="errors.summary" class="error">{{ errors.summary }}</p>
+      </div>
 
-      <!-- auteur -->
-      <label>
-        <input v-model.trim="form.author" type="text" />
-      </label>
-      <p v-if="erreur.author" class="erreur">{{ erreur.author }}</p>
+      <div class="row">
+        <label>Prénom de l'auteur *</label>
+        <input v-model.trim="form.writer.firstname" type="text" placeholder="Ex: Leo" />
+        <p v-if="errors.writer.firstname" class="error">{{ errors.writer.firstname }}</p>
+      </div>
 
-      <!-- editeur du livre -->
-      <label>
+      <div class="row">
+        <label>Nom de l'auteur *</label>
+        <input v-model.trim="form.writer.lastname" type="text" placeholder="Ex: Tolstoy" />
+        <p v-if="errors.writer.lastname" class="error">{{ errors.writer.lastname }}</p>
+      </div>
+
+      <div class="row">
+        <label>Éditeur *</label>
         <input v-model.trim="form.editor" type="text" />
-      </label>
-      <p v-if="erreur.editor" class="erreur">{{ erreur.editor }}</p>
+        <p v-if="errors.editor" class="error">{{ errors.editor }}</p>
+      </div>
 
-      <!-- annee edition -->
-      <label>
+      <div class="row">
+        <label>Année *</label>
         <input v-model.number="form.year" type="number" />
-      </label>
-      <p v-if="erreur.year" class="erreur">{{ erreur.year }}</p>
+        <p v-if="errors.year" class="error">{{ errors.year }}</p>
+      </div>
 
-      <label>
-        <input v-model.trim="form.image" type="url" />
-      </label>
-      <p v-if="erreur.image" class="erreur">{{ erreur.image }}</p>
+      <div class="row">
+        <label>Image (URL) *</label>
+        <input v-model.trim="form.image" type="url" placeholder="https://..." />
+        <p v-if="errors.image" class="error">{{ errors.image }}</p>
+      </div>
 
-      <!-- extrait en  lien dpf -->
-      <label>
-        <input v-model.trim="form.pdf" type="text" />
-      </label>
-      <p v-if="erreur.pdf" class="erreur">{{ erreur.pdf }}</p>
+      <div class="row">
+        <label>Extrait PDF (URL) *</label>
+        <input v-model.trim="form.pdf" type="url" placeholder="https://..." />
+        <p v-if="errors.pdf" class="error">{{ errors.pdf }}</p>
+      </div>
 
-      <button>Ajouter</button>
+      <div class="actions">
+        <button class="btn" type="submit">Ajouter</button>
+      </div>
     </form>
   </section>
 </template>
 
 <script setup>
-import { react, computed } from 'vue'
-import { getActualUser } from '@/services/auth'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
+import BookServices from '@/services/BookServices'
 
-const actualUser = computed(() => getActualUser())
 const router = useRouter()
 
-const form = react({
+// Formulaire
+const form = reactive({
   title: '',
   category: '',
   pages: 1,
-  resume: '',
-  author: '',
+  summary: '',
   editor: '',
-  year: new Date(),
+  year: new Date().getFullYear(),
   image: '',
   pdf: '',
+  writer: {
+    firstname: '',
+    lastname: '',
+  },
 })
 
-const erreur = react({
+const errors = reactive({
   title: '',
   category: '',
   pages: '',
-  resume: '',
-  author: '',
+  summary: '',
   editor: '',
   year: '',
   image: '',
   pdf: '',
+  writer: {
+    firstname: '',
+    lastname: '',
+  },
 })
 
-function resetErreur() {
-  Object.keys(erreur).forEach((key) => (erreur[key] = ''))
+// Réinitialiser erreurs
+function resetErrors() {
+  Object.keys(errors).forEach((key) => (errors[key] = ''))
 }
 
-function validation() {
-  resetErreur()
-  let valide = true
+// Validation simple
+function validateForm() {
+  resetErrors()
+  let valid = true
+  const currentYear = new Date().getFullYear()
 
   if (!form.title) {
-    erreur.title = 'Entrez un titre'
-    valide = false
+    errors.title = 'Entrez un titre'
+    valid = false
   }
-
   if (!form.category) {
-    erreur.category = 'Entrez une catégorie'
-    valide = false
+    errors.category = 'Entrez une catégorie'
+    valid = false
   }
-
-  if (!form.pages || form.pages <= 1) {
-    erreur.pages = 'Entrez le nombre de pages valide'
-    valide = false
+  if (!form.pages || form.pages < 1) {
+    errors.pages = 'Nombre de pages invalide'
+    valid = false
   }
-
-  if (!form.resume) {
-    erreur.resume = 'Ecrivez un résumé'
-    valide = false
+  if (!form.summary) {
+    errors.summary = 'Entrez un résumé'
+    valid = false
   }
-  if (!form.author) {
-    erreur.author = "Entrez un nom d'auteur"
-    valide = false
+  if (!form.writer) {
+    errors.writer = 'Entrez un auteur'
+    valid = false
   }
   if (!form.editor) {
-    erreur.editor = 'Entrez un editeur'
-    valide = false
+    errors.editor = 'Entrez un éditeur'
+    valid = false
   }
-  if (!form.year) {
-    erreur.year = 'Entrez une année de publication'
-    valide = false
+  if (!form.year || form.year < 1500 || form.year > currentYear) {
+    errors.year = `Année entre 1500 et ${currentYear}`
+    valid = false
   }
   if (!form.image) {
-    erreur.image = 'Insérez une image'
-    valide = false
+    errors.image = 'Entrez une URL d’image'
+    valid = false
   }
   if (!form.pdf) {
-    erreur.pdf = 'Insérez un pdf'
-    valide = false
+    errors.pdf = 'Entrez une URL PDF'
+    valid = false
   }
 
-  // pour gérer la date entrer, calcul avec date actuel et met des limite avec avertissement
-  const actualYear = new Date().getFullYear()
-  if (!form.year || form.year < 1400 || form.year > actualYear) {
-    erreur.year = `L’année doit être entre 1500 et ${actualYear}.`
-    valide = false
-  }
-
-  return ok
+  return valid
 }
 
-// function pour ajouter un book
-function manualSubmit() {
-  if (!validation()) return
+// Soumission
+async function submit() {
+  if (!validateForm()) return
 
-  const addNewewBook = {
-    id: Date.now(),
+  // Séparer prénom et nom de l'auteur
+
+  const timestamp = Date.now().toString()
+
+  const newBook = {
     title: form.title,
-    category: form.category,
-    pages: form.pages,
-    summary: form.summary,
-    author: form.author,
+    numberOfPages: form.pages,
+    pdfLink: form.pdf,
+    abstract: form.summary,
     editor: form.editor,
-    year: form.year,
-    image: form.image,
-    pdf: form.pdf,
-    userId: currentUser.value.id,
+    editionYear: form.year,
+    imagePath: form.image,
+    categoryId: Date.now().toString(),
+    writerId: Date.now().toString(),
+    userId: '1',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    category: {
+      id: Date.now().toString(),
+      label: form.category,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+    writer: {
+      id: Date.now().toString(),
+      firstname: form.writer.firstname,
+      lastname: form.writer.lastname,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
+
+    user: {
+      id: '1',
+      username: 'admin',
+      role: 'admin',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    },
   }
 
-  router.push({
-    name: 'book-detail',
-    params: { id: addNewBook.id },
-    state: { book: addNewBook },
-  })
+  try {
+    const response = await BookServices.addBook(newBook)
+    // Redirection vers la page détail du livre
+    router.push({ name: 'book-detail', params: { id: response.data.id } })
+  } catch (err) {
+    console.error('Erreur ajout du livre:', err)
+    alert('Impossible d’ajouter le livre. Vérifiez la console.')
+  }
 }
 </script>
+
+<style scoped>
+.page {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+.row {
+  margin-bottom: 12px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+input,
+textarea {
+  width: 100%;
+  padding: 6px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 2px;
+}
+.actions {
+  margin-top: 18px;
+}
+.btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  background-color: #2c3e50;
+  color: white;
+}
+</style>
