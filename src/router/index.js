@@ -1,10 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BookDetailView from '../views/BookDetailView.vue'
-import BooksListView from '../views/BooksListView.vue'
-import AddBookView from '../views/AddBookView.vue'
-import EditBookView from '../views/EditBookView.vue'
-import UserDetailView from '../views/UserDetailView.vue'
+import BookMyList from '@/views/BookMyList.vue'
+import addBookView from '@/views/addBookView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +15,7 @@ const router = createRouter({
     {
       path: '/mes-livres',
       name: 'books-list',
-      component: HomeView,
+      component: BookMyList,
     },
     {
       path: '/decouvrir',
@@ -55,6 +53,11 @@ const router = createRouter({
       path: '/users/:id',
       name: 'user-details',
       component: UserDetailView,
+    },
+    {
+      path: '/books/add',
+      name: 'ajouter',
+      component: addBookView,
     },
   ],
 })
