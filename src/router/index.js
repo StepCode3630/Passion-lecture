@@ -3,6 +3,9 @@ import HomeView from '../views/HomeView.vue'
 import BookDetailView from '../views/BookDetailView.vue'
 import BookMyList from '@/views/BookMyList.vue'
 import addBookView from '@/views/addBookView.vue'
+import BooksListView from '@/views/BooksListView.vue'
+import EditBookView from '@/views/EditBookView.vue'
+import UserDetailView from '@/views/UserDetailView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +23,7 @@ const router = createRouter({
     {
       path: '/decouvrir',
       name: 'discover',
-      component: HomeView,
+      component: BooksListView,
     },
     {
       path: '/compte',
@@ -31,7 +34,28 @@ const router = createRouter({
       path: '/books/:id',
       name: 'book-details',
       component: BookDetailView,
-      props: true, // Permet de recevoir l'id directement comme une "prop"
+      // on peut recevoir l'id directement comme une prop
+      props: true,
+    },
+    {
+      path: '/books',
+      name: 'books-list',
+      component: BookMyList,
+    },
+    {
+      path: '/books/add',
+      name: 'book-add',
+      component: addBookView,
+    },
+    //{
+    //  path: '/books/:id/edit',
+    //  name: 'books-edit',
+    //  component: EditBookView,
+    //},
+    {
+      path: '/users/:id',
+      name: 'user-details',
+      component: UserDetailView,
     },
     {
       path: '/books/add',
