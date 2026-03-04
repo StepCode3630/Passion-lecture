@@ -15,7 +15,7 @@
 
         <div class="carousel-window">
           <div class="books-track" ref="carouselTrack" @scroll="updateScrollPosition">
-            <div v-for="livre in ouvrages" :key="livre.id" class="book-card">
+            <div v-for="livre in limitBooks" :key="livre.id" class="book-card">
               <RouterLink
                 :to="{ name: 'book-details', params: { id: livre.id } }"
                 class="book-card-link"
@@ -74,6 +74,12 @@ onMounted(async () => {
   } catch (error) {
     console.error('Erreur lors de la récupération des ouvrages :', error)
   }
+})
+
+const limitBooks = computed(() => {
+  return [...ouvrages.value]
+    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    .slice(0, 5)
 })
 
 // 3. Logique du Carousel
