@@ -16,7 +16,12 @@
             </div>
 
             <div class="hover-actions">
-              <button class="action-btn edit" @click.stop.prevent="goToEdit(book.id)">✏️</button>
+              <RouterLink
+                :to="{ name: 'book-edit', params: { id: book.id } }"
+                class="action-btn edit"
+              >
+                ✏️
+              </RouterLink>
               <button class="action-btn delete" @click.stop.prevent="removeBook(book.id)">
                 🗑️
               </button>
