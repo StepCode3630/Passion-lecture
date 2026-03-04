@@ -8,7 +8,7 @@
         Catégorie
         <select v-model="selectedCategory">
           <option value="">Toutes</option>
-          <option v-for="categorie in categories" :key="categorie.id" :value="categorie.label">
+          <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
             {{ categorie.label }}
           </option>
         </select>
@@ -45,37 +45,50 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import BookServices from '@/services/BookServices'
 
 const selectedCategory = ref('')
+const books = ref([])
+const users = ref([])
 
-// Livres et utilisateurs depuis BookServices
-const books = BookServices.books || []
-const users = BookServices.users || []
+// charger les livres au montage
+const loadBooks = async () => {
+  try {
+    const response = await BookServices.getBooks()
+    books.value = response.data
+  } catch (error) {
+    console.error('Erreur chargement livres:', error)
+  }
+}
 
-// Récupérer toutes les catégories uniques
+onMounted(loadBooks)
+
+// extrait les cat depuis les livres
 const categories = computed(() => {
   const map = new Map()
-  books.forEach((book) => {
-    if (book.category?.label && !map.has(book.category.id)) {
+
+  books.value.forEach((book) => {
+    if (book.category && !map.has(book.category.id)) {
       map.set(book.category.id, book.category)
     }
   })
+
   return Array.from(map.values())
 })
 
-// Filtrer les livres selon la catégorie sélectionnée
+// Filtrer par categoryId
 const filteredBooks = computed(() => {
-  if (!selectedCategory.value) return books
-  return books.filter((book) => book.category?.label === selectedCategory.value)
+  if (!selectedCategory.value) return books.value
+
+  return books.value.filter((book) => book.categoryId === selectedCategory.value)
 })
 
-// Fonction pour récupérer le pseudo de l'utilisateur
+// récup le pseudo utilisateur
 function getUserPseudo(userId) {
-  const user = users.find((u) => String(u.id) === String(userId))
-  return user ? user.username || user.pseudo || 'Utilisateur inconnu' : 'Utilisateur inconnu'
+  const user = books.value.find((b) => b.user?.id == userId)?.user
+  return user ? user.username : 'Utilisateur inconnu'
 }
 </script>
 

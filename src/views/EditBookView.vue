@@ -70,7 +70,10 @@ const form = reactive({
   title: '',
   category: '',
   summary: '',
-  author: '',
+  writer: {
+    firstname: '',
+    lastname: '',
+  },
   editor: '',
   year: new Date().getFullYear(),
   image: '',
@@ -82,7 +85,8 @@ if (book.value) {
   form.title = book.value.title
   form.category = book.value.category
   form.summary = book.value.summary
-  form.author = book.value.author
+  form.writer.firstname = book.value.writer?.firstname
+  form.writer.lastname = book.value.writer?.lastname
   form.editor = book.value.editor
   form.year = book.value.year
   form.image = book.value.image
