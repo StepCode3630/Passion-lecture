@@ -41,31 +41,35 @@
         <div class="row row-half">
           <div class="col">
             <label>Prénom de l'auteur *</label>
-            <input v-model.trim="form.writer.firstname" type="text" placeholder="Ex: George" />
-            <p v-if="errors.writer.firstname" class="error">{{ errors.writer.firstname }}</p>
+            <input v-model.trim="form.writer.firstname" type="text" />
+            <p v-if="errors.writer.firstname" class="error">
+              {{ errors.writer.firstname }}
+            </p>
           </div>
           <div class="col">
             <label>Nom de l'auteur *</label>
-            <input v-model.trim="form.writer.lastname" type="text" placeholder="Ex: Orwell" />
-            <p v-if="errors.writer.lastname" class="error">{{ errors.writer.lastname }}</p>
+            <input v-model.trim="form.writer.lastname" type="text" />
+            <p v-if="errors.writer.lastname" class="error">
+              {{ errors.writer.lastname }}
+            </p>
           </div>
         </div>
 
         <div class="row">
           <label>Éditeur *</label>
-          <input v-model.trim="form.editor" type="text" placeholder="Ex: Gallimard" />
+          <input v-model.trim="form.editor" type="text" />
           <p v-if="errors.editor" class="error">{{ errors.editor }}</p>
         </div>
 
         <div class="row">
           <label>Image (URL) *</label>
-          <input v-model.trim="form.image" type="url" placeholder="https://..." />
+          <input v-model.trim="form.image" type="url" />
           <p v-if="errors.image" class="error">{{ errors.image }}</p>
         </div>
 
         <div class="row">
           <label>Extrait PDF (URL) *</label>
-          <input v-model.trim="form.pdf" type="url" placeholder="https://..." />
+          <input v-model.trim="form.pdf" type="url" />
           <p v-if="errors.pdf" class="error">{{ errors.pdf }}</p>
         </div>
 
@@ -87,7 +91,6 @@ import BookServices from '@/services/BookServices'
 const router = useRouter()
 const isSubmitting = ref(false)
 
-// L'objet form tel que tu l'as défini
 const form = ref({
   title: '',
   category: '',
@@ -103,75 +106,77 @@ const form = ref({
   pdf: '',
 })
 
-// L'objet pour stocker les erreurs (on initialise writer pour éviter les bugs)
 const errors = ref({ writer: {} })
 
-// Fonction de validation
 const validateForm = () => {
-  let isValid = true
-  errors.value = { writer: {} } // On réinitialise les erreurs
+  let valid = true
+  errors.value = { writer: {} }
 
   if (!form.value.title) {
     errors.value.title = 'Le titre est requis.'
-    isValid = false
+    valid = false
   }
+
   if (!form.value.category) {
     errors.value.category = 'La catégorie est requise.'
-    isValid = false
+    valid = false
   }
-  if (!form.value.pages) {
-    errors.value.pages = 'Le nombre de pages est requis.'
-    isValid = false
+
+  if (!form.value.pages || form.value.pages < 1) {
+    errors.value.pages = 'Nombre de pages invalide.'
+    valid = false
   }
-  if (!form.value.summary) {
-    errors.value.summary = 'Le résumé est requis.'
-    isValid = false
-  }
-  if (!form.value.editor) {
-    errors.value.editor = "L'éditeur est requis."
-    isValid = false
-  }
+
   if (!form.value.year) {
     errors.value.year = "L'année est requise."
-    isValid = false
+    valid = false
   }
+
+  if (!form.value.summary) {
+    errors.value.summary = 'Le résumé est requis.'
+    valid = false
+  }
+
+  if (!form.value.editor) {
+    errors.value.editor = "L'éditeur est requis."
+    valid = false
+  }
+
   if (!form.value.image) {
-    errors.value.image = "L'URL de l'image est requise."
-    isValid = false
+    errors.value.image = "L'image est requise."
+    valid = false
   }
+
   if (!form.value.pdf) {
-    errors.value.pdf = "L'URL du PDF est requise."
-    isValid = false
+    errors.value.pdf = 'Le lien PDF est requis.'
+    valid = false
   }
 
   if (!form.value.writer.firstname) {
-    errors.value.writer.firstname = 'Le prénom est requis.'
-    isValid = false
-  }
-  if (!form.value.writer.lastname) {
-    errors.value.writer.lastname = 'Le nom est requis.'
-    isValid = false
+    errors.value.writer.firstname = 'Prénom requis.'
+    valid = false
   }
 
-  return isValid
+  if (!form.value.writer.lastname) {
+    errors.value.writer.lastname = 'Nom requis.'
+    valid = false
+  }
+
+  return valid
 }
 
-// Fonction appelée à la soumission
+// envoit formulaire au service
 const submit = async () => {
   if (!validateForm()) return
 
+  // requete pour ajouter livre
   isSubmitting.value = true
-
-  // 1. Génération de la date actuelle au format exact attendu
   const now = new Date().toISOString()
 
-  // 2. Génération d'IDs temporaires pour l'auteur et la catégorie
-  // (Puisqu'on les tape à la main au lieu de les sélectionner dans une liste)
-  const tempCategoryId = 'cat_' + Date.now().toString().slice(-4)
-  const tempWriterId = 'writer_' + Date.now().toString().slice(-4)
-  const adminUserId = '1' // On simule que c'est l'admin qui ajoute
+  const categoryId = 'cat_' + Date.now()
+  const writerId = 'writer_' + Date.now()
+  const userId = '1'
 
-  // 3. Construction de l'objet EXACTEMENT comme sur ton modèle
   const newBook = {
     title: form.value.title,
     numberOfPages: form.value.pages,
@@ -180,50 +185,45 @@ const submit = async () => {
     editor: form.value.editor,
     editionYear: form.value.year,
     imagePath: form.value.image,
-
-    // Dates du livre
     createdAt: now,
     updatedAt: now,
-
-    // Les clés étrangères (IDs)
-    categoryId: tempCategoryId,
-    writerId: tempWriterId,
-    userId: adminUserId,
-
-    // L'objet Catégorie imbriqué
+    categoryId,
+    writerId,
+    userId,
     category: {
-      id: tempCategoryId,
+      id: categoryId,
       label: form.value.category,
       createdAt: now,
       updatedAt: now,
     },
-
-    // L'objet Auteur imbriqué
     writer: {
-      id: tempWriterId,
-      lastname: form.value.writer.lastname,
+      id: writerId,
       firstname: form.value.writer.firstname,
+      lastname: form.value.writer.lastname,
       createdAt: now,
       updatedAt: now,
     },
-
-    // L'objet Utilisateur imbriqué (fixé sur admin pour l'instant)
     user: {
-      id: adminUserId,
+      id: userId,
       username: 'admin',
       role: 'admin',
-      createdAt: '2026-02-22T07:48:00.000+00:00',
-      updatedAt: '2026-02-22T07:48:00.000+00:00',
+      createdAt: now,
+      updatedAt: now,
     },
   }
 
+  // envoie la requete d'ajout et redirige vers la page de détails du livre créé
   try {
-    // JSON Server s'occupera d'ajouter le champ "id" principal du livre
-    await BookServices.addBook(newBook)
-    router.push('/')
+    const response = await BookServices.addBook(newBook)
+    const createdBook = response.data
+
+    router.push({
+      name: 'book-details',
+      params: { id: createdBook.id },
+    })
   } catch (error) {
-    console.error("Erreur lors de l'ajout:", error)
-    alert("Une erreur est survenue lors de l'ajout du livre.")
+    console.error(error)
+    alert("Erreur lors de l'ajout.")
   } finally {
     isSubmitting.value = false
   }
@@ -258,8 +258,7 @@ const submit = async () => {
   border: 2px solid #333;
   padding: 40px;
   border-radius: 20px;
-  background-color: #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  background: #fff;
 }
 
 .row {
@@ -291,16 +290,6 @@ textarea {
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
-  font-size: 1rem;
-  background-color: #fcfcfc;
-}
-
-input:focus,
-textarea:focus {
-  outline: none;
-  border-color: #a8d1e7;
-  background-color: #fff;
-  box-shadow: 0 0 0 3px rgba(168, 209, 231, 0.3);
 }
 
 textarea {
@@ -325,14 +314,7 @@ textarea {
   padding: 15px 40px;
   border-radius: 15px;
   cursor: pointer;
-  font-family: inherit;
   font-weight: bold;
-  font-size: 1.1rem;
-  transition: transform 0.2s;
-}
-
-.btn-action:hover:not(:disabled) {
-  transform: scale(1.02);
 }
 
 .btn-action:disabled {
@@ -340,7 +322,6 @@ textarea {
   cursor: not-allowed;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .row-half {
     flex-direction: column;

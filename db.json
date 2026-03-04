@@ -320,6 +320,76 @@
         "updatedAt": "2026-02-22T07:48:00.000+00:00"
       },
       "id": "UTD9YuH"
+    },
+    {
+      "id": "aee6",
+      "title": "Le Hobbit",
+      "numberOfPages": 310,
+      "pdfLink": "https://example.com/le-hobbit.pdf",
+      "abstract": "Bilbo Baggins, un hobbit tranquille, est entraîné dans une aventure épique pour récupérer un trésor gardé par le dragon Smaug.",
+      "editor": "George Allen & Unwin",
+      "editionYear": 1990,
+      "imagePath": "https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg",
+      "createdAt": "2026-03-04T08:12:26.335Z",
+      "updatedAt": "2026-03-04T08:12:26.335Z",
+      "categoryId": "cat_6335",
+      "writerId": "writer_6335",
+      "userId": "1",
+      "category": {
+        "id": "cat_6335",
+        "label": "Science-fiction",
+        "createdAt": "2026-03-04T08:12:26.335Z",
+        "updatedAt": "2026-03-04T08:12:26.335Z"
+      },
+      "writer": {
+        "id": "writer_6335",
+        "lastname": "Tolkien",
+        "firstname": "J. R. R.",
+        "createdAt": "2026-03-04T08:12:26.335Z",
+        "updatedAt": "2026-03-04T08:12:26.335Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-02-22T07:48:00.000+00:00",
+        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+      }
+    },
+    {
+      "id": "0216",
+      "title": "salut",
+      "numberOfPages": 25,
+      "pdfLink": "http://localhost:5173/books/add",
+      "abstract": "bla bl bla",
+      "editor": "lala",
+      "editionYear": 2026,
+      "imagePath": "http://localhost:5173/books/add",
+      "createdAt": "2026-03-04T08:20:41.777Z",
+      "updatedAt": "2026-03-04T08:20:41.777Z",
+      "categoryId": "cat_1772612441777",
+      "writerId": "writer_1772612441777",
+      "userId": "1",
+      "category": {
+        "id": "cat_1772612441777",
+        "label": "humour",
+        "createdAt": "2026-03-04T08:20:41.777Z",
+        "updatedAt": "2026-03-04T08:20:41.777Z"
+      },
+      "writer": {
+        "id": "writer_1772612441777",
+        "firstname": "pom",
+        "lastname": "pot",
+        "createdAt": "2026-03-04T08:20:41.777Z",
+        "updatedAt": "2026-03-04T08:20:41.777Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-03-04T08:20:41.777Z",
+        "updatedAt": "2026-03-04T08:20:41.777Z"
+      }
     }
   ],
   "profile": {
