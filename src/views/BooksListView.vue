@@ -2,7 +2,7 @@
   <section class="page">
     <h1 class="section-title">Livres</h1>
 
-    <!-- FILTRE CATÉGORIE -->
+    <!-- filtre par catégories -->
     <div class="filters">
       <label class="label">
         Catégorie
@@ -15,14 +15,18 @@
       </label>
     </div>
 
-    <!-- LISTE DES LIVRES -->
+    <!-- list livre -->
+    <!-- parcourt list livre, crée carte pour chaque livre, rend chaque carte cliquable  -->
     <div class="books-track">
+      <!-- parcourt tableau filtreBook, book = objet, article = balise. -->
       <article v-for="book in filteredBooks" :key="book.id" class="book-card">
+        <!-- va voir dans book detail -->
         <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="book-card-link">
           <div class="card-content">
             <img :src="book.imagePath" alt="Couverture" class="cover" />
             <div class="info-overlay">
               <h2 class="title">{{ book.title }}</h2>
+              <!-- évite une erreur si writer est null -->
               <p class="author">
                 {{ book.writer?.firstname || '' }} {{ book.writer?.lastname || '' }}
               </p>

@@ -386,6 +386,41 @@
         "createdAt": "2026-03-03T16:03:17.693Z",
         "updatedAt": "2026-03-03T16:03:17.693Z"
       }
+    },
+    {
+      "id": "c1ad",
+      "title": "jhn",
+      "numberOfPages": 1,
+      "pdfLink": "http://localhost:5173/books/add",
+      "abstract": "kinjkij",
+      "editor": "jiniojh",
+      "editionYear": 2026,
+      "imagePath": "http://localhost:5173/books/add",
+      "categoryId": "1772608537607",
+      "writerId": "1772608537607",
+      "userId": "1",
+      "createdAt": "2026-03-04T07:15:37.607Z",
+      "updatedAt": "2026-03-04T07:15:37.607Z",
+      "category": {
+        "id": "1772608537607",
+        "label": "nhlojn",
+        "createdAt": "2026-03-04T07:15:37.607Z",
+        "updatedAt": "2026-03-04T07:15:37.607Z"
+      },
+      "writer": {
+        "id": "1772608537607",
+        "firstname": "kijkij",
+        "lastname": "kinhion",
+        "createdAt": "2026-03-04T07:15:37.607Z",
+        "updatedAt": "2026-03-04T07:15:37.607Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-03-04T07:15:37.607Z",
+        "updatedAt": "2026-03-04T07:15:37.607Z"
+      }
     }
   ],
   "profile": {
