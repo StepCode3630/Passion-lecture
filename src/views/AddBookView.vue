@@ -165,9 +165,11 @@ const validateForm = () => {
   return valid
 }
 
+// envoit formulaire au service
 const submit = async () => {
   if (!validateForm()) return
 
+  // requete pour ajouter livre
   isSubmitting.value = true
   const now = new Date().toISOString()
 
@@ -210,6 +212,7 @@ const submit = async () => {
     },
   }
 
+  // envoie la requete d'ajout et redirige vers la page de détails du livre créé
   try {
     const response = await BookServices.addBook(newBook)
     const createdBook = response.data
