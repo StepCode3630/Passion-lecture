@@ -140,6 +140,7 @@ const removeBook = async (id) => {
 /* Actions au survol */
 .hover-actions {
   position: absolute;
+  text-decoration: none;
   bottom: 0;
   left: 0;
   right: 0;
@@ -164,10 +165,12 @@ const removeBook = async (id) => {
   cursor: pointer;
   padding: 5px;
   transition: transform 0.2s;
+  text-decoration: none;
 }
 
 .action-btn:hover {
   transform: scale(1.2);
+  text-decoration: none;
 }
 
 .delete:hover {
