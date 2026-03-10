@@ -62,6 +62,11 @@ const router = createRouter({
       name: 'ajouter',
       component: addBookView,
     },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('@/views/Contact.vue'),
+    },
   ],
 })
 

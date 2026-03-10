@@ -390,6 +390,41 @@
         "createdAt": "2026-03-04T08:20:41.777Z",
         "updatedAt": "2026-03-04T08:20:41.777Z"
       }
+    },
+    {
+      "id": "161f",
+      "title": "salut",
+      "numberOfPages": 5,
+      "pdfLink": "http://localhost:5173/books/add",
+      "abstract": "blabalbal",
+      "editor": "lalala",
+      "editionYear": 2016,
+      "imagePath": "http://localhost:5173/books/add",
+      "createdAt": "2026-03-10T12:37:31.575Z",
+      "updatedAt": "2026-03-10T12:37:31.575Z",
+      "categoryId": "cat_1773146251576",
+      "writerId": "writer_1773146251576",
+      "userId": "1",
+      "category": {
+        "id": "cat_1773146251576",
+        "label": "roman",
+        "createdAt": "2026-03-10T12:37:31.575Z",
+        "updatedAt": "2026-03-10T12:37:31.575Z"
+      },
+      "writer": {
+        "id": "writer_1773146251576",
+        "firstname": "chales",
+        "lastname": "ingalse",
+        "createdAt": "2026-03-10T12:37:31.575Z",
+        "updatedAt": "2026-03-10T12:37:31.575Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-03-10T12:37:31.575Z",
+        "updatedAt": "2026-03-10T12:37:31.575Z"
+      }
     }
   ],
   "profile": {
