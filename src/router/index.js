@@ -67,6 +67,16 @@ const router = createRouter({
       component: EditBookView,
       props: true,
     },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: () => import('@/views/Contact.vue'),
+    },
+    {
+      path: '/about',
+      name: 'about',
+      component: () => import('@/views/infoCreateur.vue'),
+    },
   ],
 })
 
