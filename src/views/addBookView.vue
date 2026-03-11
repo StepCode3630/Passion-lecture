@@ -15,7 +15,11 @@
 
         <div class="row">
           <label>Catégorie *</label>
-          <input v-model.trim="form.category" type="text" placeholder="Ex: Roman, Manga..." />
+          <select v-model="selectedCategory">
+            <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
+              {{ categorie.label }}
+            </option>
+          </select>
           <p v-if="errors.category" class="error">{{ errors.category }}</p>
         </div>
 
@@ -62,13 +66,13 @@
         </div>
 
         <div class="row">
-          <label>Image (URL) *</label>
+          <label>Image (URL)</label>
           <input v-model.trim="form.image" type="url" />
           <p v-if="errors.image" class="error">{{ errors.image }}</p>
         </div>
 
         <div class="row">
-          <label>Extrait PDF (URL) *</label>
+          <label>Extrait PDF (URL)</label>
           <input v-model.trim="form.pdf" type="url" />
           <p v-if="errors.pdf" class="error">{{ errors.pdf }}</p>
         </div>
@@ -84,16 +88,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import BookServices from '@/services/BookServices'
+import CategorieServices from '@/services/CategorieServices'
 
 const router = useRouter()
 const isSubmitting = ref(false)
+const categories = ref([])
+const selectedCategory = ref('')
+
+//Charger les catégories au montage
+const loadCategories = async () => {
+  try {
+    const response = await CategorieServices.getCategories()
+    categories.value = response.data
+  } catch (error) {
+    console.error('Erreur chargement catégories:', error)
+  }
+}
 
 const form = ref({
   title: '',
-  category: '',
+  category: null,
   pages: null,
   summary: '',
   writer: {
@@ -104,6 +121,10 @@ const form = ref({
   year: null,
   image: '',
   pdf: '',
+})
+
+onMounted(() => {
+  loadCategories()
 })
 
 const errors = ref({ writer: {} })
@@ -117,7 +138,7 @@ const validateForm = () => {
     valid = false
   }
 
-  if (!form.value.category) {
+  if (!selectedCategory.value) {
     errors.value.category = 'La catégorie est requise.'
     valid = false
   }
@@ -142,15 +163,15 @@ const validateForm = () => {
     valid = false
   }
 
-  if (!form.value.image) {
-    errors.value.image = "L'image est requise."
-    valid = false
-  }
+  // if (!form.value.image) {
+  //   errors.value.image = "L'image est requise."
+  //   valid = false
+  // }
 
-  if (!form.value.pdf) {
-    errors.value.pdf = 'Le lien PDF est requis.'
-    valid = false
-  }
+  // if (!form.value.pdf) {
+  //   errors.value.pdf = 'Le lien PDF est requis.'
+  //   valid = false
+  // }
 
   if (!form.value.writer.firstname) {
     errors.value.writer.firstname = 'Prénom requis.'
@@ -191,10 +212,10 @@ const submit = async () => {
     writerId,
     userId,
     category: {
-      id: categoryId,
-      label: form.value.category,
-      createdAt: now,
-      updatedAt: now,
+      id: categories.value.find((cat) => cat.id === selectedCategory.value)?.id || categoryId,
+      label: selectedCategory.value
+        ? categories.value.find((cat) => cat.id === selectedCategory.value)?.label || 'Inconnue'
+        : 'Inconnue',
     },
     writer: {
       id: writerId,

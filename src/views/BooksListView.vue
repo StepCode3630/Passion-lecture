@@ -48,34 +48,31 @@
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import BookServices from '@/services/BookServices'
+import CategorieServices from '@/services/CategorieServices'
 
 const selectedCategory = ref('')
 const books = ref([])
-const users = ref([])
+// const users = ref([])
+const categories = ref([])
 
-// charger les livres au montage
-const loadBooks = async () => {
+//Charger les catégories au montage
+const loadCategories = async () => {
   try {
-    const response = await BookServices.getBooks()
-    books.value = response.data
+    const response = await CategorieServices.getCategories()
+    categories.value = response.data
+  } catch (error) {
+    console.error('Erreur chargement catégories:', error)
+  }
+  try {
+    const BookResponse = await BookServices.getBooks()
+    books.value = BookResponse.data
   } catch (error) {
     console.error('Erreur chargement livres:', error)
   }
 }
 
-onMounted(loadBooks)
-
-// extrait les cat depuis les livres
-const categories = computed(() => {
-  const map = new Map()
-
-  books.value.forEach((book) => {
-    if (book.category && !map.has(book.category.id)) {
-      map.set(book.category.id, book.category)
-    }
-  })
-
-  return Array.from(map.values())
+onMounted(async () => {
+  await loadCategories()
 })
 
 // Filtrer par categoryId

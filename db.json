@@ -2,7 +2,56 @@
   "users": [
     {
       "id": "1",
-      "username": "admin"
+      "username": "admin",
+      "role": "admin",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-02-22T07:48:00.000Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "label": "Roman"
+    },
+    {
+      "id": "2",
+      "label": "Science-fiction"
+    },
+    {
+      "id": "3",
+      "label": "Philosophie"
+    },
+    {
+      "id": "4",
+      "label": "Histoire"
+    },
+    {
+      "id": "5",
+      "label": "Biographie"
+    },
+    {
+      "id": "6",
+      "label": "Fantasy"
+    },
+    {
+      "id": "7",
+      "label": "Policier"
+    },
+    {
+      "id": "8",
+      "label": "Théâtre"
+    },
+    {
+      "id": "9",
+      "label": "Manga"
+    },
+    {
+      "id": "10",
+      "label": "Humour"
+    },
+    {
+      "id": "11",
+      "label": "Utopie"
     }
   ],
   "books": [
@@ -10,385 +59,294 @@
       "id": "1",
       "title": "1984",
       "numberOfPages": 328,
-      "pdfLink": "https://example.com/1984.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/1984.pdf",
       "abstract": "Roman dystopique de George Orwell paru en 1949, décrivant un futur totalitaire sous l'œil de Big Brother.",
       "editor": "Secker & Warburg",
       "editionYear": 1949,
-      "imagePath": "https://m.media-amazon.com/images/I/91SZSW8qSsL.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
-      "categoryId": "2",
+      "imagePath": "https://m.media-amazon.com/images/I/41DDSnSmELL._SY466_.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-03-11T08:18:52.211Z",
+      "categoryId": "1",
       "writerId": "6",
-      "userId": 1,
+      "userId": "1",
       "category": {
         "id": "2",
-        "label": "Science-fiction",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "label": "Roman"
       },
       "writer": {
         "id": "6",
         "lastname": "Orwell",
-        "firstname": "George",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "George"
       },
       "user": {
-        "id": 1,
+        "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "2",
       "title": "À la recherche du temps perdu",
       "numberOfPages": 4215,
-      "pdfLink": "https://example.com/temps-perdu.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/temps-perdu.pdf",
       "abstract": "Cycle romanesque de Marcel Proust explorant la mémoire et le temps.",
       "editor": "Grasset / Gallimard",
       "editionYear": 1913,
-      "imagePath": "https://m.media-amazon.com/images/I/71vW5wDlpGL._SY466_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-03-04T08:19:46.219Z",
+      "imagePath": "https://m.media-amazon.com/images/I/51VYHy7DDaL._SY445_SX342_ML2_.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-03-11T07:31:25.352Z",
       "categoryId": "1",
       "writerId": "5",
       "userId": "1",
       "category": {
         "id": "1",
-        "label": "Roman",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "label": "Roman"
       },
       "writer": {
         "id": "5",
         "lastname": "Proust",
-        "firstname": "Marcel",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "Marcel"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "3",
       "title": "Crime et Châtiment",
       "numberOfPages": 671,
-      "pdfLink": "https://example.com/crime-chatiment.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/crime-chatiment.pdf",
       "abstract": "Le dilemme moral de Raskolnikov après un double meurtre à Saint-Pétersbourg.",
       "editor": "The Russian Messenger",
       "editionYear": 1866,
-      "imagePath": "https://m.media-amazon.com/images/I/41EAl-By+zL._SY445_SX342_ML2_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
-      "categoryId": "10",
+      "imagePath": "https://m.media-amazon.com/images/I/41PbkwB9-1L._SX342_SY445_ML2_.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-03-11T07:39:57.817Z",
+      "categoryId": "3",
       "writerId": "9",
       "userId": "1",
       "category": {
-        "id": "10",
-        "label": "Philosophie",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "id": "3",
+        "label": "Roman"
       },
       "writer": {
         "id": "9",
         "lastname": "Dostoevsky",
-        "firstname": "Fyodor",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "Fyodor"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "4",
       "title": "Germinal",
       "numberOfPages": 592,
-      "pdfLink": "https://example.com/germinal.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/germinal.pdf",
       "abstract": "La lutte des mineurs dans le nord de la France au XIXe siècle.",
       "editor": "Charpentier",
       "editionYear": 1885,
       "imagePath": "https://m.media-amazon.com/images/I/61hNtjBQTuL._SY425_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-03-04T09:53:54.570Z",
       "categoryId": "1",
       "writerId": "3",
       "userId": "1",
       "category": {
         "id": "1",
-        "label": "Roman",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "label": "Roman"
       },
       "writer": {
         "id": "3",
         "lastname": "Zola",
-        "firstname": "Émile",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "Émile"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "5",
       "title": "Guerre et Paix",
       "numberOfPages": 1225,
-      "pdfLink": "https://example.com/guerre-paix.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/guerre-paix.pdf",
       "abstract": "Fresque historique monumentale sur la société russe pendant les guerres napoléoniennes.",
       "editor": "The Russian Messenger",
       "editionYear": 1869,
-      "imagePath": "https://m.media-amazon.com/images/I/41zZSOZ-xVL._SY445_SX342_ML2_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
-      "categoryId": "9",
+      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/41zZSOZ-xVL.SY445_SX342_ML2.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-02-22T07:48:00.000Z",
+      "categoryId": "4",
       "writerId": "10",
       "userId": "1",
       "category": {
-        "id": "9",
-        "label": "Histoire",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "id": "4",
+        "label": "Histoire"
       },
       "writer": {
         "id": "10",
         "lastname": "Tolstoy",
-        "firstname": "Leo",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "Leo"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "6",
       "title": "Hamlet",
       "numberOfPages": 200,
-      "pdfLink": "https://example.com/hamlet.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/hamlet.pdf",
       "abstract": "Être ou ne pas être, telle est la question posée par le prince du Danemark.",
       "editor": "N/A",
       "editionYear": 1600,
-      "imagePath": "https://m.media-amazon.com/images/I/61PELf9ru0L._SY522_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
-      "categoryId": "1",
+      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/61PELf9ru0L.SY522.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-02-22T07:48:00.000Z",
+      "categoryId": "8",
       "writerId": "8",
       "userId": "1",
       "category": {
-        "id": "1",
-        "label": "Roman",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "id": "8",
+        "label": "Théâtre"
       },
       "writer": {
         "id": "8",
         "lastname": "Shakespeare",
-        "firstname": "William",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "William"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "7",
       "title": "L’Étranger",
       "numberOfPages": 184,
-      "pdfLink": "https://example.com/letranger.pdf",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/letranger.pdf",
       "abstract": "Meursault reste étranger au monde, à ses émotions et à sa propre condamnation.",
       "editor": "Gallimard",
       "editionYear": 1942,
-      "imagePath": "https://m.media-amazon.com/images/I/51QzQbz6MNL._SY522_.jpg",
-      "createdAt": "2026-02-22T07:48:00.000+00:00",
-      "updatedAt": "2026-02-22T07:48:00.000+00:00",
-      "categoryId": "10",
+      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/51QzQbz6MNL.SY522.jpg",
+      "createdAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-02-22T07:48:00.000Z",
+      "categoryId": "3",
       "writerId": "4",
       "userId": "1",
       "category": {
-        "id": "10",
-        "label": "Philosophie",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "id": "3",
+        "label": "Philosophie"
       },
       "writer": {
         "id": "4",
         "lastname": "Camus",
-        "firstname": "Albert",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "firstname": "Albert"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
       "id": "8",
       "title": "Bleach",
       "numberOfPages": 192,
-      "pdfLink": "https://example.com/bleach-t1.pdf",
-      "abstract": "Ichigo Kurosaki, un adolescent de 15 ans, possède le don de voir les esprits. Sa rencontre avec Rukia Kuchiki, une Shinigami, va bouleverser sa vie et le transformer en protecteur du monde des humains.",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/bleach-t1.pdf",
+      "abstract": "Ichigo Kurosaki possède le don de voir les esprits. Sa rencontre avec Rukia Kuchiki va bouleverser sa vie.",
       "editor": "Glénat",
       "editionYear": 2001,
-      "imagePath": "https://m.media-amazon.com/images/I/51xF+gCxBSL._SY445_SX342_ML2_.jpg",
-      "createdAt": "2026-02-24T16:00:00.000+00:00",
-      "updatedAt": "2026-02-24T16:00:00.000+00:00",
-      "categoryId": "11",
+      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/51xF%2BgCxBSL.SY445_SX342_ML2.jpg",
+      "createdAt": "2026-02-24T16:00:00.000Z",
+      "updatedAt": "2026-02-24T16:00:00.000Z",
+      "categoryId": "9",
       "writerId": "11",
       "userId": "1",
       "category": {
-        "id": "11",
-        "label": "Manga",
-        "createdAt": "2026-02-24T16:00:00.000+00:00",
-        "updatedAt": "2026-02-24T16:00:00.000+00:00"
+        "id": "9",
+        "label": "Manga"
       },
       "writer": {
         "id": "11",
         "lastname": "Kubo",
-        "firstname": "Tite",
-        "createdAt": "2026-02-24T16:00:00.000+00:00",
-        "updatedAt": "2026-02-24T16:00:00.000+00:00"
+        "firstname": "Tite"
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
-    },
-    {
-      "title": "Le passeur",
-      "numberOfPages": 200,
-      "pdfLink": "https://i0.wp.com/bouquinbourg.fr/wp-content/uploads/2020/07/Le-passeur-Lois-Lowry.jpg?resize=768%2C1149&ssl=1",
-      "abstract": "Utopie",
-      "editor": "Gallimard",
-      "editionYear": 1900,
-      "imagePath": "https://i0.wp.com/bouquinbourg.fr/wp-content/uploads/2020/07/Le-passeur-Lois-Lowry.jpg?resize=768%2C1149&ssl=1",
-      "createdAt": "2026-03-03T16:16:51.271Z",
-      "updatedAt": "2026-03-03T16:16:51.271Z",
-      "categoryId": "cat_1271",
-      "writerId": "writer_1271",
-      "userId": "1",
-      "category": {
-        "id": "cat_1271",
-        "label": "Romand",
-        "createdAt": "2026-03-03T16:16:51.271Z",
-        "updatedAt": "2026-03-03T16:16:51.271Z"
-      },
-      "writer": {
-        "id": "writer_1271",
-        "lastname": "Worid",
-        "firstname": "Lois",
-        "createdAt": "2026-03-03T16:16:51.271Z",
-        "updatedAt": "2026-03-03T16:16:51.271Z"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
-      },
-      "id": "UTD9YuH"
     },
     {
       "id": "aee6",
       "title": "Le Hobbit",
       "numberOfPages": 310,
-      "pdfLink": "https://example.com/le-hobbit.pdf",
-      "abstract": "Bilbo Baggins, un hobbit tranquille, est entraîné dans une aventure épique pour récupérer un trésor gardé par le dragon Smaug.",
+      "pdfLink": "https://www.google.com/search?q=https://example.com/le-hobbit.pdf",
+      "abstract": "Bilbo Baggins est entraîné dans une aventure épique pour récupérer un trésor gardé par Smaug.",
       "editor": "George Allen & Unwin",
       "editionYear": 1990,
-      "imagePath": "https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg",
+      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg",
       "createdAt": "2026-03-04T08:12:26.335Z",
-      "updatedAt": "2026-03-04T08:12:26.335Z",
-      "categoryId": "cat_6335",
+      "updatedAt": "2026-03-11T08:08:45.175Z",
+      "categoryId": "6",
       "writerId": "writer_6335",
       "userId": "1",
       "category": {
-        "id": "cat_6335",
-        "label": "Science-fiction",
-        "createdAt": "2026-03-04T08:12:26.335Z",
-        "updatedAt": "2026-03-04T08:12:26.335Z"
+        "id": "6",
+        "label": "Humour"
       },
       "writer": {
         "id": "writer_6335",
         "lastname": "Tolkien",
-        "firstname": "J. R. R.",
-        "createdAt": "2026-03-04T08:12:26.335Z",
-        "updatedAt": "2026-03-04T08:12:26.335Z"
+        "firstname": "J. R. R."
       },
       "user": {
         "id": "1",
         "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-02-22T07:48:00.000+00:00",
-        "updatedAt": "2026-02-22T07:48:00.000+00:00"
+        "role": "admin"
       }
     },
     {
-      "id": "0216",
-      "title": "salut",
-      "numberOfPages": 25,
-      "pdfLink": "http://localhost:5173/books/add",
-      "abstract": "bla bl bla",
-      "editor": "lala",
-      "editionYear": 2026,
-      "imagePath": "http://localhost:5173/books/add",
-      "createdAt": "2026-03-04T08:20:41.777Z",
-      "updatedAt": "2026-03-04T08:20:41.777Z",
-      "categoryId": "cat_1772612441777",
-      "writerId": "writer_1772612441777",
+      "id": "0e24",
+      "title": "12",
+      "numberOfPages": 12,
+      "pdfLink": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
+      "abstract": "S",
+      "editor": "S",
+      "editionYear": 1222,
+      "imagePath": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
+      "createdAt": "2026-03-11T08:19:51.443Z",
+      "updatedAt": "2026-03-11T08:19:51.443Z",
+      "categoryId": "cat_1773217191443",
+      "writerId": "writer_1773217191443",
       "userId": "1",
       "category": {
-        "id": "cat_1772612441777",
-        "label": "humour",
-        "createdAt": "2026-03-04T08:20:41.777Z",
-        "updatedAt": "2026-03-04T08:20:41.777Z"
+        "id": "1",
+        "label": "Roman"
       },
       "writer": {
-        "id": "writer_1772612441777",
-        "firstname": "pom",
-        "lastname": "pot",
-        "createdAt": "2026-03-04T08:20:41.777Z",
-        "updatedAt": "2026-03-04T08:20:41.777Z"
+        "id": "writer_1773217191443",
+        "firstname": "S",
+        "lastname": "S",
+        "createdAt": "2026-03-11T08:19:51.443Z",
+        "updatedAt": "2026-03-11T08:19:51.443Z"
       },
       "user": {
         "id": "1",
         "username": "admin",
         "role": "admin",
-        "createdAt": "2026-03-04T08:20:41.777Z",
-        "updatedAt": "2026-03-04T08:20:41.777Z"
+        "createdAt": "2026-03-11T08:19:51.443Z",
+        "updatedAt": "2026-03-11T08:19:51.443Z"
       }
     },
     {
@@ -427,8 +385,8 @@
       }
     }
   ],
+  "comments": [],
   "profile": {
     "name": "Mon Projet Vue.js"
-  },
-  "comments": []
+  }
 }
