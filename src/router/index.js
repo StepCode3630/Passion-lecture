@@ -8,6 +8,7 @@ import BooksListView from '@/views/BooksListView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import InfoCreateur from '@/views/InfoCreateur.vue'
+import Contact from '@/views/Contact.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
