@@ -94,8 +94,17 @@ onMounted(async () => {
   try {
     const response = await BookServices.getBook(route.params.id)
     form.value = response.data
-    const catResponse = await CategorieServices.getCategories()
-    categories.value = catResponse.data
+    // load categories even if the book request succeeds; failures are
+    // non-fatal (we can still edit the record, but the dropdown will be
+    // empty).
+    try {
+      const catResponse = await CategorieServices.getCategories()
+      categories.value = catResponse.data
+    } catch (catErr) {
+      console.error('Erreur chargement catégories dans édition :', catErr)
+      // leave categories empty so the select still renders, user can
+      // at least see the existing category label from form.value.category
+    }
   } catch (error) {
     alert('Impossible de charger les données du livre.')
     router.push('/')
@@ -119,6 +128,15 @@ const updateBook = async () => {
 
   try {
     // Dans BookServices, créez une méthode updateBook(id, data) { return apiClient.put('/books/'+id, data) }
+    // Ensure the nested category object stays in sync with the flat id field
+    form.value.category = {
+      id: form.value.categoryId,
+      label:
+        categories.value.find((cat) => cat.id === form.value.categoryId)?.label ||
+        form.value.category?.label ||
+        '',
+    }
+
     await BookServices.updateBook(form.value.id, form.value)
     alert('Ouvrage mis à jour avec succès !')
     router.push({ name: 'book-details', params: { id: form.value.id } })

@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import BookDetailView from '../views/BookDetailView.vue'
 import BookMyList from '@/views/BookMyList.vue'
-import addBookView from '@/views/AddBookView.vue'
+import AddBookView from '@/views/addBookView.vue'
 import EditBookView from '@/views/EditBookView.vue'
 import BooksListView from '@/views/BooksListView.vue'
 
@@ -44,7 +44,7 @@ const router = createRouter({
     {
       path: '/books/add',
       name: 'book-add',
-      component: addBookView,
+      component: AddBookView,
     },
     //{
     //  path: '/books/:id/edit',
@@ -56,11 +56,7 @@ const router = createRouter({
     //   name: 'user-details',
     //   component: UserDetailView,
     // },
-    {
-      path: '/books/add',
-      name: 'ajouter',
-      component: addBookView,
-    },
+
     {
       path: '/books/:id/edit',
       name: 'book-edit',

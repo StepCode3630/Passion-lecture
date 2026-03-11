@@ -55,13 +55,13 @@ const books = ref([])
 // const users = ref([])
 const categories = ref([])
 
-//Charger les catégories au montage
-const loadCategories = async () => {
+onMounted(async () => {
   try {
     const response = await CategorieServices.getCategories()
     categories.value = response.data
   } catch (error) {
     console.error('Erreur chargement catégories:', error)
+    alert('Erreur lors du chargement des catégories. Assurez-vous que JSON‑Server fonctionne.')
   }
   try {
     const BookResponse = await BookServices.getBooks()
@@ -69,17 +69,20 @@ const loadCategories = async () => {
   } catch (error) {
     console.error('Erreur chargement livres:', error)
   }
-}
-
-onMounted(async () => {
-  await loadCategories()
 })
 
 // Filtrer par categoryId
+// when we compare ids coming from the server they may be numbers or strings
+// depending on how the data was created; the select element only ever emits
+// strings.  comparing with strict equality was the root cause of the "filter
+// not applied" reports after editing/creating a book.  normalising to string
+// avoids that problem.
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books.value
 
-  return books.value.filter((book) => book.categoryId === selectedCategory.value)
+  return books.value.filter((book) => {
+    return String(book.categoryId) === String(selectedCategory.value)
+  })
 })
 
 // récup le pseudo utilisateur
