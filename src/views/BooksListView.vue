@@ -55,8 +55,7 @@ const books = ref([])
 // const users = ref([])
 const categories = ref([])
 
-//Charger les catégories au montage
-const loadCategories = async () => {
+onMounted(async () => {
   try {
     const response = await CategorieServices.getCategories()
     categories.value = response.data
@@ -69,10 +68,6 @@ const loadCategories = async () => {
   } catch (error) {
     console.error('Erreur chargement livres:', error)
   }
-}
-
-onMounted(async () => {
-  await loadCategories()
 })
 
 // Filtrer par categoryId
