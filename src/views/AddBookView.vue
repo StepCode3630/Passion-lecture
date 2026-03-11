@@ -277,6 +277,13 @@ const submit = async () => {
   border-radius: 10px;
   cursor: pointer;
   font-family: inherit;
+  transition: 0.2s all;
+}
+
+.btn-back:hover {
+  background-color: #333;
+  color: #fff;
+  transition: 0.2s all;
 }
 
 .form-container {
@@ -306,7 +313,6 @@ const submit = async () => {
 label {
   font-weight: bold;
   margin-bottom: 8px;
-  text-decoration: underline;
 }
 
 input,

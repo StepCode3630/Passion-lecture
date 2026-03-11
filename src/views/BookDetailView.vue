@@ -236,13 +236,18 @@ const averageRating = computed(() => {
 }
 .label {
   font-weight: bold;
-  text-decoration: underline;
   margin-bottom: 2px;
 }
 .extrait-link {
   margin-top: 20px;
   color: #000;
   font-weight: bold;
+  transition: 0.2s all;
+}
+.extrait-link:hover {
+  text-decoration: underline;
+  color: #00a6ff;
+  transition: 0.2s all;
 }
 
 /* --- SECTION BASSE --- */
