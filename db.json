@@ -65,13 +65,13 @@
       "editionYear": 1949,
       "imagePath": "https://m.media-amazon.com/images/I/41DDSnSmELL._SY466_.jpg",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-03-11T08:18:52.211Z",
-      "categoryId": "1",
+      "updatedAt": "2026-03-11T08:54:06.790Z",
+      "categoryId": "2",
       "writerId": "6",
       "userId": "1",
       "category": {
         "id": "2",
-        "label": "Roman"
+        "label": "Science-fiction"
       },
       "writer": {
         "id": "6",
@@ -317,39 +317,6 @@
       }
     },
     {
-      "id": "0e24",
-      "title": "12",
-      "numberOfPages": 12,
-      "pdfLink": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
-      "abstract": "S",
-      "editor": "S",
-      "editionYear": 1222,
-      "imagePath": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
-      "createdAt": "2026-03-11T08:19:51.443Z",
-      "updatedAt": "2026-03-11T08:19:51.443Z",
-      "categoryId": "cat_1773217191443",
-      "writerId": "writer_1773217191443",
-      "userId": "1",
-      "category": {
-        "id": "1",
-        "label": "Roman"
-      },
-      "writer": {
-        "id": "writer_1773217191443",
-        "firstname": "S",
-        "lastname": "S",
-        "createdAt": "2026-03-11T08:19:51.443Z",
-        "updatedAt": "2026-03-11T08:19:51.443Z"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-03-11T08:19:51.443Z",
-        "updatedAt": "2026-03-11T08:19:51.443Z"
-      }
-    },
-    {
       "id": "161f",
       "title": "salut",
       "numberOfPages": 5,
@@ -382,6 +349,39 @@
         "role": "admin",
         "createdAt": "2026-03-10T12:37:31.575Z",
         "updatedAt": "2026-03-10T12:37:31.575Z"
+      }
+    },
+    {
+      "id": "b1fc",
+      "title": "12",
+      "numberOfPages": 12,
+      "pdfLink": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
+      "abstract": "12122",
+      "editor": "12",
+      "editionYear": 2222,
+      "imagePath": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
+      "createdAt": "2026-03-11T08:54:31.823Z",
+      "updatedAt": "2026-03-11T08:54:31.823Z",
+      "categoryId": "2",
+      "writerId": "writer_1773219271823",
+      "userId": "1",
+      "category": {
+        "id": "2",
+        "label": "Science-fiction"
+      },
+      "writer": {
+        "id": "writer_1773219271823",
+        "firstname": "12",
+        "lastname": "12",
+        "createdAt": "2026-03-11T08:54:31.823Z",
+        "updatedAt": "2026-03-11T08:54:31.823Z"
+      },
+      "user": {
+        "id": "1",
+        "username": "admin",
+        "role": "admin",
+        "createdAt": "2026-03-11T08:54:31.823Z",
+        "updatedAt": "2026-03-11T08:54:31.823Z"
       }
     }
   ],
