@@ -23,9 +23,9 @@
 </template>
 
 <style scoped>
-/* Conteneur principal avec la couleur de ton image */
+/* Conteneur principal avec la couleur de l' image */
 .main-header {
-  background-color: #94b3c1; /* Le bleu-gris de l'image */
+  background-color: #94b3c1;
   padding: 10px 40px;
   height: 100%;
   display: flex;
@@ -41,7 +41,7 @@
 
 /* Logo */
 .logo-img {
-  height: 120px; /* Ajuste selon la taille de ton logo.png */
+  height: 120px;
   display: block;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .nav-button {
-  background-color: #6b746a; /* Couleur gris-vert sombre des boutons */
+  background-color: #6b746a;
   color: white;
   text-decoration: none;
   padding: 12px 30px;
@@ -71,7 +71,7 @@
   transform: scale(1.05);
 }
 
-/* Icône de profil (Avatar dessiné en CSS pour correspondre à l'image) */
+/* Icône de profil Avatar */
 .avatar-circle {
   width: 45px;
   height: 45px;
