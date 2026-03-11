@@ -86,6 +86,7 @@
       "author": "StepCode3630"
     },
     {
+<<<<<<< Updated upstream
       "id": "eb144a77-afdc-4b9c-a4d1-88b24f498e62",
       "type": "commitless",
       "name": "chore: Explication du prof ",
@@ -149,6 +150,25 @@
       "date": "2026-03-03T16:21:00.000Z",
       "duration": 70,
       "status": "DONE",
+=======
+      "id": "dff62609-eccd-48de-bc12-9379e9d79ae6",
+      "type": "commitless",
+      "name": "Camille",
+      "description": "lecture du cdc, analyse de la maquette faites, lecture et comprehension des issues sur github par rapport au cdc",
+      "date": "2026-02-17T12:33:00.000Z",
+      "duration": 30,
+      "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "b76b8a64-c42d-4471-97f6-4d335c2a662d",
+      "type": "commitless",
+      "name": "Camille",
+      "description": "Ecriture du rapport selon les issues github",
+      "date": "2026-02-17T12:35:00.000Z",
+      "duration": 45,
+      "status": "Done",
+>>>>>>> Stashed changes
       "author": "StepCode3630"
     }
   ]
