@@ -169,6 +169,13 @@ const updateBook = async () => {
   border-radius: 10px;
   cursor: pointer;
   font-family: inherit;
+  transition: 0.2s all;
+}
+
+.btn-back:hover {
+  background-color: #333;
+  color: #fff;
+  transition: 0.2s all;
 }
 
 .edit-container {
@@ -251,7 +258,6 @@ const updateBook = async () => {
 
 label {
   font-weight: bold;
-  text-decoration: underline;
   margin-bottom: 5px;
 }
 input,
