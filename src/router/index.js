@@ -48,7 +48,7 @@ const router = createRouter({
     {
       path: '/books/add',
       name: 'book-add',
-      component: addBookView,
+      component: AddBookView,
     },
     //{
     //  path: '/books/:id/edit',

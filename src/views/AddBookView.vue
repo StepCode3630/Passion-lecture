@@ -105,6 +105,8 @@ const loadCategories = async () => {
     categories.value = response.data
   } catch (error) {
     console.error('Erreur chargement catégories:', error)
+    // inform the user so they know something went wrong with the API
+    alert('Impossible de charger la liste des catégories. Vérifiez que le serveur est démarré.')
   }
 }
 
@@ -194,9 +196,10 @@ const submit = async () => {
   isSubmitting.value = true
   const now = new Date().toISOString()
 
-  const categoryId = 'cat_' + Date.now()
   const writerId = 'writer_' + Date.now()
   const userId = '1'
+
+  const resolvedCategoryId = selectedCategory.value || 'cat_' + Date.now() // fallback if nothing selected
 
   const newBook = {
     title: form.value.title,
@@ -208,14 +211,15 @@ const submit = async () => {
     imagePath: form.value.image,
     createdAt: now,
     updatedAt: now,
-    categoryId,
+    categoryId: resolvedCategoryId,
     writerId,
     userId,
     category: {
-      id: categories.value.find((cat) => cat.id === selectedCategory.value)?.id || categoryId,
-      label: selectedCategory.value
-        ? categories.value.find((cat) => cat.id === selectedCategory.value)?.label || 'Inconnue'
-        : 'Inconnue',
+      id: resolvedCategoryId,
+      label:
+        categories.value.find((cat) => cat.id === selectedCategory.value)?.label ||
+        selectedCategory.value ||
+        'Inconnue',
     },
     writer: {
       id: writerId,
