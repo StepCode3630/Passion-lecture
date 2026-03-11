@@ -38,9 +38,8 @@
           <div class="row">
             <label>Catégorie *</label>
 
-            <!-- v-model pointe directement vers l'objet imbriqué -->
-            <select v-model="form.category.label" class="custom-select">
-              <option v-for="cat in categories" :key="cat.id" :value="cat.label">
+            <select v-model="form.categoryId" class="custom-select">
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">
                 {{ cat.label }}
               </option>
             </select>

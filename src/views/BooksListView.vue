@@ -55,16 +55,6 @@ const books = ref([])
 // const users = ref([])
 const categories = ref([])
 
-// charger les livres au montage
-const loadBooks = async () => {
-  try {
-    const response = await BookServices.getBooks()
-    books.value = response.data
-  } catch (error) {
-    console.error('Erreur chargement livres:', error)
-  }
-}
-
 //Charger les catégories au montage
 const loadCategories = async () => {
   try {
@@ -73,10 +63,15 @@ const loadCategories = async () => {
   } catch (error) {
     console.error('Erreur chargement catégories:', error)
   }
+  try {
+    const BookResponse = await BookServices.getBooks()
+    books.value = BookResponse.data
+  } catch (error) {
+    console.error('Erreur chargement livres:', error)
+  }
 }
 
 onMounted(async () => {
-  await loadBooks()
   await loadCategories()
 })
 
