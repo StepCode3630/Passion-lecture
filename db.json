@@ -59,13 +59,13 @@
       "id": "1",
       "title": "1984",
       "numberOfPages": 328,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/1984.pdf",
+      "pdfLink": "https://dn790009.ca.archive.org/0/items/orwell-1984/Orwell-1984.pdf",
       "abstract": "Roman dystopique de George Orwell paru en 1949, décrivant un futur totalitaire sous l'œil de Big Brother.",
       "editor": "Secker & Warburg",
       "editionYear": 1949,
       "imagePath": "https://m.media-amazon.com/images/I/41DDSnSmELL._SY466_.jpg",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-03-11T08:54:06.790Z",
+      "updatedAt": "2026-03-11T09:01:02.968Z",
       "categoryId": "2",
       "writerId": "6",
       "userId": "1",
@@ -88,13 +88,13 @@
       "id": "2",
       "title": "À la recherche du temps perdu",
       "numberOfPages": 4215,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/temps-perdu.pdf",
+      "pdfLink": "https://beq.ebooksgratuits.com/auteurs/Proust/Proust-01.pdf",
       "abstract": "Cycle romanesque de Marcel Proust explorant la mémoire et le temps.",
       "editor": "Grasset / Gallimard",
       "editionYear": 1913,
       "imagePath": "https://m.media-amazon.com/images/I/51VYHy7DDaL._SY445_SX342_ML2_.jpg",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-03-11T07:31:25.352Z",
+      "updatedAt": "2026-03-11T09:01:54.400Z",
       "categoryId": "1",
       "writerId": "5",
       "userId": "1",
@@ -117,19 +117,19 @@
       "id": "3",
       "title": "Crime et Châtiment",
       "numberOfPages": 671,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/crime-chatiment.pdf",
+      "pdfLink": "https://dn790002.ca.archive.org/0/items/dostoievski_crime_et_chatiment/dostoievski_crime_et_chatiment.pdf",
       "abstract": "Le dilemme moral de Raskolnikov après un double meurtre à Saint-Pétersbourg.",
       "editor": "The Russian Messenger",
       "editionYear": 1866,
       "imagePath": "https://m.media-amazon.com/images/I/41PbkwB9-1L._SX342_SY445_ML2_.jpg",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-03-11T07:39:57.817Z",
+      "updatedAt": "2026-03-11T09:04:46.513Z",
       "categoryId": "3",
       "writerId": "9",
       "userId": "1",
       "category": {
         "id": "3",
-        "label": "Roman"
+        "label": "Philosophie"
       },
       "writer": {
         "id": "9",
@@ -146,13 +146,13 @@
       "id": "4",
       "title": "Germinal",
       "numberOfPages": 592,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/germinal.pdf",
+      "pdfLink": "https://athena.unige.ch/athena/zola/zola-germinal.pdf",
       "abstract": "La lutte des mineurs dans le nord de la France au XIXe siècle.",
       "editor": "Charpentier",
       "editionYear": 1885,
       "imagePath": "https://m.media-amazon.com/images/I/61hNtjBQTuL._SY425_.jpg",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-03-04T09:53:54.570Z",
+      "updatedAt": "2026-03-11T09:03:41.561Z",
       "categoryId": "1",
       "writerId": "3",
       "userId": "1",
@@ -175,13 +175,13 @@
       "id": "5",
       "title": "Guerre et Paix",
       "numberOfPages": 1225,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/guerre-paix.pdf",
+      "pdfLink": "https://ia801605.us.archive.org/view_archive.php?archive=/15/items/GutenbergPDF-English/FRA%20%28French%29.zip&file=La%20guerre%20et%20la%20paix%2C%20Tome%20I%20%28FRA%29%20-%20graf%20Leo%20Tolstoy%2C%202006%20%28224p%29.pdf",
       "abstract": "Fresque historique monumentale sur la société russe pendant les guerres napoléoniennes.",
       "editor": "The Russian Messenger",
       "editionYear": 1869,
-      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/41zZSOZ-xVL.SY445_SX342_ML2.jpg",
+      "imagePath": "https://th.bing.com/th/id/R.aa767e4796bd4a5a1d82187a7f2e93cd?rik=2ep%2fXd8fQeCthg&pid=ImgRaw&r=0",
       "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-02-22T07:48:00.000Z",
+      "updatedAt": "2026-03-11T09:06:19.706Z",
       "categoryId": "4",
       "writerId": "10",
       "userId": "1",
@@ -201,74 +201,16 @@
       }
     },
     {
-      "id": "6",
-      "title": "Hamlet",
-      "numberOfPages": 200,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/hamlet.pdf",
-      "abstract": "Être ou ne pas être, telle est la question posée par le prince du Danemark.",
-      "editor": "N/A",
-      "editionYear": 1600,
-      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/61PELf9ru0L.SY522.jpg",
-      "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-02-22T07:48:00.000Z",
-      "categoryId": "8",
-      "writerId": "8",
-      "userId": "1",
-      "category": {
-        "id": "8",
-        "label": "Théâtre"
-      },
-      "writer": {
-        "id": "8",
-        "lastname": "Shakespeare",
-        "firstname": "William"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin"
-      }
-    },
-    {
-      "id": "7",
-      "title": "L’Étranger",
-      "numberOfPages": 184,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/letranger.pdf",
-      "abstract": "Meursault reste étranger au monde, à ses émotions et à sa propre condamnation.",
-      "editor": "Gallimard",
-      "editionYear": 1942,
-      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/51QzQbz6MNL.SY522.jpg",
-      "createdAt": "2026-02-22T07:48:00.000Z",
-      "updatedAt": "2026-02-22T07:48:00.000Z",
-      "categoryId": "3",
-      "writerId": "4",
-      "userId": "1",
-      "category": {
-        "id": "3",
-        "label": "Philosophie"
-      },
-      "writer": {
-        "id": "4",
-        "lastname": "Camus",
-        "firstname": "Albert"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin"
-      }
-    },
-    {
       "id": "8",
       "title": "Bleach",
       "numberOfPages": 192,
-      "pdfLink": "https://cdn1.booknode.com/book_cover/1004/mod11/bleach_tome_25_no_shaking_throne-1004359-264-432.jpg",
+      "pdfLink": "https://cdn.bookey.app/files/pdf/book/fr/bleach,-tome-1.pdf",
       "abstract": "Ichigo Kurosaki possède le don de voir les esprits. Sa rencontre avec Rukia Kuchiki va bouleverser sa vie.",
       "editor": "Glénat",
       "editionYear": 2001,
       "imagePath": "https://cdn1.booknode.com/book_cover/1004/mod11/bleach_tome_25_no_shaking_throne-1004359-264-432.jpg",
       "createdAt": "2026-02-24T16:00:00.000Z",
-      "updatedAt": "2026-03-11T08:57:23.127Z",
+      "updatedAt": "2026-03-11T09:00:13.336Z",
       "categoryId": "9",
       "writerId": "11",
       "userId": "1",
@@ -285,103 +227,6 @@
         "id": "1",
         "username": "admin",
         "role": "admin"
-      }
-    },
-    {
-      "id": "aee6",
-      "title": "Le Hobbit",
-      "numberOfPages": 310,
-      "pdfLink": "https://www.google.com/search?q=https://example.com/le-hobbit.pdf",
-      "abstract": "Bilbo Baggins est entraîné dans une aventure épique pour récupérer un trésor gardé par Smaug.",
-      "editor": "George Allen & Unwin",
-      "editionYear": 1990,
-      "imagePath": "https://www.google.com/search?q=https://m.media-amazon.com/images/I/91b0C2YNSrL.jpg",
-      "createdAt": "2026-03-04T08:12:26.335Z",
-      "updatedAt": "2026-03-11T08:08:45.175Z",
-      "categoryId": "6",
-      "writerId": "writer_6335",
-      "userId": "1",
-      "category": {
-        "id": "6",
-        "label": "Humour"
-      },
-      "writer": {
-        "id": "writer_6335",
-        "lastname": "Tolkien",
-        "firstname": "J. R. R."
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin"
-      }
-    },
-    {
-      "id": "161f",
-      "title": "salut",
-      "numberOfPages": 5,
-      "pdfLink": "http://localhost:5173/books/add",
-      "abstract": "blabalbal",
-      "editor": "lalala",
-      "editionYear": 2016,
-      "imagePath": "http://localhost:5173/books/add",
-      "createdAt": "2026-03-10T12:37:31.575Z",
-      "updatedAt": "2026-03-10T12:37:31.575Z",
-      "categoryId": "cat_1773146251576",
-      "writerId": "writer_1773146251576",
-      "userId": "1",
-      "category": {
-        "id": "cat_1773146251576",
-        "label": "roman",
-        "createdAt": "2026-03-10T12:37:31.575Z",
-        "updatedAt": "2026-03-10T12:37:31.575Z"
-      },
-      "writer": {
-        "id": "writer_1773146251576",
-        "firstname": "chales",
-        "lastname": "ingalse",
-        "createdAt": "2026-03-10T12:37:31.575Z",
-        "updatedAt": "2026-03-10T12:37:31.575Z"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-03-10T12:37:31.575Z",
-        "updatedAt": "2026-03-10T12:37:31.575Z"
-      }
-    },
-    {
-      "id": "b1fc",
-      "title": "12",
-      "numberOfPages": 12,
-      "pdfLink": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
-      "abstract": "12122",
-      "editor": "12",
-      "editionYear": 2222,
-      "imagePath": "https://m.media-amazon.com/images/I/51jh1t3XXaL._SY445_SX342_ML2_.jpg",
-      "createdAt": "2026-03-11T08:54:31.823Z",
-      "updatedAt": "2026-03-11T08:54:31.823Z",
-      "categoryId": "2",
-      "writerId": "writer_1773219271823",
-      "userId": "1",
-      "category": {
-        "id": "2",
-        "label": "Science-fiction"
-      },
-      "writer": {
-        "id": "writer_1773219271823",
-        "firstname": "12",
-        "lastname": "12",
-        "createdAt": "2026-03-11T08:54:31.823Z",
-        "updatedAt": "2026-03-11T08:54:31.823Z"
-      },
-      "user": {
-        "id": "1",
-        "username": "admin",
-        "role": "admin",
-        "createdAt": "2026-03-11T08:54:31.823Z",
-        "updatedAt": "2026-03-11T08:54:31.823Z"
       }
     }
   ],
