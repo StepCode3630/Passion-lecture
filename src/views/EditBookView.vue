@@ -40,7 +40,7 @@
 
             <!-- v-model pointe directement vers l'objet imbriqué -->
             <select v-model="form.category.label" class="custom-select">
-              <option v-for="cat in availableCategories" :key="cat.id" :value="cat.label">
+              <option v-for="cat in categories" :key="cat.id" :value="cat.label">
                 {{ cat.label }}
               </option>
             </select>
@@ -81,27 +81,22 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import BookServices from '@/services/BookServices'
+import CategorieServices from '@/services/CategorieServices'
 
 const route = useRoute()
 const router = useRouter()
 const isSaving = ref(false)
 const form = ref(null)
 
-// Dans la section <script setup> de BookFormView.vue ou BookEditView.vue
-const availableCategories = ref([
-  { id: 'cat_1', label: 'Roman' },
-  { id: 'cat_2', label: 'Manga' },
-  { id: 'cat_3', label: 'Science-Fiction' },
-  { id: 'cat_4', label: 'Fantasy' },
-  { id: 'cat_5', label: 'Biographie' },
-  { id: 'cat_6', label: 'Histoire' },
-])
+const categories = ref([])
 
 // 1. Charger les données existantes au montage
 onMounted(async () => {
   try {
     const response = await BookServices.getBook(route.params.id)
     form.value = response.data
+    const catResponse = await CategorieServices.getCategories()
+    categories.value = catResponse.data
   } catch (error) {
     alert('Impossible de charger les données du livre.')
     router.push('/')
