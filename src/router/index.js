@@ -5,7 +5,8 @@ import BookMyList from '@/views/BookMyList.vue'
 import AddBookView from '@/views/addBookView.vue'
 import EditBookView from '@/views/EditBookView.vue'
 import BooksListView from '@/views/BooksListView.vue'
-
+import Contact from '@/views/Contact.vue'
+import InfoCreateur from '@/views/InfoCreateur.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -66,12 +67,12 @@ const router = createRouter({
     {
       path: '/contact',
       name: 'contact',
-      component: () => import('@/views/Contact.vue'),
+      component: Contact,
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import('@/views/infoCreateur.vue'),
+      component: InfoCreateur,
     },
   ],
 })
