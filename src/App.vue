@@ -5,6 +5,7 @@
     <main>
       <RouterView />
     </main>
+    <TheFooter />
   </div>
 </template>
 
@@ -12,6 +13,7 @@
 import { RouterView } from 'vue-router'
 // Importation du composant
 import AppHeader from './components/appHeader.vue'
+import TheFooter from './components/TheFooter.vue'
 </script>
 
 <style>

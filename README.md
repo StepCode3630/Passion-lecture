@@ -42,3 +42,9 @@ npm run build
 ```sh
 npm run lint
 ```
+
+### Lancer le json-server
+
+```sh
+npx json-server --watch db.json
+```
