@@ -142,13 +142,6 @@
       "patch": true
     },
     {
-      "id": "db2c6085-deec-4d0d-befa-bfd524d138f1",
-      "type": "commitless",
-      "name": "chore: aide avec Camille concernant une erreur persistante pour modifier un ouvrage",
-      "description": "",
-      "date": "2026-03-03T16:21:00.000Z",
-      "duration": 70,
-      "status": "DONE",
       "id": "dff62609-eccd-48de-bc12-9379e9d79ae6",
       "type": "commitless",
       "name": "Camille",
@@ -166,6 +159,16 @@
       "date": "2026-02-17T12:35:00.000Z",
       "duration": 45,
       "status": "Done",
+      "author": "StepCode3630"
+    },
+    {
+      "id": "ba3059e8-1133-4010-a3f8-ebbd0ac58c27",
+      "type": "commitless",
+      "name": "chore:aide à camille",
+      "description": "",
+      "date": "2026-04-28T15:21:00.000Z",
+      "duration": 30,
+      "status": "DONE",
       "author": "StepCode3630"
     }
   ]
