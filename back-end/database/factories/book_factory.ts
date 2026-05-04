@@ -1,5 +1,5 @@
 import factory from '@adonisjs/lucid/factories'
-import Book from '#models/Book.1'
+import Book from '#models/book'
 
 export const BookFactory = factory
   .define(Book, async function ({ faker }) {
