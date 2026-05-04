@@ -1,0 +1,20 @@
+meta {
+  name: Recup un com
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/commentaires/:id
+  body: json
+  auth: inherit
+}
+
+params:path {
+  id: 11
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
