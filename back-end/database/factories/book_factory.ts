@@ -12,7 +12,7 @@ export const BookFactory = factory
         to: '2030-01-01T00:00:00.000Z',
       }),
       lien_extrait: faker.string,
-      resume: faker.lorem.paragraph({ min: 1, max: 5 }),
+      resume: faker.lorem.paragraph({ min: 1, max: 2 }),
       editeur: faker.book.author,
     }
   })
