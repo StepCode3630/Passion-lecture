@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
-import Book from './Book.1.js'
+import Book from './book.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 
 export default class Author extends BaseModel {
