@@ -2,7 +2,7 @@ import factory from '@adonisjs/lucid/factories'
 import Book from '#models/book'
 
 export const BookFactory = factory
-  .define(Book, async function ({ faker }) {
+  .define(Book, async ({ faker }) => {
     return {
       titre: faker.book.title(),
       image: `/uploads/books/${faker.string.uuid()}.jpg`,
