@@ -1,0 +1,31 @@
+meta {
+  name: update de 1 livre
+  type: http
+  seq: 4
+}
+
+put {
+  url: {{baseUrl}}/books/1
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "titre": "Harry Potter",
+    "image": "https://example.com/image.jpg",
+    "annee_publication": "2001-01-01",
+    "nb_page": 350,
+    "lien_extrait": "https://example.com/extrait.pdf",
+    "resume": "Un jeune sorcier découvre...",
+    "editeur": "Gallimard",
+    "auteur_fk": 1,
+    "categorie_fk": 1,
+    "utilisateur_fk": 1
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,25 @@
+meta {
+  name: créer un user
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/users
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nom": "Chat",
+    "email": "chat@example.com",
+    "mot_de_passe": "secret123",
+    "role": "user"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

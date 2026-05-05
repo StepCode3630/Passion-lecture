@@ -1,0 +1,15 @@
+meta {
+  name: récupère 1 livre
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/books/1
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

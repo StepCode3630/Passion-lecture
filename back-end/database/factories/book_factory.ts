@@ -5,14 +5,14 @@ export const BookFactory = factory
   .define(Book, async ({ faker }) => {
     return {
       titre: faker.book.title(),
-      image: faker.string.uuid(),
+      image: `/uploads/books/${faker.string.uuid()}.jpg`,
       nb_page: faker.number.int({ min: 6, max: 850 }),
       annee_publication: faker.date.between({
         from: '2020-01-01T00:00:00.000Z',
         to: '2030-01-01T00:00:00.000Z',
       }),
-      lien_extrait: faker.string.uuid(),
-      resume: faker.lorem.paragraph({ min: 1, max: 1 }),
+      lien_extrait: faker.internet.url(),
+      resume: faker.lorem.paragraph({ min: 1, max: 2 }),
       editeur: faker.book.author(),
     }
   })
