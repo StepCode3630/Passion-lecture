@@ -15,12 +15,6 @@ export default class Commentaire extends BaseModel {
   @column()
   declare etoile: number
 
-  @column()
-  declare userFk: number
-
-  @column()
-  declare bookFk: number
-
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
