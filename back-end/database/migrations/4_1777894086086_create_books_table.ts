@@ -1,3 +1,4 @@
+import Category from '#models/category'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
@@ -16,6 +17,28 @@ export default class extends BaseSchema {
 
       table.string('resume')
       table.string('editeur')
+
+      table
+        .integer('category_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('categories')
+        .onDelete('CASCADE')
+      table
+        .integer('author_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('authors')
+        .onDelete('CASCADE')
+      table
+        .integer('user_id')
+        .unsigned()
+        .notNullable()
+        .references('id')
+        .inTable('users')
+        .onDelete('CASCADE')
 
       table.timestamp('created_at')
       table.timestamp('updated_at')

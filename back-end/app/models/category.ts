@@ -16,9 +16,6 @@ export default class Category extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @hasMany(() => Category)
-  declare categories: HasMany<typeof Category>
-
-  @belongsTo(() => Book)
-  declare books: BelongsTo<typeof Book>
+  @hasMany(() => Book)
+  declare books: HasMany<typeof Book>
 }
