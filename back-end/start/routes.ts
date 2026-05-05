@@ -8,9 +8,6 @@
 */
 
 import router from '@adonisjs/core/services/router'
+import CommentairesController from '#controllers/commentaires_controller'
 
-router.get('/', async () => {
-  return {
-    hello: 'world',
-  }
-})
+router.resource('commentaires', CommentairesController).apiOnly()
