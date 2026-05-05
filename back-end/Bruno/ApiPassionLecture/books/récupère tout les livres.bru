@@ -1,0 +1,15 @@
+meta {
+  name: récupère tout les livres
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/books
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

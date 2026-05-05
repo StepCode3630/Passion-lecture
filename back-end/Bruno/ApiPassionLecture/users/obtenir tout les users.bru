@@ -1,0 +1,15 @@
+meta {
+  name: obtenir tout les users
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/users
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

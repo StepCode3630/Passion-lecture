@@ -1,0 +1,22 @@
+meta {
+  name: créer 1 catégorie
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{baseUrl}}/categories
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "nom": "Roman"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
