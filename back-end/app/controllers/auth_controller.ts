@@ -4,7 +4,7 @@ import User from '#models/user'
 
 export default class AuthController {
   async login({ request, response }: HttpContext) {
-    const { email, password } = request.validateUsing(loginValidator)
+    const { email, password } = await request.validateUsing(loginValidator)
 
     const user = await User.verifyCredentials(email, password)
 
@@ -17,7 +17,7 @@ export default class AuthController {
     })
   }
   async register({ request, response }: HttpContext) {
-    const payload = request.validateUsing(registerValidator)
+    const payload = await request.validateUsing(registerValidator)
 
     const user = await User.create(payload)
 
