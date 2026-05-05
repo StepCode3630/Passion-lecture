@@ -1,51 +1,47 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Commentaire from '#models/commentaire'
+import { createCommentaireValidator } from '#validators/commentaire_validator'
 
 export default class CommentairesController {
-  /**
-   * Display a list of resource
-   */
+
   async index({ response }: HttpContext) {
     const commentaires = await Commentaire.query().orderBy('created_at', 'desc').exec()
     return response.ok(commentaires)
   }
 
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {
-    const data = request.all()
-
-    return Commentaire.create(data)
+  async store({ request, response, auth }: HttpContext) {
+    const data = await request.validateUsing(createCommentaireValidator)
+    const commentaire = await Commentaire.create({
+      ...data,
+      // récup l'user connecté
+      userId: auth.user!.id
+    })
+    return response.created(commentaire)
   }
 
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {
+  async show({ params, response }: HttpContext) {
     const commentaire = await Commentaire.findOrFail(params.id)
-    return commentaire
+    return response.ok(commentaire)
   }
 
-  /**
-   * Handle form submission for the edit action
-   */
-  async update({ params, request }: HttpContext) {
-    const data = request.all()
+  async update({ params, request, response, bouncer }: HttpContext) {
     const commentaire = await Commentaire.findOrFail(params.id)
 
-    commentaire.merge(data)
-    await commentaire.save()
+    // vérif que c'est son commentaire
+    await bouncer.authorize('deleteCommentaire', commentaire)
 
-    return commentaire
+    const data = await request.validateUsing(createCommentaireValidator)
+    await commentaire.merge(data).save()
+    return response.ok(commentaire)
   }
 
-  /**
-   * Delete record
-   */
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, response, bouncer }: HttpContext) {
     const commentaire = await Commentaire.findOrFail(params.id)
+
+    // vérif que c'est son commentaire
+    await bouncer.authorize('deleteCommentaire', commentaire)
+
     await commentaire.delete()
-    return commentaire
+    return response.ok({ message: 'Commentaire supprimé' })
   }
 }
