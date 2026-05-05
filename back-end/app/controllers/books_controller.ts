@@ -1,48 +1,31 @@
-import Book from '#models/book'
 import type { HttpContext } from '@adonisjs/core/http'
+import Book from '#models/book'
 
 export default class BooksController {
+  // route publique donc pas besoin de bouncer
   async index({ response }: HttpContext) {
-    const book = await Book.query().orderBy('created_at', 'desc').exec()
+    const books = await Book.all()
+    return response.ok(books)
+  }
+
+  // route protégée pour auth et bouncer donc sécurisé
+  async update({ bouncer, params, request, response }: HttpContext) {
+    const book = await Book.findOrFail(params.id)
+
+    // 403 si non autorisé
+    await bouncer.authorize('editBook', book)
+
+    const data = request.only(['titre', 'resume', 'nb_page'])
+    await book.merge(data).save()
     return response.ok(book)
   }
 
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {
-    const data = request.all()
-
-    return Book.create(data)
-  }
-
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {
-    const book = await Book.findOrFail(params.id)
-    return book
-  }
-
-  /**
-   * Handle form submission for the edit action
-   */
-  async update({ params, request }: HttpContext) {
-    const data = request.all()
+  async destroy({ bouncer, params, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
 
-    book.merge(data)
-    await book.save()
-
-    return book
-  }
-
-  /**
-   * Delete record
-   */
-  async destroy({ params }: HttpContext) {
-    const book = await Book.findOrFail(params.id)
+    // 403 si non autorisé
+    await bouncer.authorize('deleteBook', book)
     await book.delete()
-    return book
+    return response.ok({ message: 'Livre supprimé' })
   }
 }

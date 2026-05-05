@@ -17,7 +17,7 @@ export default class Book extends BaseModel {
   declare image: string
 
   @column()
-  declare annee_publication: Date
+  declare annee_publication: DateTime
 
   @column()
   declare nb_page: number
