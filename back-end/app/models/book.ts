@@ -17,7 +17,7 @@ export default class Book extends BaseModel {
   declare image: string
 
   @column()
-  declare annee_publication: DateTime
+  declare annee_publication: number
 
   @column()
   declare nb_page: number
@@ -47,13 +47,13 @@ export default class Book extends BaseModel {
   declare updatedAt: DateTime
 
   @belongsTo(() => User)
-  declare users: BelongsTo<typeof User>
+  declare user: BelongsTo<typeof User>
 
   @belongsTo(() => Author)
-  declare authors: BelongsTo<typeof Author>
+  declare author: BelongsTo<typeof Author>
 
   @belongsTo(() => Category)
-  declare categories: BelongsTo<typeof Category>
+  declare category: BelongsTo<typeof Category>
 
   @hasMany(() => Commentaire)
   declare commentaires: HasMany<typeof Commentaire>

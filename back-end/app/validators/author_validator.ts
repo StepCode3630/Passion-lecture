@@ -1,4 +1,4 @@
-import vine from '@vinejs/vine'import vine from '@vinejs/vine'
+import vine from '@vinejs/vine'
 
 export const createAuthorValidator = vine.compile(
   vine.object({

@@ -3,7 +3,6 @@ import Commentaire from '#models/commentaire'
 import { createCommentaireValidator } from '#validators/commentaire_validator'
 
 export default class CommentairesController {
-
   async index({ response }: HttpContext) {
     const commentaires = await Commentaire.query().orderBy('created_at', 'desc').exec()
     return response.ok(commentaires)
@@ -14,7 +13,7 @@ export default class CommentairesController {
     const commentaire = await Commentaire.create({
       ...data,
       // récup l'user connecté
-      userId: auth.user!.id
+      userId: auth.user!.id,
     })
     return response.created(commentaire)
   }

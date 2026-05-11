@@ -1,7 +1,6 @@
 import Category from '#models/category'
 import type { HttpContext } from '@adonisjs/core/http'
 
-
 export default class CategoriesController {
   async index({ response }: HttpContext) {
     const categories = await Category.query().orderBy('created_at', 'desc').exec()
