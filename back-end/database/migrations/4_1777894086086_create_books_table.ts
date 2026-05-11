@@ -1,4 +1,3 @@
-import Category from '#models/category'
 import { BaseSchema } from '@adonisjs/lucid/schema'
 
 export default class extends BaseSchema {
@@ -8,12 +7,12 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').notNullable
 
-      table.string('titre').unique
+      table.string('titre').unique()
       table.string('image')
-      table.date('annee_publication')
+      table.integer('annee_publication')
       table.integer('nb_page')
 
-      table.string('lien_extrait').unique
+      table.string('lien_extrait').unique()
 
       table.string('resume')
       table.string('editeur')
@@ -28,7 +27,8 @@ export default class extends BaseSchema {
       table
         .integer('author_id')
         .unsigned()
-        .notNullable()
+        // temporairement nullable pour éviter les problèmes de création de livres avant les auteurs
+        .nullable()
         .references('id')
         .inTable('authors')
         .onDelete('CASCADE')

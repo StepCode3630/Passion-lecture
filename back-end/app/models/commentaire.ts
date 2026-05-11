@@ -15,6 +15,12 @@ export default class Commentaire extends BaseModel {
   @column()
   declare etoile: number
 
+  @column()
+  declare userId: number
+
+  @column()
+  declare bookId: number
+
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
@@ -22,9 +28,9 @@ export default class Commentaire extends BaseModel {
   declare updatedAt: DateTime
 
   // relation
-  @belongsTo(() => User, { foreignKey: 'id' })
+  @belongsTo(() => User, { foreignKey: 'userId' })
   declare user: BelongsTo<typeof User>
 
-  @belongsTo(() => Book, { foreignKey: 'id' })
+  @belongsTo(() => Book, { foreignKey: 'bookId' })
   declare book: BelongsTo<typeof Book>
 }

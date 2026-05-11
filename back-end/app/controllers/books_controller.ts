@@ -1,48 +1,44 @@
 import Book from '#models/book'
+import { createBookValidator, updateBookValidator } from '#validators/book_validator'
 import type { HttpContext } from '@adonisjs/core/http'
 
 export default class BooksController {
   async index({ response }: HttpContext) {
-    const book = await Book.query().orderBy('created_at', 'desc').exec()
+    const books = await Book.query()
+      .preload('author')
+      .preload('category')
+      .orderBy('created_at', 'desc')
+    return response.ok(books)
+  }
+
+  async store({ request, response }: HttpContext) {
+    // si invalide AdonisJS renvoie automatiquement un 422 propre
+    const data = await request.validateUsing(createBookValidator)
+    const book = await Book.create(data)
+    return response.created(book)
+  }
+
+  async show({ params, response }: HttpContext) {
+    const book = await Book.query()
+      .where('id', params.id)
+      .preload('author')
+      .preload('category')
+      .preload('commentaires')
+      .firstOrFail()
     return response.ok(book)
   }
 
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request }: HttpContext) {
-    const data = request.all()
-
-    return Book.create(data)
-  }
-
-  /**
-   * Show individual record
-   */
-  async show({ params }: HttpContext) {
+  async update({ params, request, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
-    return book
-  }
-
-  /**
-   * Handle form submission for the edit action
-   */
-  async update({ params, request }: HttpContext) {
-    const data = request.all()
-    const book = await Book.findOrFail(params.id)
-
+    const data = await request.validateUsing(updateBookValidator)
     book.merge(data)
     await book.save()
-
-    return book
+    return response.ok(book)
   }
 
-  /**
-   * Delete record
-   */
-  async destroy({ params }: HttpContext) {
+  async destroy({ params, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
     await book.delete()
-    return book
+    return response.noContent() // 204
   }
 }
