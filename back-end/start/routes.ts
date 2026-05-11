@@ -16,6 +16,7 @@ import UsersController from '#controllers/users_controller'
 import User from '#models/user'
 import { middleware } from '#start/kernel'
 import { validateHeaderValue } from 'http'
+import AuthController from '#controllers/auth_controller'
 
 router
   .group(() => {
@@ -29,17 +30,23 @@ router
       })
       .prefix('books/:bookId')
   })
-  .use(middleware('auth'))
+  .use(middleware.auth())
 // routes protégées besoin d'auth
 router.resource('users', UsersController).apiOnly()
 
-router.post('/users/:id/tokens', async ({ params }) => {
-  const user = await User.findOrFail(params.id)
-  const token = await User.accessTokens.create(user)
+// router.post('/users/:id/tokens', async ({ params }) => {
+//   const user = await User.findOrFail(params.id)
+//   const token = await User.accessTokens.create(user)
 
-  return {
-    type: 'bearer',
-    value: token.value!.release(),
-  }
-})
-router.delete('/projects/:id')
+//   return {
+//     type: 'bearer',
+//     value: token.value!.release(),
+//   }
+// })
+router
+  .group(() => {
+    router.post('register', [AuthController, 'register'])
+    router.post('login', [AuthController, 'login'])
+    router.post('logout', [AuthController, 'logout']).use(middleware.auth())
+  })
+  .prefix('user')
