@@ -12,7 +12,7 @@ export default class AuthController {
 
     // Return the token and user data
     return response.ok({
-      type: 'bearer',
+      type: token,
       ...user.serialize(),
     })
   }
