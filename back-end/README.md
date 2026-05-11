@@ -95,3 +95,11 @@ docker compose up -d
 node ace migration:run
 npm run dev
 ```
+
+## Lancer une migration fresh
+```bash
+node ace migration:fresh
+```
+```bash
+node ace db:seed --files="./database/seeders/main_seeder.ts"
+```
