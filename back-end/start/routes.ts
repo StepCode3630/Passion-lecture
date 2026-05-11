@@ -17,32 +17,34 @@ import User from '#models/user'
 import { middleware } from '#start/kernel'
 import { validateHeaderValue } from 'http'
 import AuthController from '#controllers/auth_controller'
+import { create } from 'domain'
 
-router
-  .group(() => {
-    // routes publique
-    router.resource('books', BooksController).apiOnly()
-    router.resource('authors', AuthorsController).apiOnly()
-    router.resource('categories', CategoriesController).apiOnly()
+router.group(() => {
+  // routes publique
+  router.resource('books', BooksController).apiOnly().use(['store'], middleware.auth())
+  router.resource('authors', AuthorsController).apiOnly()
+  router.resource('categories', CategoriesController).apiOnly()
+  /*
     router
       .group(() => {
-        router.resource('commentaires', CommentairesController).apiOnly()
+        router.resource('commentaires', CommentsByBookController).apiOnly()
       })
       .prefix('books/:bookId')
-  })
-  .use(middleware.auth())
+      */
+})
+
 // routes protégées besoin d'auth
 router.resource('users', UsersController).apiOnly()
 
-// router.post('/users/:id/tokens', async ({ params }) => {
-//   const user = await User.findOrFail(params.id)
-//   const token = await User.accessTokens.create(user)
+//router
+/*
+  .group(() => {
+    router.resource('commentaires', CommentsByUserController).apiOnly()
+  })
+  .prefix('users/:userId')
+  .use(middleware.auth())
+  */
 
-//   return {
-//     type: 'bearer',
-//     value: token.value!.release(),
-//   }
-// })
 router
   .group(() => {
     router.post('register', [AuthController, 'register'])
