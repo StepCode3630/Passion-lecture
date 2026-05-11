@@ -13,10 +13,17 @@ export default class CommentairesController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request }: HttpContext) {
-    const data = request.all()
+  async store({ request, response }: HttpContext) {
+    const { message, etoile, userId, bookId } = request.all()
 
-    return Commentaire.create(data)
+    const data = {
+      message,
+      etoile,
+      userId,
+      bookId,
+    }
+
+    return response.created(data)
   }
 
   /**

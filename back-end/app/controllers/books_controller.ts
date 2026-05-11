@@ -10,10 +10,17 @@ export default class BooksController {
   /**
    * Handle form submission for the create action
    */
-  async store({ request }: HttpContext) {
-    const data = request.all()
+  async store({ request, response }: HttpContext) {
+    const { title, author, description, userId } = request.all()
 
-    return Book.create(data)
+    const data = {
+      title,
+      author,
+      description,
+      userId,
+    }
+
+    return response.created(data)
   }
 
   /**
