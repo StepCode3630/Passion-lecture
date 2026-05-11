@@ -5,6 +5,7 @@ import UserSeeder from '#database/seeders/user_seeder'
 import BookSeeder from '#database/seeders/book_seeder'
 import CommentaireSeeder from '#database/seeders/commentaire_seeder'
 
+// force l'ordre d'execution des seeders
 export default class extends BaseSeeder {
   async run() {
     await new AuthorSeeder(this.client).run()
