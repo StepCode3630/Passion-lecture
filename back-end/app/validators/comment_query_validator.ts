@@ -1,6 +1,6 @@
 import vine from '@vinejs/vine'
 
-export const getCommentairesQueryValidator = vine.compile(
+export const getCommentsQueryValidator = vine.compile(
   vine.object({
     page: vine.number().min(1).optional(),
     limit: vine.number().min(1).max(100).optional(),

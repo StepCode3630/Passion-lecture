@@ -6,7 +6,7 @@ import swagger from '#config/swagger'
 const BooksController = () => import('#controllers/books_controller')
 const AuthorsController = () => import('#controllers/authors_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
-const CommentairesController = () => import('#controllers/commentaires_controller')
+const CommentairesController = () => import('#controllers/comments_controller')
 const UsersController = () => import('#controllers/users_controller')
 
 // Auth (login / register / logout)
