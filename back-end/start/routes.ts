@@ -1,5 +1,7 @@
 import router from '@adonisjs/core/services/router'
+import AutoSwagger from 'adonis-autoswagger'
 import { middleware } from '#start/kernel'
+import swagger from '#config/swagger'
 
 const BooksController = () => import('#controllers/books_controller')
 const AuthorsController = () => import('#controllers/authors_controller')
@@ -22,6 +24,11 @@ router.get('/categories/:id', [CategoriesController, 'show'])
 router.get('/commentaires', [CommentairesController, 'index'])
 router.get('/commentaires/:id', [CommentairesController, 'show'])
 
+// Route de test après CORS mis en place
+router.get('test', async () => {
+  return 'API is working!'
+})
+
 // routes protégées necessite une connexion
 router
   .group(() => {
@@ -41,4 +48,14 @@ router
     router.put('/users/:id', [UsersController, 'update'])
     router.delete('/users/:id', [UsersController, 'destroy'])
   })
+  // toutes les routes de ce groupe nécessitent une authentification
   .use(middleware.auth())
+
+// Documentation Swagger
+router.get('swagger', async () => {
+  return AutoSwagger.default.docs(router.toJSON(), swagger)
+})
+
+router.get('docs', async () => {
+  return AutoSwagger.default.ui('/swagger', swagger)
+})
