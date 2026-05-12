@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/commentaires/:id
+  url: {{baseUrl}}/books/:book_id/comments
   body: json
   auth: inherit
 }
 
 params:path {
-  id: 11
+  book_id: 2
 }
 
 settings {
