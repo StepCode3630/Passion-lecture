@@ -4,7 +4,7 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import Commentaire from './commentaire.js'
+import Comment from './comment.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Book from './book.js'
 
@@ -35,8 +35,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 
-  @hasMany(() => Commentaire)
-  declare commentaires: HasMany<typeof Commentaire>
+  @hasMany(() => Comment)
+  declare comments: HasMany<typeof Comment>
 
   @hasMany(() => Book)
   declare books: HasMany<typeof Book>

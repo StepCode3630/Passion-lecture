@@ -1,11 +1,34 @@
 import User from '#models/user'
 import type { HttpContext } from '@adonisjs/core/http'
 import { createUserValidator, updateUserValidator } from '#validators/user_validator'
+import { getUsersQueryValidator } from '#validators/user_query_validator'
 
 export default class UsersController {
-  async index({ response }: HttpContext) {
-    const user = await User.query().orderBy('created_at', 'desc').exec()
-    return response.ok(user)
+  async index({ request, response }: HttpContext) {
+    const {
+      page = 1,
+      limit = 5,
+      sort = 'created_at',
+      order = 'desc',
+      search,
+    } = await request.validateUsing(getUsersQueryValidator)
+
+    const query = User.query()
+
+    if (search) {
+      query.where((subQuery) => {
+        subQuery.whereILike('full_name', `%${search}%`).orWhereILike('email', `%${search}%`)
+      })
+    }
+
+    query.orderBy(sort, order as 'asc' | 'desc')
+
+    const users = await query.paginate(page, limit)
+
+    users.baseUrl('/users')
+    users.queryString({ page, limit, sort, order, search })
+
+    return response.ok(users)
   }
 
   /**

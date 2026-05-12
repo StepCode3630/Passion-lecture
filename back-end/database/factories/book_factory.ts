@@ -11,7 +11,7 @@ export const BookFactory = factory
     const users = await User.all()
 
     return {
-      titre: faker.book.title(),
+      titre: `${faker.book.title()} - ${faker.string.uuid().substring(0, 6)}`,
       image: `/uploads/books/${faker.string.uuid()}.jpg`,
       nb_page: faker.number.int({ min: 6, max: 850 }),
       annee_publication: faker.number.int({ min: 1900, max: 2025 }),
