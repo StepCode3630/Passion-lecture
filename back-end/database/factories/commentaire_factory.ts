@@ -1,5 +1,5 @@
 import factory from '@adonisjs/lucid/factories'
-import Commentaire from '#models/commentaire'
+import Commentaire from '#models/comment'
 
 export const CommentaireFactory = factory
   .define(Commentaire, async ({ faker }) => {

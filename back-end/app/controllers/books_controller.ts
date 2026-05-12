@@ -65,7 +65,7 @@ export default class BooksController {
       .where('id', params.id)
       .preload('author')
       .preload('category')
-      .preload('commentaires')
+      .preload('comments')
       .firstOrFail()
     return response.ok(book)
   }

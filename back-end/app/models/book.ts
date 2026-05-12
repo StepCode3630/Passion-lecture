@@ -4,7 +4,7 @@ import User from './user.js'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Author from './author.js'
 import Category from './category.js'
-import Commentaire from './commentaire.js'
+import Comment from './comment.js'
 
 export default class Book extends BaseModel {
   @column({ isPrimary: true })
@@ -55,6 +55,6 @@ export default class Book extends BaseModel {
   @belongsTo(() => Category)
   declare category: BelongsTo<typeof Category>
 
-  @hasMany(() => Commentaire)
-  declare commentaires: HasMany<typeof Commentaire>
+  @hasMany(() => Comment)
+  declare comments: HasMany<typeof Comment>
 }
