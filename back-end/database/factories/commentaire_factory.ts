@@ -1,8 +1,8 @@
 import factory from '@adonisjs/lucid/factories'
-import Commentaire from '#models/commentaire'
+import Comment from '#models/comment'
 
 export const CommentaireFactory = factory
-  .define(Commentaire, async ({ faker }) => {
+  .define(Comment, async ({ faker }) => {
     return {
       message: faker.lorem.paragraph(),
       etoile: faker.number.int({ min: 1, max: 5 }),

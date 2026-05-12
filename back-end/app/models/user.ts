@@ -4,7 +4,7 @@ import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, column, hasMany } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
 import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
-import Commentaire from './commentaire.js'
+import Commentaire from './comment.js'
 import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Book from './book.js'
 

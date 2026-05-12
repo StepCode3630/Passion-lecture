@@ -4,7 +4,7 @@ import User from './user.js'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Author from './author.js'
 import Category from './category.js'
-import Commentaire from './commentaire.js'
+import Commentaire from './comment.js'
 
 export default class Book extends BaseModel {
   @column({ isPrimary: true })

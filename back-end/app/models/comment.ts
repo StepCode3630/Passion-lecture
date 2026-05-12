@@ -4,7 +4,7 @@ import User from './user.js'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Book from './book.js'
 
-export default class Commentaire extends BaseModel {
+export default class Comment extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
