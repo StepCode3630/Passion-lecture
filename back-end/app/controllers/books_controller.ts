@@ -54,6 +54,7 @@ export default class BooksController {
     return response.ok(books)
   }
 
+  /*
   async store({ request, response }: HttpContext) {
     const data = await request.validateUsing(createBookValidator)
     const book = await Book.create(data)
@@ -68,9 +69,28 @@ export default class BooksController {
       .preload('comments')
       .firstOrFail()
     return response.ok(book)
+  }*/
+
+  /**
+   * Handle form submission for the create action
+   */
+  async store({ request, response }: HttpContext) {
+    const { title, author, description, userId } = request.all()
+
+    const data = {
+      title,
+      author,
+      description,
+      userId,
+    }
+
+    return response.created(data)
   }
 
-  async update({ params, request, response }: HttpContext) {
+  /**
+   * Show individual record
+   */
+  async show({ params, request, response }: HttpContext) {
     const book = await Book.findOrFail(params.id)
     const data = await request.validateUsing(updateBookValidator)
     book.merge(data)

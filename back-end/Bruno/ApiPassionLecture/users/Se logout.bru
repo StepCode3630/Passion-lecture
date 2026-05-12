@@ -1,17 +1,21 @@
 meta {
-  name: récupère tout les livres
+  name: Se logout
   type: http
-  seq: 1
+  seq: 8
 }
 
-get {
-  url: http://localhost:3333/books
+post {
+  url: {{baseUrl}}/user/logout
   body: none
   auth: bearer
 }
 
+params:query {
+  : 
+}
+
 auth:bearer {
-  token: 
+  token: {{token}}
 }
 
 settings {

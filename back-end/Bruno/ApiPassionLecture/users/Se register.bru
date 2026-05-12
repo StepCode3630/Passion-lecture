@@ -1,0 +1,25 @@
+meta {
+  name: Se register
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/user/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+        "fullName": "Susie Deckow-Jacobi DD222S",
+        "role": "user",
+        "email": "Ferna222ndo24@hotmail.com",
+    "password": "12345678"
+      },
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

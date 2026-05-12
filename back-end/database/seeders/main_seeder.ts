@@ -8,9 +8,10 @@ import CommentaireSeeder from '#database/seeders/commentaire_seeder'
 // force l'ordre d'execution des seeders
 export default class extends BaseSeeder {
   async run() {
+    await new UserSeeder(this.client).run()
+
     await new AuthorSeeder(this.client).run()
     await new CategorySeeder(this.client).run()
-    await new UserSeeder(this.client).run()
     await new BookSeeder(this.client).run()
     await new CommentaireSeeder(this.client).run()
   }

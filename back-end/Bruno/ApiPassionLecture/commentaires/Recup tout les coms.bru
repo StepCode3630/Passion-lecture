@@ -5,9 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/commentaires
+  url: {{baseUrl}}books/:book_id/comments
   body: none
   auth: inherit
+}
+
+params:path {
+  book_id: 
 }
 
 settings {

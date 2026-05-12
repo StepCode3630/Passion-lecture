@@ -2,6 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import Comment from '#models/comment'
 import { getCommentsQueryValidator } from '#validators/comment_query_validator'
 import { createCommentValidator } from '#validators/comment_validator'
+import CommentPolicy from '#policies/comment_policy'
 
 export default class CommentsController {
   async index({ request, response }: HttpContext) {
@@ -39,10 +40,13 @@ export default class CommentsController {
     return response.ok(comments)
   }
 
-  async store({ request, response }: HttpContext) {
+  async store({ request, response, auth }: HttpContext) {
     const data = await request.validateUsing(createCommentValidator)
-    // TODO: quand l'auth est prête, remplacer userId du body par auth.user!.id
-    const comment = await Comment.create(data)
+    // L'utilisateur connecté est l'auteur du commentaire
+    const comment = await Comment.create({
+      ...data,
+      userId: auth.user!.id,
+    })
     return response.created(comment)
   }
 
@@ -55,18 +59,30 @@ export default class CommentsController {
     return response.ok(comment)
   }
 
-  async update({ params, request, response }: HttpContext) {
+  async update({ params, request, response, bouncer }: HttpContext) {
     const comment = await Comment.findOrFail(params.id)
-    // TODO: quand l'auth est prête, ajouter bouncer.authorize('updateComment', comment)
+
+    // Vérifie que l'utilisateur a le droit de modifier ce commentaire
+    if (await bouncer.with(CommentPolicy).denies('update', comment)) {
+      return response.unauthorized({
+        message: "Vous n'êtes pas l'auteur de ce commentaire",
+      })
+    }
 
     const data = await request.validateUsing(createCommentValidator)
     await comment.merge(data).save()
     return response.ok(comment)
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, bouncer }: HttpContext) {
     const comment = await Comment.findOrFail(params.id)
-    // TODO: quand l'auth est prête, ajouter bouncer.authorize('deleteComment', comment)
+
+    // Vérifie que l'utilisateur a le droit de supprimer ce commentaire
+    if (await bouncer.with(CommentPolicy).denies('delete', comment)) {
+      return response.unauthorized({
+        message: "Vous n'êtes pas l'auteur de ce commentaire",
+      })
+    }
 
     await comment.delete()
     return response.noContent()

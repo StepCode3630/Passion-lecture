@@ -1,55 +1,55 @@
 import router from '@adonisjs/core/services/router'
-import AutoSwagger from 'adonis-autoswagger'
-import { middleware } from '#start/kernel'
-import swagger from '#config/swagger'
-
 const BooksController = () => import('#controllers/books_controller')
 const AuthorsController = () => import('#controllers/authors_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
-const CommentairesController = () => import('#controllers/comments_controller')
+const CommentsController = () => import('#controllers/comments_controller')
 const UsersController = () => import('#controllers/users_controller')
+import User from '#models/user'
+import { middleware } from '#start/kernel'
+import { validateHeaderValue } from 'http'
+const AuthController = () => import('#controllers/auth_controller')
+import { create } from 'domain'
+import swagger from '#config/swagger'
+import AutoSwagger from 'adonis-autoswagger'
 
-// Auth (login / register / logout)
-//router.post('/login', [AuthController, 'login'])
-//router.post('/register', [AuthController, 'register'])
-//router.delete('/logout', [AuthController, 'logout']).use(middleware.auth())
+router.group(() => {
+  // routes publique
+  router
+    .resource('books', BooksController)
+    .apiOnly()
+    .use(['store', 'update', 'destroy'], middleware.auth())
+  router.resource('authors', AuthorsController).apiOnly()
+  router.resource('categories', CategoriesController).apiOnly()
 
-// Routes publiques (lecture seule)
-router.get('/books', [BooksController, 'index'])
-router.get('/books/:id', [BooksController, 'show'])
-router.get('/authors', [AuthorsController, 'index'])
-router.get('/authors/:id', [AuthorsController, 'show'])
-router.get('/categories', [CategoriesController, 'index'])
-router.get('/categories/:id', [CategoriesController, 'show'])
-router.get('/commentaires', [CommentairesController, 'index'])
-router.get('/commentaires/:id', [CommentairesController, 'show'])
-
-// Route de test après CORS mis en place
-router.get('test', async () => {
-  return 'API is working!'
+  router
+    .group(() => {
+      router
+        .resource('comments', CommentsController)
+        .apiOnly()
+        .use(['store', 'destroy'], middleware.auth())
+    })
+    .prefix('books/:book_id')
 })
 
-// routes protégées necessite une connexion
+// routes protégées besoin d'auth
+router.resource('users', UsersController).apiOnly()
+
+//router
+/*
+  .group(() => {
+    router.resource('comments', CommentsByUserController).apiOnly()
+  })
+  .prefix('users/:userId')
+  .use(middleware.auth())
+  */
+
 router
   .group(() => {
-    // Books - bouncer vérifie les droits dans le controller
-    router.post('/books', [BooksController, 'store'])
-    router.put('/books/:id', [BooksController, 'update'])
-    router.delete('/books/:id', [BooksController, 'destroy'])
-
-    // pour les commentaires
-    router.post('/commentaires', [CommentairesController, 'store'])
-    router.put('/commentaires/:id', [CommentairesController, 'update'])
-    router.delete('/commentaires/:id', [CommentairesController, 'destroy'])
-
-    // que pour user et admin à voir dans le controller
-    router.get('/users', [UsersController, 'index'])
-    router.get('/users/:id', [UsersController, 'show'])
-    router.put('/users/:id', [UsersController, 'update'])
-    router.delete('/users/:id', [UsersController, 'destroy'])
+    router.post('register', [AuthController, 'register'])
+    router.post('login', [AuthController, 'login'])
+    router.post('logout', [AuthController, 'logout']).use(middleware.auth())
   })
-  // toutes les routes de ce groupe nécessitent une authentification
-  .use(middleware.auth())
+  .prefix('user')
 
 // Documentation Swagger
 router.get('swagger', async () => {
