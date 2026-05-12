@@ -8,29 +8,34 @@
 */
 
 import router from '@adonisjs/core/services/router'
-import BooksController from '#controllers/books_controller'
-import AuthorsController from '#controllers/authors_controller'
-import CategoriesController from '#controllers/categories_controller'
-import CommentairesController from '#controllers/commentaires_controller'
-import UsersController from '#controllers/users_controller'
+const BooksController = () => import('#controllers/books_controller')
+const AuthorsController = () => import('#controllers/authors_controller')
+const CategoriesController = () => import('#controllers/categories_controller')
+const CommentairesController = () => import('#controllers/commentaires_controller')
+const UsersController = () => import('#controllers/users_controller')
 import User from '#models/user'
 import { middleware } from '#start/kernel'
 import { validateHeaderValue } from 'http'
-import AuthController from '#controllers/auth_controller'
+const AuthController = () => import('#controllers/auth_controller')
 import { create } from 'domain'
 
 router.group(() => {
   // routes publique
-  router.resource('books', BooksController).apiOnly().use(['store'], middleware.auth())
+  router
+    .resource('books', BooksController)
+    .apiOnly()
+    .use(['store', 'update', 'destroy'], middleware.auth())
   router.resource('authors', AuthorsController).apiOnly()
   router.resource('categories', CategoriesController).apiOnly()
-  /*
-    router
-      .group(() => {
-        router.resource('commentaires', CommentsByBookController).apiOnly()
-      })
-      .prefix('books/:bookId')
-      */
+
+  router
+    .group(() => {
+      router
+        .resource('comments', CommentairesController)
+        .apiOnly()
+        .use(['store', 'destroy'], middleware.auth())
+    })
+    .prefix('books/:book_id')
 })
 
 // routes protégées besoin d'auth
