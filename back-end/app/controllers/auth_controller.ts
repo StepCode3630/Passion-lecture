@@ -23,18 +23,18 @@ export default class AuthController {
 
     return response.created(user)
   }
-}
 
-async function logout({ auth, response }: HttpContext) {
-  const user = auth.getUserOrFail()
+  async logout({ auth, response }: HttpContext) {
+    const user = auth.getUserOrFail()
 
-  const tokens = auth.user?.currentAccessToken.identifier
+    const tokens = auth.user?.currentAccessToken.identifier
 
-  if (!tokens) {
-    return response.badRequest('No active token found')
+    if (!tokens) {
+      return response.badRequest('No active token found')
+    }
+
+    await User.accessTokens.delete(user, tokens)
+
+    return response.ok({ message: 'Logged out successfully' })
   }
-
-  await User.accessTokens.delete(user, tokens)
-
-  return response.ok({ message: 'Logged out successfully' })
 }
