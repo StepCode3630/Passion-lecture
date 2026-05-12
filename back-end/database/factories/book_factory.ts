@@ -3,12 +3,30 @@ import Book from '#models/book'
 import Category from '#models/category'
 import Author from '#models/author'
 import User from '#models/user'
+import { AuthorFactory } from './author_factory.js'
+import { CategorieFactory } from './categorie_factory.js'
+import { UserFactory } from './user_factory.js'
 
 export const BookFactory = factory
   .define(Book, async ({ faker }) => {
-    const categories = await Category.all()
-    const authors = await Author.all()
-    const users = await User.all()
+    let categories = await Category.all()
+    let authors = await Author.all()
+    let users = await User.all()
+
+    if (!categories.length) {
+      await CategorieFactory.createMany(10)
+      categories = await Category.all()
+    }
+
+    if (!authors.length) {
+      await AuthorFactory.createMany(10)
+      authors = await Author.all()
+    }
+
+    if (!users.length) {
+      await UserFactory.createMany(10)
+      users = await User.all()
+    }
 
     return {
       titre: faker.book.title(),

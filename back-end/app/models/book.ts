@@ -32,13 +32,13 @@ export default class Book extends BaseModel {
   declare editeur: string
 
   @column()
-  declare categoryId: number
+  declare categoryId: number | null
 
   @column()
-  declare authorId: number
+  declare authorId: number | null
 
   @column()
-  declare userId: number
+  declare userId: number | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
