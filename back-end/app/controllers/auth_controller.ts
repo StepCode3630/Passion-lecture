@@ -10,16 +10,19 @@ export default class AuthController {
 
     const token = await User.accessTokens.create(user)
 
-    // Return the token and user data
+    // On renvoie le token utilisable côté client + les infos du user (sans le password)
     return response.ok({
-      type: token,
-      ...user.serialize(),
+      token: token.value!.release(),
+      user: user.serialize(),
     })
   }
+
   async register({ request, response }: HttpContext) {
     const payload = await request.validateUsing(registerValidator)
 
-    const user = await User.create(payload)
+    // On force toujours le rôle à "user" pour éviter qu'un visiteur ne s'auto-promeuve admin
+    // Les admins doivent être créés manuellement (UPDATE en BDD)
+    const user = await User.create({ ...payload, role: 'user' })
 
     return response.created(user)
   }
@@ -27,13 +30,13 @@ export default class AuthController {
   async logout({ auth, response }: HttpContext) {
     const user = auth.getUserOrFail()
 
-    const tokens = auth.user?.currentAccessToken.identifier
+    const tokenId = auth.user?.currentAccessToken.identifier
 
-    if (!tokens) {
-      return response.badRequest('No active token found')
+    if (!tokenId) {
+      return response.badRequest({ message: 'No active token found' })
     }
 
-    await User.accessTokens.delete(user, tokens)
+    await User.accessTokens.delete(user, tokenId)
 
     return response.ok({ message: 'Logged out successfully' })
   }

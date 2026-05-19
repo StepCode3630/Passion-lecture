@@ -7,21 +7,24 @@ meta {
 post {
   url: {{baseUrl}}/books
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "titre": "Harry Potter",
-    "image": "https://example.com/image.jpg",
-    "annee_publication": "2001-01-01",
+    "titre": "Harry Potter à l'école des sorciers",
+    "image": "https://example.com/hp1.jpg",
+    "annee_publication": 1997,
     "nb_page": 350,
     "lien_extrait": "https://example.com/extrait.pdf",
-    "resume": "Un jeune sorcier découvre...",
+    "resume": "Un jeune sorcier découvre Poudlard et ses mystères.",
     "editeur": "Gallimard",
-    "auteur_fk": 1,
-    "categorie_fk": 1,
-    "utilisateur_fk": 1
+    "authorId": 1,
+    "categoryId": 1
   }
 }
 

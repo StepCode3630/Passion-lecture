@@ -18,7 +18,7 @@ export default class BooksController {
     } = await request.validateUsing(getBooksQueryValidator)
 
     // Construit la requête avec les relations préchargées
-    // pas de await ,construit la requête, on l'exécute à la fin
+    // pas de await, construit la requête, on l'exécute à la fin
     const query = Book.query().preload('author').preload('category')
 
     // Filtre par catégorie
@@ -54,13 +54,18 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  /*
-  async store({ request, response }: HttpContext) {
+  /**
+   * Création d'un livre — le livre est associé à l'utilisateur connecté
+   */
+  async store({ request, response, auth }: HttpContext) {
     const data = await request.validateUsing(createBookValidator)
-    const book = await Book.create(data)
+    const book = await Book.create({ ...data, userId: auth.user!.id })
     return response.created(book)
   }
 
+  /**
+   * Affiche un livre avec ses relations préchargées
+   */
   async show({ params, response }: HttpContext) {
     const book = await Book.query()
       .where('id', params.id)
@@ -69,37 +74,41 @@ export default class BooksController {
       .preload('comments')
       .firstOrFail()
     return response.ok(book)
-  }*/
-
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request, response }: HttpContext) {
-    const { title, author, description, userId } = request.all()
-
-    const data = {
-      title,
-      author,
-      description,
-      userId,
-    }
-
-    return response.created(data)
   }
 
   /**
-   * Show individual record
+   * Modifier un livre — seul le propriétaire ou un admin peut le faire
    */
-  async show({ params, request, response }: HttpContext) {
+  async update({ params, request, response, auth }: HttpContext) {
     const book = await Book.findOrFail(params.id)
+    const user = auth.user!
+
+    // Règle métier : seul l'admin ou le propriétaire du livre peut modifier
+    if (user.role !== 'admin' && book.userId !== user.id) {
+      return response.forbidden({
+        message: "Vous n'êtes pas autorisé à modifier ce livre",
+      })
+    }
+
     const data = await request.validateUsing(updateBookValidator)
     book.merge(data)
     await book.save()
     return response.ok(book)
   }
 
-  async destroy({ params, response }: HttpContext) {
+  /**
+   * Supprimer un livre — seul le propriétaire ou un admin peut le faire
+   */
+  async destroy({ params, response, auth }: HttpContext) {
     const book = await Book.findOrFail(params.id)
+    const user = auth.user!
+
+    if (user.role !== 'admin' && book.userId !== user.id) {
+      return response.forbidden({
+        message: "Vous n'êtes pas autorisé à supprimer ce livre",
+      })
+    }
+
     await book.delete()
     return response.noContent()
   }

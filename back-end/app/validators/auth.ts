@@ -17,7 +17,8 @@ export const registerValidator = vine.compile(
         const user = await db.from('users').where('email', value).first()
         return !user
       }),
-    role: vine.enum(['admin', 'user']),
+    // correction : rend le role optionnel pour permettre la création d'utilisateurs sans spécifier de rôle, et on valide que s'il est fourni, il doit être soit 'admin' soit 'user'
+    role: vine.enum(['admin', 'user']).optional(),
     password: vine.string().minLength(10),
   })
 )

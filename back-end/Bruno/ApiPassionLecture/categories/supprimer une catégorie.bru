@@ -5,9 +5,13 @@ meta {
 }
 
 delete {
-  url: {{baseUrl}}/categories/11
+  url: {{baseUrl}}/categories/1
   body: none
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 settings {

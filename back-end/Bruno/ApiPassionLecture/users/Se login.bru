@@ -7,14 +7,19 @@ meta {
 post {
   url: {{baseUrl}}/user/login
   body: json
-  auth: inherit
+  auth: none
 }
 
 body:json {
   {
-      "fullName": "Maxime",
-      "email": "max@ime.test",
-      "password": "12345678"
+    "email": "admin@test.com",
+    "password": "motdepasse1234"
+  }
+}
+
+script:post-response {
+  if (res.body && res.body.token) {
+    bru.setEnvVar("token", res.body.token);
   }
 }
 

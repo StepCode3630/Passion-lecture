@@ -12,6 +12,5 @@
 |
 */
 
-export const policies = {
-  CommentPolicy: () => import('#policies/comment_policy'),
-}
+// on ne charge plus comment policies car on gère les droits d'accès à la suppression de commentaires directement dans le CommentsController (seul un admin peut supprimer un commentaire)
+export const policies = {}

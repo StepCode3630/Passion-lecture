@@ -1,5 +1,5 @@
 meta {
-  name: mettre a jour  une catégorie
+  name: mettre a jour une catégorie
   type: http
   seq: 4
 }
@@ -7,15 +7,16 @@ meta {
 put {
   url: {{baseUrl}}/categories/1
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "id": 11,
-    "name": "r2",
-    "createdAt": "2026-05-05T13:54:02.000+00:00",
-    "updatedAt": "2026-05-05T13:54:02.000+00:00"
+    "name": "Roman policier"
   }
 }
 

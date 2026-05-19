@@ -63,11 +63,13 @@ export default class AuthorsController {
   }
 
   // validator
+  // correction : on utilise createAuthorValidator pour valider les données d'entrée lors de la création d'un auteur
   async store({ request, response, auth }: HttpContext) {
+    if (auth.user!.role !== 'admin') {
+      return response.forbidden({ message: 'Seul un administrateur peut créer un auteur' })
+    }
     const data = await request.validateUsing(createAuthorValidator)
-    // quand la validation n est pas ok adonis envoit 422
-    // si ca passe : les data sont propre
-    const author = await Author.create({ ...data, id: auth.user!.id })
+    const author = await Author.create(data)
     return response.created(author)
   }
 }

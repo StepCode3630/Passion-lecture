@@ -27,12 +27,6 @@ export default class Comment extends BaseModel {
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
 
-  @column()
-  declare userId: Number | null
-
-  @column()
-  declare bookId: Number | null
-
   // relation
   @belongsTo(() => User, { foreignKey: 'userId' })
   declare user: BelongsTo<typeof User>

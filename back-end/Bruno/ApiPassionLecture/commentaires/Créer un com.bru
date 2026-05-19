@@ -5,18 +5,19 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/commentaires
+  url: {{baseUrl}}/books/1/comments
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "id": 11,
-    "message": "Salam",
-    "etoile": 1,
-    "createdAt": "2026-05-04T11:22:32.000+00:00",
-    "updatedAt": "2026-05-04T11:22:32.000+00:00"
+    "message": "Excellent livre, j'ai adoré !",
+    "etoile": 5
   }
 }
 

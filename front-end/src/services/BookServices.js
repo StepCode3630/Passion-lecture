@@ -1,12 +1,22 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  // On pointe vers l'adresse de JSON Server
-  baseURL: 'http://localhost:3000',
+  // On pointe vers l'adresse de Adonis server
+  baseURL: 'http://localhost:3333',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+})
+
+// ajout d'un interceptor pour inclure le token d'authentification dans les requêtes
+// sans l interceptor, le token ne serait pas envoyé et les routes protégées par auth ne fonctionneraient pas
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
 })
 
 export default {

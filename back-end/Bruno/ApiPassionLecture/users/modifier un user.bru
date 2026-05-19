@@ -7,15 +7,17 @@ meta {
 put {
   url: {{baseUrl}}/users/1
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "nom": "Chat",
-    "email": "chat@example.com",
-    "mot_de_passe": "secret123",
-    "role": "user"
+    "fullName": "Camille",
+    "email": "camille@example.com"
   }
 }
 
