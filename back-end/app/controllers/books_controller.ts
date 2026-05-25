@@ -54,10 +54,15 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  /*
-  async store({ request, response }: HttpContext) {
+  
+  async store({ request, response, auth }: HttpContext) {
     const data = await request.validateUsing(createBookValidator)
-    const book = await Book.create(data)
+    const book = await Book.create({
+      ...data,
+      userId: auth.user!.id,
+    })
+    await book.load('author')
+    await book.load('category')
     return response.created(book)
   }
 
@@ -66,40 +71,38 @@ export default class BooksController {
       .where('id', params.id)
       .preload('author')
       .preload('category')
-      .preload('comments')
+      .preload('comments', (commentQuery) => {
+        commentQuery.preload('user')
+      })
       .firstOrFail()
     return response.ok(book)
-  }*/
-
-  /**
-   * Handle form submission for the create action
-   */
-  async store({ request, response }: HttpContext) {
-    const { title, author, description, userId } = request.all()
-
-    const data = {
-      title,
-      author,
-      description,
-      userId,
-    }
-
-    return response.created(data)
   }
 
   /**
    * Show individual record
    */
-  async show({ params, request, response }: HttpContext) {
+  async update({ params, request, response, bouncer }: HttpContext) {
     const book = await Book.findOrFail(params.id)
+
+    if (await bouncer.denies('editBook', book)) {
+      return response.forbidden({ message: "Vous n'avez pas le droit de modifier ce livre" })
+    }
+
     const data = await request.validateUsing(updateBookValidator)
     book.merge(data)
     await book.save()
+    await book.load('author')
+    await book.load('category')
     return response.ok(book)
   }
 
-  async destroy({ params, response }: HttpContext) {
+  async destroy({ params, response, bouncer }: HttpContext) {
     const book = await Book.findOrFail(params.id)
+
+    if (await bouncer.denies('deleteBook', book)) {
+      return response.forbidden({ message: "Vous n'avez pas le droit de supprimer ce livre" })
+    }
+
     await book.delete()
     return response.noContent()
   }
