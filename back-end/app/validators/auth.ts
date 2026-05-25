@@ -17,7 +17,6 @@ export const registerValidator = vine.compile(
         const user = await db.from('users').where('email', value).first()
         return !user
       }),
-    role: vine.enum(['admin', 'user']),
     password: vine.string().minLength(10),
   })
 )
