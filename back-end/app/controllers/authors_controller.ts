@@ -67,7 +67,7 @@ export default class AuthorsController {
     const data = await request.validateUsing(createAuthorValidator)
     // quand la validation n est pas ok adonis envoit 422
     // si ca passe : les data sont propre
-    const author = await Author.create({ ...data, id: auth.user!.id })
+    const author = await Author.create(data)
     return response.created(author)
   }
 }
