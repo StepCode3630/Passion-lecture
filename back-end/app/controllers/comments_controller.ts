@@ -61,7 +61,17 @@ export default class CommentsController {
     return response.ok(comment)
   }
 
+  async update({ params, request, response, bouncer }: HttpContext) {
+    const comment = await Comment.query()
+      .where('id', params.id)
+      .where('book_id', params.book_id)
+      .firstOrFail()
 
+    if (await bouncer.with(CommentPolicy).denies('update', comment)) {
+      return response.forbidden({
+        message: "Vous n'êtes pas l'auteur de ce commentaire",
+      })
+    }
 
     const data = await request.validateUsing(createCommentValidator)
     await comment.merge(data).save()
