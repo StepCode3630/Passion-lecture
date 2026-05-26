@@ -1,10 +1,10 @@
 <template>
   <div v-if="book" class="detail-page">
-    <h1 class="main-title">Detail de {{ book.title }}</h1>
+    <h1 class="main-title">Detail de {{ book.titre }}</h1>
 
     <section class="top-section">
       <div class="cover-column">
-        <img :src="book.imagePath" :alt="book.title" class="book-cover" />
+        <img :src="book.image" :alt="book.titre" class="book-cover" />
         <div class="stars-row">
           <span class="avereage-number">{{ averageRating }}</span>
           <span class="star">★</span>
@@ -14,26 +14,26 @@
       <div class="info-column">
         <div class="info-group">
           <span class="label">Auteur</span>
-          <span class="value">{{ book.writer.firstname }} {{ book.writer.lastname }}</span>
+          <span class="value">{{ book.author.firstName }} {{ book.author.lastName }}</span>
         </div>
         <div class="info-group">
           <span class="label">Editeur</span>
-          <span class="value">{{ book.editor }}</span>
+          <span class="value">{{ book.editeur }}</span>
         </div>
         <div class="info-group">
           <span class="label">Année</span>
-          <span class="value">{{ book.editionYear }}</span>
+          <span class="value">{{ book.anneePublication }}</span>
         </div>
         <div class="info-group">
           <span class="label">categorie</span>
-          <span class="value">{{ book.category.label }}</span>
+          <span class="value">{{ book.category.name }}</span>
         </div>
         <div class="info-group">
           <span class="label">Nombre de pages</span>
-          <span class="value">{{ book.numberOfPages }}</span>
+          <span class="value">{{ book.nbPage }}</span>
         </div>
 
-        <a :href="book.pdfLink" target="_blank" class="extrait-link">Extrait</a>
+        <a :href="book.lienExtrait" target="_blank" class="extrait-link">Extrait</a>
       </div>
     </section>
 
@@ -103,7 +103,10 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BookServices from '@/services/BookServices'
+// import BookServices from '@/services/BookServices'
+import { getBookById } from '../../api/api_book'
+import { addComment } from '../../api/api_comment'
+import { getComments } from '../../api/api_comment'
 
 const route = useRoute()
 const book = ref(null)
@@ -115,49 +118,56 @@ const commentText = ref('')
 const commentStars = ref(5)
 const isSubmitting = ref(false)
 
-// Fonction pour charger les commentaires et les filtrer manuellement (évite les bugs de JSON Server avec les Strings)
-const loadComments = async () => {
-  try {
-    const response = await BookServices.getComments()
-    // On filtre ici pour être sûr que "3" (URL) corresponde à "3" (DB)
-    comments.value = response.data.filter((c) => String(c.bookId) === String(route.params.id))
-  } catch (error) {
-    console.error('Erreur chargement commentaires:', error)
-  }
-}
+// // Fonction pour charger les commentaires et les filtrer manuellement (évite les bugs de JSON Server avec les Strings)
+// const loadComments = async () => {
+//   try {
+//     const response = await BookServices.getComments()
+//     // On filtre ici pour être sûr que "3" (URL) corresponde à "3" (DB)
+//     comments.value = response.data.filter((c) => String(c.bookId) === String(route.params.id))
+//   } catch (error) {
+//     console.error('Erreur chargement commentaires:', error)
+//   }
+// }
 
 onMounted(async () => {
   const id = route.params.id
   try {
-    const bookResponse = await BookServices.getBook(id)
-    book.value = bookResponse.data
-    await loadComments()
+    const bookResponse = await getBookById(id)
+    book.value = bookResponse
+
+    // await loadComments()
   } catch (error) {
     console.error('Erreur chargement livre:', error)
   }
 })
+
+const loadComments = async () => {
+  comments.value = await getComments(route.params.id)
+}
 
 // Envoyer le commentaire
 const submitComment = async () => {
   if (!commentText.value.trim()) return
 
   isSubmitting.value = true
+
   const newComment = {
-    bookId: String(route.params.id), // On garde le format String avec guillemets
-    username: "Nom de l'utilisateur",
     stars: parseInt(commentStars.value),
     text: commentText.value,
-    createdAt: new Date().toISOString(),
   }
 
   try {
-    await BookServices.addComment(newComment)
+    await addComment(route.params.id, newComment)
+
     commentText.value = ''
-    showModal.value = false // Fermer la pop-up
-    await loadComments() // Rafraîchir la liste
-    // eslint-disable-next-line no-unused-vars
+
+    showModal.value = false
+
+    await loadComments()
   } catch (error) {
-    alert("Problème lors de l'envoi du commentaire.")
+    console.error(error)
+
+    alert("Erreur lors de l'envoie du commentaire:(")
   } finally {
     isSubmitting.value = false
   }
