@@ -6,7 +6,7 @@
       <div class="cover-column">
         <img :src="book.image" :alt="book.titre" class="book-cover" />
         <div class="stars-row">
-          <!-- <span class="avereage-number">{{ averageRating }}</span> -->
+          <span class="avereage-number">{{ averageRating }}</span>
           <span class="star">★</span>
         </div>
       </div>
@@ -37,7 +37,7 @@
       </div>
     </section>
 
-    <!-- <section class="bottom-section">
+    <section class="bottom-section">
       <div class="comments-column">
         <button class="btn-action" @click="showModal = true">Ajouter un commentaire ?</button>
 
@@ -90,7 +90,9 @@
           <button @click="submitComment" :disabled="isSubmitting" class="btn-action">
             {{ isSubmitting ? 'Envoi...' : 'Poster' }}
           </button>
-        </div> -->
+        </div>
+      </div>
+    </div>
   </div>
 
   <div v-else class="loading">
@@ -103,6 +105,8 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 // import BookServices from '@/services/BookServices'
 import { getBookById } from '../../api/api_book'
+import { addComment } from '../../api/api_comment'
+import { getComments } from '../../api/api_comment'
 
 const route = useRoute()
 const book = ref(null)
@@ -137,27 +141,33 @@ onMounted(async () => {
   }
 })
 
+const loadComments = async () => {
+  comments.value = await getComments(route.params.id)
+}
+
 // Envoyer le commentaire
 const submitComment = async () => {
   if (!commentText.value.trim()) return
 
   isSubmitting.value = true
+
   const newComment = {
-    bookId: String(route.params.id), // On garde le format String avec guillemets
-    username: "Nom de l'utilisateur",
     stars: parseInt(commentStars.value),
     text: commentText.value,
-    createdAt: new Date().toISOString(),
   }
 
   try {
-    await BookServices.addComment(newComment)
+    await addComment(route.params.id, newComment)
+
     commentText.value = ''
-    showModal.value = false // Fermer la pop-up
-    await loadComments() // Rafraîchir la liste
-    // eslint-disable-next-line no-unused-vars
+
+    showModal.value = false
+
+    await loadComments()
   } catch (error) {
-    alert("Problème lors de l'envoi du commentaire.")
+    console.error(error)
+
+    alert("Erreur lors de l'envoie du commentaire:(")
   } finally {
     isSubmitting.value = false
   }
