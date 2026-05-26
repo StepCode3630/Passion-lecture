@@ -1,12 +1,20 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  // On pointe vers l'adresse de JSON Server
   baseURL: 'http://localhost:3333',
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
+})
+
+// Avant chaque requête, on ajoute le token si on en a un
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
 })
 
 export default {
@@ -15,35 +23,27 @@ getBooks(params = {}) {
   return apiClient.get('/books', { params })
 },
 
-  // Récupérer un livre spécifique (GET api/books/:id)
   getBook(id) {
     return apiClient.get('/books/' + id)
   },
 
-  // Ajouter un livre (POST api/books/)
-  // bookData est l'objet { titre, auteur, user, image }
   addBook(bookData) {
     return apiClient.post('/books', bookData)
   },
 
-  // Modifier un livre (PUT api/books/:id)
   updateBook(id, bookData) {
     return apiClient.put('/books/' + id, bookData)
   },
 
-  // Supprimer un livre (DELETE api/books/:id)
   deleteBook(id) {
     return apiClient.delete('/books/' + id)
   },
-  // dans objet export defaut
-  async addComment(commentData) {
-    // Envoie le commentaire vers http://localhost:3000/comments
-    return apiClient.post('/comments', commentData)
+
+  getComments(bookId) {
+    return apiClient.get('/books/' + bookId + '/comments')
   },
 
-  // src/services/BookServices.js
-  // src/services/BookServices.js
-  getComments() {
-    return apiClient.get('/comments')
+  addComment(bookId, commentData) {
+    return apiClient.post('/books/' + bookId + '/comments', commentData)
   },
 }

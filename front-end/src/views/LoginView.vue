@@ -37,10 +37,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import AuthService from '@/services/AuthService'
+import { login } from '../../api/api_auth'
 
 const router = useRouter()
-
 const isSubmitting = ref(false)
 
 const form = ref({
@@ -73,15 +72,13 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    const response = await AuthService.login(form.value.email, form.value.password)
-
-    // On sauvegarde le token et les infos utilisateur dans le localStorage
-    localStorage.setItem('token', response.data.type.token)
+    const data = await login(form.value.email, form.value.password)
+    localStorage.setItem('token', data.type.token)
     localStorage.setItem('user', JSON.stringify({
-      id: response.data.id,
-      fullName: response.data.fullName,
-      email: response.data.email,
-      role: response.data.role,
+      id: data.id,
+      fullName: data.fullName,
+      email: data.email,
+      role: data.role,
     }))
 
     router.push('/')
@@ -101,14 +98,12 @@ const submit = async () => {
   padding: 40px 20px;
   font-family: 'Courier New', Courier, monospace;
 }
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 20px;
   margin-bottom: 30px;
 }
-
 .btn-back {
   background: none;
   border: 1px solid #333;
@@ -117,45 +112,38 @@ const submit = async () => {
   cursor: pointer;
   font-family: inherit;
 }
-
 .form-container {
   border: 2px solid #333;
   padding: 40px;
   border-radius: 20px;
   background: #fff;
 }
-
 .row {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
-
 label {
   font-weight: bold;
   margin-bottom: 8px;
   text-decoration: underline;
 }
-
 input {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
 }
-
 .error {
   color: #d9534f;
   font-size: 0.85rem;
   margin-top: 5px;
   font-weight: bold;
 }
-
 .actions {
   margin-top: 30px;
   text-align: right;
 }
-
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -164,9 +152,12 @@ input {
   cursor: pointer;
   font-weight: bold;
 }
-
 .btn-action:disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+.register-link {
+  margin-top: 20px;
+  text-align: center;
 }
 </style>

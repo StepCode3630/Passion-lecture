@@ -18,6 +18,7 @@ router.group(() => {
 
   router.get('/authors', [AuthorsController, 'index'])
   router.get('/author/:id', [AuthorsController, 'show'])
+  router.post('/authors', [AuthorsController, 'store']).use(middleware.auth())
 
   router.get('/categories', [CategoriesController, 'index'])
   router.get('/categorie/:id', [CategoriesController, 'show'])

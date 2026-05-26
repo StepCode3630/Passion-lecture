@@ -51,10 +51,9 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import AuthService from '@/services/AuthService'
+import { register } from '../../api/api_auth'
 
 const router = useRouter()
-
 const isSubmitting = ref(false)
 
 const form = ref({
@@ -99,7 +98,7 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    await AuthService.register(form.value.fullName, form.value.email, form.value.password)
+    await register(form.value.fullName, form.value.email, form.value.password)
 
     alert('Compte créé avec succès !')
     router.push({ name: 'profile' })
@@ -123,14 +122,12 @@ const submit = async () => {
   padding: 40px 20px;
   font-family: 'Courier New', Courier, monospace;
 }
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 20px;
   margin-bottom: 30px;
 }
-
 .btn-back {
   background: none;
   border: 1px solid #333;
@@ -138,45 +135,38 @@ const submit = async () => {
   border-radius: 10px;
   cursor: pointer;
 }
-
 .form-container {
   border: 2px solid #333;
   padding: 40px;
   border-radius: 20px;
   background: #fff;
 }
-
 .row {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
-
 label {
   font-weight: bold;
   margin-bottom: 8px;
   text-decoration: underline;
 }
-
 input {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
 }
-
 .error {
   color: #d9534f;
   font-size: 0.85rem;
   margin-top: 5px;
   font-weight: bold;
 }
-
 .actions {
   margin-top: 30px;
   text-align: right;
 }
-
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -185,7 +175,10 @@ input {
   cursor: pointer;
   font-weight: bold;
 }
-
+.btn-action:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 .login-link {
   margin-top: 20px;
   text-align: center;

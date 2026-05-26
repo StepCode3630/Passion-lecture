@@ -65,9 +65,7 @@ const maxScroll = ref(0) // Valeur maximale de scroll possible
 // 2. Chargement des données au montage du composant
 onMounted(async () => {
   try {
-    const response = await getAllBooks()
-
-    books.value = response.data
+    books.value = await getAllBooks()
 
     // On attend un petit peu que le DOM se dessine pour calculer le scroll max
     setTimeout(() => {

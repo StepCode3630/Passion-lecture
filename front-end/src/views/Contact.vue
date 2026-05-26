@@ -48,6 +48,7 @@
 </template>
 
 <script setup>
+defineOptions({ name: 'ContactPage' })
 import { ref } from 'vue'
 
 const form = ref({

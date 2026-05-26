@@ -15,7 +15,6 @@ export default class AuthorsController {
 
     const query = Author.query()
 
-    // Recherche dans nom et prénom
     if (search) {
       query.where((subQuery) => {
         subQuery.whereILike('last_name', `%${search}%`).orWhereILike('first_name', `%${search}%`)
@@ -32,43 +31,14 @@ export default class AuthorsController {
     return response.ok(authors)
   }
 
-  /**
-   * Show individual record
-   */
   async show({ params }: HttpContext) {
     const author = await Author.findOrFail(params.id)
     return author
   }
 
-  //A supprimer
-  // /**
-  //  * Handle form submission for the edit action
-  //  */
-  // async update({ params, request }: HttpContext) {
-  //   const data = request.all()
-  //   const author = await Author.findOrFail(params.id)
-
-  //   author.merge(data)
-  //   await author.save()
-
-  //   return author
-  // }
-
-  // /**
-  //  * Delete record
-  //  */
-  // async destroy({ params }: HttpContext) {
-  //   const author = await Author.findOrFail(params.id)
-  //   await author.delete()
-  //   return author
-  // }
-
-  // // validator
-  // async store({ request, response, auth }: HttpContext) {
-  //   const data = await request.validateUsing(createAuthorValidator)
-  //   // quand la validation n est pas ok adonis envoit 422
-  //   // si ca passe : les data sont propre
-  //   const author = await Author.create(data)
-  //   return response.created(author)
-  // }
+  async store({ request, response }: HttpContext) {
+    const data = await request.validateUsing(createAuthorValidator)
+    const author = await Author.create(data)
+    return response.created(author)
+  }
 }
