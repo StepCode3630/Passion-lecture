@@ -8,9 +8,9 @@
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
-          <label>Nom d'utilisateur *</label>
-          <input v-model.trim="form.username" type="text" placeholder="Votre identifiant" />
-          <p v-if="errors.username" class="error">{{ errors.username }}</p>
+          <label>Email *</label>
+          <input v-model.trim="form.email" type="email" placeholder="votre@email.com" />
+          <p v-if="errors.email" class="error">{{ errors.email }}</p>
         </div>
 
         <div class="row">
@@ -37,13 +37,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AuthService from '@/services/AuthService'
 
 const router = useRouter()
 
 const isSubmitting = ref(false)
 
 const form = ref({
-  username: '',
+  email: '',
   password: '',
 })
 
@@ -53,8 +54,8 @@ const validateForm = () => {
   errors.value = {}
   let valid = true
 
-  if (!form.value.username) {
-    errors.value.username = "Le nom d'utilisateur est requis."
+  if (!form.value.email) {
+    errors.value.email = "L'email est requis."
     valid = false
   }
 
@@ -72,15 +73,21 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    // Simulation connexion (à remplacer par ton service Auth)
-    if (form.value.username === 'admin' && form.value.password === 'admin') {
-      router.push('/')
-    } else {
-      alert('Identifiants incorrects')
-    }
+    const response = await AuthService.login(form.value.email, form.value.password)
+
+    // On sauvegarde le token et les infos utilisateur dans le localStorage
+    localStorage.setItem('token', response.data.type.token)
+    localStorage.setItem('user', JSON.stringify({
+      id: response.data.id,
+      fullName: response.data.fullName,
+      email: response.data.email,
+      role: response.data.role,
+    }))
+
+    router.push('/')
   } catch (error) {
     console.error(error)
-    alert('Erreur de connexion')
+    alert('Email ou mot de passe incorrect.')
   } finally {
     isSubmitting.value = false
   }

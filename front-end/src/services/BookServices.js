@@ -11,9 +11,9 @@ const apiClient = axios.create({
 
 export default {
   // Récupérer tous les livres (GET api/books/)
-  getBooks() {
-    return apiClient.get('/books')
-  },
+getBooks(params = {}) {
+  return apiClient.get('/books', { params })
+},
 
   // Récupérer un livre spécifique (GET api/books/:id)
   getBook(id) {

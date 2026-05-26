@@ -14,6 +14,7 @@ export default class BooksController {
       order = 'desc',
       categoryId,
       authorId,
+      userId,
       search,
     } = await request.validateUsing(getBooksQueryValidator)
 
@@ -29,6 +30,10 @@ export default class BooksController {
     // Filtre par auteur
     if (authorId) {
       query.where('author_id', authorId)
+    }
+    // filtre par utilisateur
+    if (userId) {
+      query.where('user_id', userId)
     }
 
     // Recherche dans titre, éditeur et résumé
