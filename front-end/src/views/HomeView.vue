@@ -21,11 +21,11 @@
                 class="book-card-link"
               >
                 <div class="card-content">
-                  <img :src="livre.lienExtrait" :alt="livre.titre" class="cover" />
+                  <img :src="livre.image" :alt="livre.titre" class="cover" />
 
                   <div class="info-overlay">
                     <h3 class="title">{{ livre.titre }}</h3>
-                    <p class="author">{{ livre.author.firstname + ' ' + livre.author.lastname }}</p>
+                    <p class="author">{{ livre.author.firstName + ' ' + livre.author.lastName }}</p>
 
                     <div class="hover-details">
                       <div class="stars-row">
