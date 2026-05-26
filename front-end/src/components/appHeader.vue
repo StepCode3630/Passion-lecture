@@ -140,11 +140,13 @@ const handleLogout = async () => {
   align-items: center;
   gap: 15px;
 }
+
 .user-name {
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
   color: #fff;
 }
+
 .btn-logout {
   background-color: #6b746a;
   color: white;

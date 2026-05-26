@@ -8,6 +8,7 @@ export const getBooksQueryValidator = vine.compile(
     order: vine.string().in(['asc', 'desc']).optional(),
     categoryId: vine.number().optional(),
     authorId: vine.number().optional(),
+    userId: vine.number().optional(),
     search: vine.string().trim().minLength(1).optional(),
   })
 )

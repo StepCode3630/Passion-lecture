@@ -18,9 +18,10 @@ apiClient.interceptors.request.use((config) => {
 })
 
 export default {
-  getBooks(params = {}) {
-    return apiClient.get('/books', { params })
-  },
+  // Récupérer tous les livres (GET api/books/)
+getBooks(params = {}) {
+  return apiClient.get('/books', { params })
+},
 
   getBook(id) {
     return apiClient.get('/books/' + id)

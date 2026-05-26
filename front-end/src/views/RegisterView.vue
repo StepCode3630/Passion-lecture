@@ -104,7 +104,11 @@ const submit = async () => {
     router.push({ name: 'profile' })
   } catch (error) {
     console.error(error)
-    alert('Erreur lors de la création du compte.')
+    if (error.response?.data?.messages) {
+      alert(error.response.data.messages[0]?.message || 'Erreur lors de la création du compte.')
+    } else {
+      alert('Erreur lors de la création du compte.')
+    }
   } finally {
     isSubmitting.value = false
   }
