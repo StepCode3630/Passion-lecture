@@ -8,9 +8,9 @@
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
-          <label>Nom d'utilisateur *</label>
-          <input v-model.trim="form.username" type="text" />
-          <p v-if="errors.username" class="error">{{ errors.username }}</p>
+          <label>Nom complet *</label>
+          <input v-model.trim="form.fullName" type="text" />
+          <p v-if="errors.fullName" class="error">{{ errors.fullName }}</p>
         </div>
 
         <div class="row">
@@ -51,13 +51,13 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { register } from '../../api/api_auth'
 
 const router = useRouter()
-
 const isSubmitting = ref(false)
 
 const form = ref({
-  username: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -69,18 +69,18 @@ const validateForm = () => {
   errors.value = {}
   let valid = true
 
-  if (!form.value.username) {
-    errors.value.username = "Le nom d'utilisateur est requis."
+  if (!form.value.fullName) {
+    errors.value.fullName = 'Le nom complet est requis.'
     valid = false
   }
 
   if (!form.value.email) {
-    errors.value.email = 'Email requis.'
+    errors.value.email = "L'email est requis."
     valid = false
   }
 
   if (!form.value.password) {
-    errors.value.password = 'Mot de passe requis.'
+    errors.value.password = 'Le mot de passe est requis.'
     valid = false
   }
 
@@ -98,23 +98,13 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    const newUser = {
-      id: 'user_' + Date.now(),
-      username: form.value.username,
-      email: form.value.email,
-      password: form.value.password,
-      role: 'user',
-      createdAt: new Date().toISOString(),
-    }
-
-    console.log('Utilisateur créé :', newUser)
+    await register(form.value.fullName, form.value.email, form.value.password)
 
     alert('Compte créé avec succès !')
-
     router.push({ name: 'profile' })
   } catch (error) {
     console.error(error)
-    alert('Erreur lors de la création du compte')
+    alert('Erreur lors de la création du compte.')
   } finally {
     isSubmitting.value = false
   }
@@ -128,14 +118,12 @@ const submit = async () => {
   padding: 40px 20px;
   font-family: 'Courier New', Courier, monospace;
 }
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 20px;
   margin-bottom: 30px;
 }
-
 .btn-back {
   background: none;
   border: 1px solid #333;
@@ -143,45 +131,38 @@ const submit = async () => {
   border-radius: 10px;
   cursor: pointer;
 }
-
 .form-container {
   border: 2px solid #333;
   padding: 40px;
   border-radius: 20px;
   background: #fff;
 }
-
 .row {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
-
 label {
   font-weight: bold;
   margin-bottom: 8px;
   text-decoration: underline;
 }
-
 input {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
 }
-
 .error {
   color: #d9534f;
   font-size: 0.85rem;
   margin-top: 5px;
   font-weight: bold;
 }
-
 .actions {
   margin-top: 30px;
   text-align: right;
 }
-
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -190,7 +171,10 @@ input {
   cursor: pointer;
   font-weight: bold;
 }
-
+.btn-action:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 .login-link {
   margin-top: 20px;
   text-align: center;
