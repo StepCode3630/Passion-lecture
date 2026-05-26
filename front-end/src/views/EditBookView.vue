@@ -8,7 +8,7 @@
     <div class="edit-container">
       <div class="image-section">
         <div class="image-wrapper" @click="promptImageUrl">
-          <img :src="form.imagePath" :alt="form.title" class="current-cover" />
+          <img :src="form.image" :alt="form.titre" class="current-cover" />
           <div class="image-hover-overlay">
             <span class="pencil-icon">✏️</span>
             <p>Modifier l'image</p>
@@ -20,49 +20,37 @@
       <form class="form" @submit.prevent="updateBook">
         <div class="row">
           <label>Titre *</label>
-          <input v-variable v-model.trim="form.title" type="text" />
+          <input v-model.trim="form.titre" type="text" />
         </div>
 
         <div class="row row-half">
           <div class="col">
-            <label>Prénom Auteur</label>
-            <input v-model.trim="form.writer.firstname" type="text" />
-          </div>
-          <div class="col">
-            <label>Nom Auteur</label>
-            <input v-model.trim="form.writer.lastname" type="text" />
-          </div>
-        </div>
-
-        <div class="row row-half">
-          <div class="row">
             <label>Catégorie *</label>
-
             <select v-model="form.categoryId" class="custom-select">
               <option v-for="cat in categories" :key="cat.id" :value="cat.id">
-                {{ cat.label }}
+                {{ cat.name }}
               </option>
             </select>
           </div>
           <div class="col">
             <label>Année Édition</label>
-            <input v-model.number="form.editionYear" type="number" />
+            <input v-model.number="form.annee_publication" type="number" />
           </div>
         </div>
 
         <div class="row">
           <label>Résumé *</label>
-          <textarea v-model.trim="form.abstract" rows="6"></textarea>
+          <textarea v-model.trim="form.resume" rows="6"></textarea>
         </div>
 
         <div class="row">
           <label>Éditeur</label>
-          <input v-model.trim="form.editor" type="text" />
+          <input v-model.trim="form.editeur" type="text" />
         </div>
 
         <div class="row">
           <label>Lien PDF (Extrait)</label>
-          <input v-model.trim="form.pdfLink" type="url" />
+          <input v-model.trim="form.lien_extrait" type="url" />
         </div>
 
         <div class="actions">
@@ -86,58 +74,45 @@ const route = useRoute()
 const router = useRouter()
 const isSaving = ref(false)
 const form = ref(null)
-
 const categories = ref([])
 
-// 1. Charger les données existantes au montage
 onMounted(async () => {
   try {
     const response = await BookServices.getBook(route.params.id)
     form.value = response.data
-    // load categories even if the book request succeeds; failures are
-    // non-fatal (we can still edit the record, but the dropdown will be
-    // empty).
+
     try {
       const catResponse = await CategorieServices.getCategories()
-      categories.value = catResponse.data
+      categories.value = catResponse.data.data ?? catResponse.data
     } catch (catErr) {
-      console.error('Erreur chargement catégories dans édition :', catErr)
-      // leave categories empty so the select still renders, user can
-      // at least see the existing category label from form.value.category
+      console.error('Erreur chargement catégories:', catErr)
     }
-  } catch (error) {
+  } catch{
     alert('Impossible de charger les données du livre.')
     router.push('/')
   }
 })
 
-// 2. Fonction pour changer l'image via un prompt
 const promptImageUrl = () => {
-  const newUrl = prompt("Entrez la nouvelle URL de l'image :", form.value.imagePath)
+  const newUrl = prompt("Entrez la nouvelle URL de l'image :", form.value.image)
   if (newUrl && newUrl.trim() !== '') {
-    form.value.imagePath = newUrl.trim()
+    form.value.image = newUrl.trim()
   }
 }
 
-// 3. Envoyer les modifications au serveur (PUT)
 const updateBook = async () => {
   isSaving.value = true
 
-  // On met à jour la date de modification
-  form.value.updatedAt = new Date().toISOString()
-
   try {
-    // Dans BookServices, créez une méthode updateBook(id, data) { return apiClient.put('/books/'+id, data) }
-    // Ensure the nested category object stays in sync with the flat id field
-    form.value.category = {
-      id: form.value.categoryId,
-      label:
-        categories.value.find((cat) => cat.id === form.value.categoryId)?.label ||
-        form.value.category?.label ||
-        '',
-    }
-
-    await BookServices.updateBook(form.value.id, form.value)
+    await BookServices.updateBook(form.value.id, {
+      titre: form.value.titre,
+      resume: form.value.resume,
+      editeur: form.value.editeur,
+      annee_publication: form.value.annee_publication,
+      lien_extrait: form.value.lien_extrait || undefined,
+      image: form.value.image || undefined,
+      categoryId: form.value.categoryId,
+    })
     alert('Ouvrage mis à jour avec succès !')
     router.push({ name: 'book-details', params: { id: form.value.id } })
   } catch (error) {
@@ -171,20 +146,15 @@ const updateBook = async () => {
   font-family: inherit;
   transition: 0.2s all;
 }
-
 .btn-back:hover {
   background-color: #333;
   color: #fff;
-  transition: 0.2s all;
 }
-
 .edit-container {
   display: flex;
   gap: 40px;
   align-items: flex-start;
 }
-
-/* --- STYLE IMAGE HOVER --- */
 .image-section {
   flex: 0 0 250px;
   text-align: center;
@@ -204,14 +174,13 @@ const updateBook = async () => {
   object-fit: cover;
   transition: filter 0.3s;
 }
-
 .image-hover-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(168, 209, 231, 0.8); /* Bleu ciel transparent */
+  background: rgba(168, 209, 231, 0.8);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -219,56 +188,22 @@ const updateBook = async () => {
   opacity: 0;
   transition: opacity 0.3s;
 }
-.image-wrapper:hover .image-hover-overlay {
-  opacity: 1;
-}
-.image-wrapper:hover .current-cover {
-  filter: blur(2px);
-}
-
-.pencil-icon {
-  font-size: 3rem;
-  margin-bottom: 10px;
-}
-.image-tip {
-  font-size: 0.8rem;
-  margin-top: 10px;
-  color: #666;
-  font-style: italic;
-}
-
-/* --- STYLE FORMULAIRE --- */
-.form {
-  flex: 1;
-}
-.row {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-}
-.row-half {
-  flex-direction: row;
-  gap: 20px;
-}
-.col {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-input,
-textarea {
+.image-wrapper:hover .image-hover-overlay { opacity: 1; }
+.image-wrapper:hover .current-cover { filter: blur(2px); }
+.pencil-icon { font-size: 3rem; margin-bottom: 10px; }
+.image-tip { font-size: 0.8rem; margin-top: 10px; color: #666; font-style: italic; }
+.form { flex: 1; }
+.row { margin-bottom: 20px; display: flex; flex-direction: column; }
+.row-half { flex-direction: row; gap: 20px; }
+.col { flex: 1; display: flex; flex-direction: column; }
+label { font-weight: bold; margin-bottom: 5px; }
+input, textarea, select {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
   background-color: #fcfcfc;
 }
-
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -280,35 +215,25 @@ textarea {
   width: 100%;
   margin-top: 20px;
 }
-
 @media (max-width: 768px) {
-  .edit-container {
-    flex-direction: column;
-    align-items: center;
-  }
-  .row-half {
-    flex-direction: column;
-    gap: 0;
-  }
+  .edit-container { flex-direction: column; align-items: center; }
+  .row-half { flex-direction: column; gap: 0; }
 }
 .custom-select {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
-  font-family: inherit; /* Conserve le style Courier New */
+  font-family: inherit;
   font-size: 1rem;
   background-color: #fcfcfc;
   cursor: pointer;
-  appearance: none; /* Masque la flèche native du navigateur... */
-
-  /* ...pour en dessiner une personnalisée ! */
+  appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1em;
-  padding-right: 2.5rem; /* Espace pour la flèche */
+  padding-right: 2.5rem;
 }
-
 .custom-select:focus {
   outline: none;
   border-color: #a8d1e7;

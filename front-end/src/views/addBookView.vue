@@ -9,72 +9,65 @@
       <form class="form" @submit.prevent="submit">
         <div class="row">
           <label>Titre *</label>
-          <input v-model.trim="form.title" type="text" placeholder="Ex: 1984" />
-          <p v-if="errors.title" class="error">{{ errors.title }}</p>
+          <input v-model.trim="form.titre" type="text" placeholder="Ex: 1984" />
+          <p v-if="errors.titre" class="error">{{ errors.titre }}</p>
         </div>
 
         <div class="row">
           <label>Catégorie *</label>
-          <select v-model="selectedCategory">
+          <select v-model="form.categoryId">
             <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
-              {{ categorie.label }}
+              {{ categorie.name }}
             </option>
           </select>
-          <p v-if="errors.category" class="error">{{ errors.category }}</p>
+          <p v-if="errors.categoryId" class="error">{{ errors.categoryId }}</p>
         </div>
 
         <div class="row row-half">
           <div class="col">
             <label>Pages *</label>
-            <input v-model.number="form.pages" type="number" min="1" />
-            <p v-if="errors.pages" class="error">{{ errors.pages }}</p>
+            <input v-model.number="form.nb_page" type="number" min="1" />
+            <p v-if="errors.nb_page" class="error">{{ errors.nb_page }}</p>
           </div>
           <div class="col">
             <label>Année *</label>
-            <input v-model.number="form.year" type="number" />
-            <p v-if="errors.year" class="error">{{ errors.year }}</p>
+            <input v-model.number="form.annee_publication" type="number" />
+            <p v-if="errors.annee_publication" class="error">{{ errors.annee_publication }}</p>
           </div>
         </div>
 
         <div class="row">
           <label>Résumé *</label>
-          <textarea v-model.trim="form.summary" rows="5"></textarea>
-          <p v-if="errors.summary" class="error">{{ errors.summary }}</p>
+          <textarea v-model.trim="form.resume" rows="5"></textarea>
+          <p v-if="errors.resume" class="error">{{ errors.resume }}</p>
         </div>
 
         <div class="row row-half">
           <div class="col">
             <label>Prénom de l'auteur *</label>
-            <input v-model.trim="form.writer.firstname" type="text" />
-            <p v-if="errors.writer.firstname" class="error">
-              {{ errors.writer.firstname }}
-            </p>
+            <input v-model.trim="authorFirstName" type="text" />
+            <p v-if="errors.author" class="error">{{ errors.author }}</p>
           </div>
           <div class="col">
             <label>Nom de l'auteur *</label>
-            <input v-model.trim="form.writer.lastname" type="text" />
-            <p v-if="errors.writer.lastname" class="error">
-              {{ errors.writer.lastname }}
-            </p>
+            <input v-model.trim="authorLastName" type="text" />
           </div>
         </div>
 
         <div class="row">
           <label>Éditeur *</label>
-          <input v-model.trim="form.editor" type="text" />
-          <p v-if="errors.editor" class="error">{{ errors.editor }}</p>
+          <input v-model.trim="form.editeur" type="text" />
+          <p v-if="errors.editeur" class="error">{{ errors.editeur }}</p>
         </div>
 
         <div class="row">
           <label>Image (URL)</label>
           <input v-model.trim="form.image" type="url" />
-          <p v-if="errors.image" class="error">{{ errors.image }}</p>
         </div>
 
         <div class="row">
           <label>Extrait PDF (URL)</label>
-          <input v-model.trim="form.pdf" type="url" />
-          <p v-if="errors.pdf" class="error">{{ errors.pdf }}</p>
+          <input v-model.trim="form.lien_extrait" type="url" />
         </div>
 
         <div class="actions">
@@ -90,165 +83,113 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 import BookServices from '@/services/BookServices'
 import CategorieServices from '@/services/CategorieServices'
 
 const router = useRouter()
 const isSubmitting = ref(false)
 const categories = ref([])
-const selectedCategory = ref('')
+const authorFirstName = ref('')
+const authorLastName = ref('')
 
-//Charger les catégories au montage
+const form = ref({
+  titre: '',
+  categoryId: null,
+  nb_page: null,
+  annee_publication: null,
+  resume: '',
+  editeur: '',
+  image: '',
+  lien_extrait: '',
+})
+
+const errors = ref({})
+
 const loadCategories = async () => {
   try {
     const response = await CategorieServices.getCategories()
-    categories.value = response.data
+    categories.value = response.data.data ?? response.data
   } catch (error) {
     console.error('Erreur chargement catégories:', error)
-    // inform the user so they know something went wrong with the API
-    alert('Impossible de charger la liste des catégories. Vérifiez que le serveur est démarré.')
+    alert('Impossible de charger les catégories. Vérifiez que le serveur est démarré.')
   }
 }
-
-const form = ref({
-  title: '',
-  category: null,
-  pages: null,
-  summary: '',
-  writer: {
-    firstname: '',
-    lastname: '',
-  },
-  editor: '',
-  year: null,
-  image: '',
-  pdf: '',
-})
 
 onMounted(() => {
   loadCategories()
 })
 
-const errors = ref({ writer: {} })
-
 const validateForm = () => {
+  errors.value = {}
   let valid = true
-  errors.value = { writer: {} }
 
-  if (!form.value.title) {
-    errors.value.title = 'Le titre est requis.'
+  if (!form.value.titre) {
+    errors.value.titre = 'Le titre est requis.'
     valid = false
   }
-
-  if (!selectedCategory.value) {
-    errors.value.category = 'La catégorie est requise.'
+  if (!form.value.categoryId) {
+    errors.value.categoryId = 'La catégorie est requise.'
     valid = false
   }
-
-  if (!form.value.pages || form.value.pages < 1) {
-    errors.value.pages = 'Nombre de pages invalide.'
+  if (!form.value.nb_page || form.value.nb_page < 1) {
+    errors.value.nb_page = 'Nombre de pages invalide.'
     valid = false
   }
-
-  if (!form.value.year) {
-    errors.value.year = "L'année est requise."
+  if (!form.value.annee_publication) {
+    errors.value.annee_publication = "L'année est requise."
     valid = false
   }
-
-  if (!form.value.summary) {
-    errors.value.summary = 'Le résumé est requis.'
+  if (!form.value.resume) {
+    errors.value.resume = 'Le résumé est requis.'
     valid = false
   }
-
-  if (!form.value.editor) {
-    errors.value.editor = "L'éditeur est requis."
+  if (!form.value.editeur) {
+    errors.value.editeur = "L'éditeur est requis."
     valid = false
   }
-
-  // if (!form.value.image) {
-  //   errors.value.image = "L'image est requise."
-  //   valid = false
-  // }
-
-  // if (!form.value.pdf) {
-  //   errors.value.pdf = 'Le lien PDF est requis.'
-  //   valid = false
-  // }
-
-  if (!form.value.writer.firstname) {
-    errors.value.writer.firstname = 'Prénom requis.'
-    valid = false
-  }
-
-  if (!form.value.writer.lastname) {
-    errors.value.writer.lastname = 'Nom requis.'
+  if (!authorFirstName.value || !authorLastName.value) {
+    errors.value.author = "Le prénom et le nom de l'auteur sont requis."
     valid = false
   }
 
   return valid
 }
 
-// envoit formulaire au service
 const submit = async () => {
   if (!validateForm()) return
 
-  // requete pour ajouter livre
   isSubmitting.value = true
-  const now = new Date().toISOString()
 
-  const writerId = 'writer_' + Date.now()
-  const userId = '1'
-
-  const resolvedCategoryId = selectedCategory.value || 'cat_' + Date.now() // fallback if nothing selected
-
-  const newBook = {
-    title: form.value.title,
-    numberOfPages: form.value.pages,
-    pdfLink: form.value.pdf,
-    abstract: form.value.summary,
-    editor: form.value.editor,
-    editionYear: form.value.year,
-    imagePath: form.value.image,
-    createdAt: now,
-    updatedAt: now,
-    categoryId: resolvedCategoryId,
-    writerId,
-    userId,
-    category: {
-      id: resolvedCategoryId,
-      label:
-        categories.value.find((cat) => cat.id === selectedCategory.value)?.label ||
-        selectedCategory.value ||
-        'Inconnue',
-    },
-    writer: {
-      id: writerId,
-      firstname: form.value.writer.firstname,
-      lastname: form.value.writer.lastname,
-      createdAt: now,
-      updatedAt: now,
-    },
-    user: {
-      id: userId,
-      username: 'admin',
-      role: 'admin',
-      createdAt: now,
-      updatedAt: now,
-    },
-  }
-
-  // envoie la requete d'ajout et redirige vers la page de détails du livre créé
   try {
-    const response = await BookServices.addBook(newBook)
-    const createdBook = response.data
+    const token = localStorage.getItem('token')
+    const headers = { Authorization: `Bearer ${token}` }
 
-    router.push({
-      name: 'book-details',
-      params: { id: createdBook.id },
+    // On crée d'abord l'auteur pour récupérer son ID
+    const authorResponse = await axios.post(
+      'http://localhost:3333/authors',
+      { firstName: authorFirstName.value, lastName: authorLastName.value },
+      { headers }
+    )
+    const authorId = authorResponse.data.id
+
+    // On crée le livre avec l'authorId récupéré
+    const response = await BookServices.addBook({
+      titre: form.value.titre,
+      nb_page: form.value.nb_page,
+      annee_publication: form.value.annee_publication,
+      resume: form.value.resume,
+      editeur: form.value.editeur,
+      image: form.value.image || undefined,
+      lien_extrait: form.value.lien_extrait || undefined,
+      categoryId: form.value.categoryId,
+      authorId: authorId,
     })
+
+    router.push({ name: 'book-details', params: { id: response.data.id } })
   } catch (error) {
     console.error(error)
-    alert("Erreur lors de l'ajout.")
+    alert("Erreur lors de l'ajout du livre.")
   } finally {
     isSubmitting.value = false
   }
@@ -262,14 +203,12 @@ const submit = async () => {
   padding: 40px 20px;
   font-family: 'Courier New', Courier, monospace;
 }
-
 .header-actions {
   display: flex;
   align-items: center;
   gap: 20px;
   margin-bottom: 30px;
 }
-
 .btn-back {
   background: none;
   border: 1px solid #333;
@@ -279,66 +218,53 @@ const submit = async () => {
   font-family: inherit;
   transition: 0.2s all;
 }
-
 .btn-back:hover {
   background-color: #333;
   color: #fff;
-  transition: 0.2s all;
 }
-
 .form-container {
   border: 2px solid #333;
   padding: 40px;
   border-radius: 20px;
   background: #fff;
 }
-
 .row {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
 }
-
 .row-half {
   flex-direction: row;
   gap: 20px;
 }
-
 .col {
   flex: 1;
   display: flex;
   flex-direction: column;
 }
-
 label {
   font-weight: bold;
   margin-bottom: 8px;
 }
-
-input,
-textarea {
+input, textarea, select {
   padding: 12px;
   border: 1px solid #333;
   border-radius: 10px;
   font-family: inherit;
 }
-
 textarea {
   resize: vertical;
 }
-
 .error {
   color: #d9534f;
   font-size: 0.85rem;
   margin-top: 5px;
   font-weight: bold;
 }
-
 .actions {
   margin-top: 30px;
   text-align: right;
 }
-
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -347,12 +273,10 @@ textarea {
   cursor: pointer;
   font-weight: bold;
 }
-
 .btn-action:disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
-
 @media (max-width: 600px) {
   .row-half {
     flex-direction: column;
