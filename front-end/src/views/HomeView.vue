@@ -5,6 +5,15 @@
       <p>Vous pouvez partagez, ajoutez et commentez les ouvrages de la communautés de l’ETML</p>
     </div>
 
+    <AppBanner
+      v-if="loadError"
+      :message="loadError"
+      variant="info"
+      action-label="Réessayer"
+      @action="loadBooks"
+      @close="loadError = ''"
+    />
+
     <section class="carousel-container">
       <h2 class="section-title">Nouveautés</h2>
 
@@ -53,8 +62,11 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-// import BookServices from '@/services/BookServices' // Importation du service API
 import { getAllBooks } from '../../api/api_book'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
+
+const loadError = ref('')
 
 // 1. État réactif
 const books = ref([]) // Liste des livres (chargée via l'API)
@@ -62,19 +74,19 @@ const carouselTrack = ref(null) // Référence vers l'élément HTML pour le scr
 const scrollLeftPosition = ref(0) // Position actuelle du scroll
 const maxScroll = ref(0) // Valeur maximale de scroll possible
 
-// 2. Chargement des données au montage du composant
-onMounted(async () => {
+async function loadBooks() {
+  loadError.value = ''
+
   try {
     books.value = await getAllBooks()
-
-    // On attend un petit peu que le DOM se dessine pour calculer le scroll max
-    setTimeout(() => {
-      updateScrollPosition()
-    }, 100)
+    setTimeout(updateScrollPosition, 100)
   } catch (error) {
-    console.error('Erreur lors de la récupération des ouvrages :', error)
+    loadError.value = 'Les nouveautés sont momentanément indisponibles.'
+    handleApiError(error, { silent: true })
   }
-})
+}
+
+onMounted(loadBooks)
 
 const limitBooks = computed(() => {
   return [...books.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5)

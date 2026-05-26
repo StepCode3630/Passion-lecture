@@ -5,6 +5,14 @@
       <RouterLink v-if="isLoggedIn" to="/books/add" class="btn-add"> + Ajouter un livre </RouterLink>
     </div>
 
+    <AppBanner
+      v-if="loadError"
+      :message="loadError"
+      action-label="Réessayer"
+      @action="loadBooks"
+      @close="loadError = ''"
+    />
+
     <p v-if="!isLoggedIn" class="empty">
       Connectez-vous pour voir vos livres.
       <RouterLink :to="{ name: 'profile' }">Se connecter</RouterLink>
@@ -46,10 +54,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { getAllBooks, deleteBook } from '../../api/api_book'
+import { useToast } from '@/composables/useToast'
+import { useConfirm } from '@/composables/useConfirm'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
+
+const toast = useToast()
+const { confirm } = useConfirm()
 
 const books = ref([])
 const loading = ref(false)
 const isLoggedIn = ref(false)
+const loadError = ref('')
 
 const loadBooks = async () => {
   const userRaw = localStorage.getItem('user')
@@ -61,13 +77,14 @@ const loadBooks = async () => {
 
   isLoggedIn.value = true
   loading.value = true
+  loadError.value = ''
 
   try {
     const user = JSON.parse(userRaw)
     books.value = await getAllBooks({ userId: user.id })
   } catch (error) {
-    console.error('Erreur chargement livres:', error)
-    alert('Impossible de charger vos livres.')
+    loadError.value = 'Impossible de charger vos livres.'
+    handleApiError(error, { silent: true })
   } finally {
     loading.value = false
   }
@@ -76,15 +93,25 @@ const loadBooks = async () => {
 onMounted(loadBooks)
 
 const removeBook = async (id) => {
-  if (!confirm('Es-tu sûr de vouloir supprimer ce livre ?')) return
+  const accepted = await confirm({
+    title: 'Supprimer ce livre ?',
+    message: 'Cette action est définitive.',
+    confirmText: 'Supprimer',
+    cancelText: 'Annuler',
+    variant: 'danger',
+  })
+
+  if (!accepted) return
 
   try {
     await deleteBook(id)
     await loadBooks()
-    alert('Livre supprimé avec succès !')
+    toast.success('Livre supprimé.')
   } catch (error) {
-    console.error('Erreur lors de la suppression :', error)
-    alert(error.message || 'Impossible de supprimer le livre.')
+    handleApiError(error, {
+      toast,
+      fallback: 'Impossible de supprimer ce livre.',
+    })
   }
 }
 </script>

@@ -5,6 +5,12 @@
       <h1>Connexion</h1>
     </div>
 
+    <AppBanner
+      v-if="formError"
+      :message="formError"
+      @close="formError = ''"
+    />
+
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
@@ -38,9 +44,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { login } from '../../api/api_auth'
+import { useToast } from '@/composables/useToast'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const router = useRouter()
+const toast = useToast()
 const isSubmitting = ref(false)
+const formError = ref('')
 
 const form = ref({
   email: '',
@@ -70,6 +81,7 @@ const submit = async () => {
   if (!validateForm()) return
 
   isSubmitting.value = true
+  formError.value = ''
 
   try {
     const data = await login(form.value.email, form.value.password)
@@ -81,10 +93,15 @@ const submit = async () => {
       role: data.role,
     }))
 
+    toast.success(`Bienvenue, ${data.fullName} !`)
     router.push('/')
   } catch (error) {
-    console.error(error)
-    alert('Email ou mot de passe incorrect.')
+    formError.value = 'Identifiants incorrects.'
+    handleApiError(error, {
+      toast,
+      errors,
+      fallback: 'Email ou mot de passe incorrect.',
+    })
   } finally {
     isSubmitting.value = false
   }

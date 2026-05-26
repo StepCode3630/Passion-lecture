@@ -5,6 +5,12 @@
       <h1>Ajouter un nouvel ouvrage</h1>
     </div>
 
+    <AppBanner
+      v-if="formError"
+      :message="formError"
+      @close="formError = ''"
+    />
+
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
@@ -85,9 +91,14 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getAllCategories, createAuthor, createBook } from '../../api/api_book'
+import { useToast } from '@/composables/useToast'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const router = useRouter()
+const toast = useToast()
 const isSubmitting = ref(false)
+const formError = ref('')
 const categories = ref([])
 const authorFirstName = ref('')
 const authorLastName = ref('')
@@ -111,8 +122,9 @@ onMounted(async () => {
     if (categories.value.length > 0 && form.value.categoryId == null) {
       form.value.categoryId = categories.value[0].id
     }
-  } catch {
-    alert('Impossible de charger les catégories. Vérifiez que le serveur est démarré.')
+  } catch (error) {
+    formError.value = 'Impossible de charger les catégories.'
+    handleApiError(error, { silent: true })
   }
 })
 
@@ -144,6 +156,7 @@ const submit = async () => {
   if (!validateForm()) return
 
   isSubmitting.value = true
+  formError.value = ''
 
   try {
     // créer d'abord l'auteur pour récupérer son ID
@@ -170,10 +183,14 @@ const submit = async () => {
 
     const book = await createBook(bookPayload)
 
+    toast.success('Livre ajouté avec succès.')
     router.push({ name: 'book-details', params: { id: book.id } })
   } catch (error) {
-    console.error(error)
-    alert(error.message || "Erreur lors de l'ajout du livre. Êtes-vous connecté ?")
+    handleApiError(error, {
+      toast,
+      errors,
+      fallback: "Impossible d'ajouter le livre. Vérifiez vos informations ou reconnectez-vous.",
+    })
   } finally {
     isSubmitting.value = false
   }

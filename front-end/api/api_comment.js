@@ -1,26 +1,18 @@
+import { API_BASE, getAuthHeaders, parseResponse } from './apiClient.js'
+
 export async function getComments(bookId) {
-  const api_url = `http://localhost:3333/books/${bookId}/comments`
+  const response = await fetch(`${API_BASE}/books/${bookId}/comments`)
+  const data = await parseResponse(response)
 
-  const response = await fetch(api_url)
-  const data = await response.json()
-
-  return data.data ?? data
+  return Array.isArray(data) ? data : (data.data ?? [])
 }
 
 export async function addComment(bookId, comment) {
-  const api_url = `http://localhost:3333/books/${bookId}/comments`
-  const token = localStorage.getItem('token')
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/books/${bookId}/comments`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
+    headers: getAuthHeaders(),
     body: JSON.stringify(comment),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }

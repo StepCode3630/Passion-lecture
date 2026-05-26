@@ -35,8 +35,10 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { logout } from '../../api/api_auth'
+import { useToast } from '@/composables/useToast'
 
 const router = useRouter()
+const toast = useToast()
 const isLoggedIn = ref(false)
 const userName = ref('')
 
@@ -54,13 +56,11 @@ onMounted(() => {
 const handleLogout = async () => {
   try {
     await logout()
-  } catch (error) {
-    // Même si l'API échoue, on déconnecte quand même côté frontend
-    console.error('Erreur logout:', error)
   } finally {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     isLoggedIn.value = false
+    toast.info('Vous êtes déconnecté.')
     router.push({ name: 'profile' })
   }
 }

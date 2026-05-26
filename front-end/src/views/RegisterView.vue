@@ -5,6 +5,12 @@
       <h1>Créer un compte</h1>
     </div>
 
+    <AppBanner
+      v-if="formError"
+      :message="formError"
+      @close="formError = ''"
+    />
+
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
@@ -52,9 +58,14 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { register } from '../../api/api_auth'
+import { useToast } from '@/composables/useToast'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const router = useRouter()
+const toast = useToast()
 const isSubmitting = ref(false)
+const formError = ref('')
 
 const form = ref({
   fullName: '',
@@ -96,19 +107,20 @@ const submit = async () => {
   if (!validateForm()) return
 
   isSubmitting.value = true
+  formError.value = ''
 
   try {
     await register(form.value.fullName, form.value.email, form.value.password)
 
-    alert('Compte créé avec succès !')
+    toast.success('Compte créé. Vous pouvez vous connecter.')
     router.push({ name: 'profile' })
   } catch (error) {
-    console.error(error)
-    if (error.response?.data?.messages) {
-      alert(error.response.data.messages[0]?.message || 'Erreur lors de la création du compte.')
-    } else {
-      alert('Erreur lors de la création du compte.')
-    }
+    formError.value = 'Impossible de créer le compte.'
+    handleApiError(error, {
+      toast,
+      errors,
+      fallback: 'Vérifiez vos informations ou utilisez un autre email.',
+    })
   } finally {
     isSubmitting.value = false
   }

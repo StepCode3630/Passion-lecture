@@ -1,29 +1,4 @@
-const API_BASE = 'http://localhost:3333'
-
-function getAuthHeaders() {
-  const token = localStorage.getItem('token')
-  return {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  }
-}
-
-async function parseResponse(response) {
-  if (response.status === 204) return null
-
-  const data = await response.json().catch(() => ({}))
-
-  if (!response.ok) {
-    if (Array.isArray(data.errors) && data.errors.length > 0) {
-      const message = data.errors.map((e) => e.message).join('\n')
-      throw new Error(message)
-    }
-    const message = data.message || 'Erreur serveur'
-    throw new Error(message)
-  }
-
-  return data
-}
+import { API_BASE, getAuthHeaders, parseResponse } from './apiClient.js'
 
 export async function getAllBooks(params = {}) {
   const queryParams = { limit: 100, ...params }
