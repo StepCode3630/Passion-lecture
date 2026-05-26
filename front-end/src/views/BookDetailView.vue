@@ -1,12 +1,12 @@
 <template>
   <div v-if="book" class="detail-page">
-    <h1 class="main-title">Detail de {{ book.title }}</h1>
+    <h1 class="main-title">Detail de {{ book.titre }}</h1>
 
     <section class="top-section">
       <div class="cover-column">
-        <img :src="book.imagePath" :alt="book.title" class="book-cover" />
+        <img :src="book.image" :alt="book.titre" class="book-cover" />
         <div class="stars-row">
-          <span class="avereage-number">{{ averageRating }}</span>
+          <!-- <span class="avereage-number">{{ averageRating }}</span> -->
           <span class="star">★</span>
         </div>
       </div>
@@ -14,30 +14,30 @@
       <div class="info-column">
         <div class="info-group">
           <span class="label">Auteur</span>
-          <span class="value">{{ book.writer.firstname }} {{ book.writer.lastname }}</span>
+          <span class="value">{{ book.author.firstName }} {{ book.author.lastName }}</span>
         </div>
         <div class="info-group">
           <span class="label">Editeur</span>
-          <span class="value">{{ book.editor }}</span>
+          <span class="value">{{ book.editeur }}</span>
         </div>
         <div class="info-group">
           <span class="label">Année</span>
-          <span class="value">{{ book.editionYear }}</span>
+          <span class="value">{{ book.anneePublication }}</span>
         </div>
         <div class="info-group">
           <span class="label">categorie</span>
-          <span class="value">{{ book.category.label }}</span>
+          <span class="value">{{ book.category.name }}</span>
         </div>
         <div class="info-group">
           <span class="label">Nombre de pages</span>
-          <span class="value">{{ book.numberOfPages }}</span>
+          <span class="value">{{ book.nbPage }}</span>
         </div>
 
-        <a :href="book.pdfLink" target="_blank" class="extrait-link">Extrait</a>
+        <a :href="book.lienExtrait" target="_blank" class="extrait-link">Extrait</a>
       </div>
     </section>
 
-    <section class="bottom-section">
+    <!-- <section class="bottom-section">
       <div class="comments-column">
         <button class="btn-action" @click="showModal = true">Ajouter un commentaire ?</button>
 
@@ -90,9 +90,7 @@
           <button @click="submitComment" :disabled="isSubmitting" class="btn-action">
             {{ isSubmitting ? 'Envoi...' : 'Poster' }}
           </button>
-        </div>
-      </div>
-    </div>
+        </div> -->
   </div>
 
   <div v-else class="loading">
@@ -103,7 +101,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BookServices from '@/services/BookServices'
+// import BookServices from '@/services/BookServices'
+import { getBookById } from '../../api/api_book'
 
 const route = useRoute()
 const book = ref(null)
@@ -115,23 +114,24 @@ const commentText = ref('')
 const commentStars = ref(5)
 const isSubmitting = ref(false)
 
-// Fonction pour charger les commentaires et les filtrer manuellement (évite les bugs de JSON Server avec les Strings)
-const loadComments = async () => {
-  try {
-    const response = await BookServices.getComments()
-    // On filtre ici pour être sûr que "3" (URL) corresponde à "3" (DB)
-    comments.value = response.data.filter((c) => String(c.bookId) === String(route.params.id))
-  } catch (error) {
-    console.error('Erreur chargement commentaires:', error)
-  }
-}
+// // Fonction pour charger les commentaires et les filtrer manuellement (évite les bugs de JSON Server avec les Strings)
+// const loadComments = async () => {
+//   try {
+//     const response = await BookServices.getComments()
+//     // On filtre ici pour être sûr que "3" (URL) corresponde à "3" (DB)
+//     comments.value = response.data.filter((c) => String(c.bookId) === String(route.params.id))
+//   } catch (error) {
+//     console.error('Erreur chargement commentaires:', error)
+//   }
+// }
 
 onMounted(async () => {
   const id = route.params.id
   try {
-    const bookResponse = await BookServices.getBook(id)
-    book.value = bookResponse.data
-    await loadComments()
+    const bookResponse = await getBookById(id)
+    book.value = bookResponse
+
+    // await loadComments()
   } catch (error) {
     console.error('Erreur chargement livre:', error)
   }
