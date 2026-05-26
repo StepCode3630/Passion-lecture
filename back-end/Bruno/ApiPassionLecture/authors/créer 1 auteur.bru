@@ -7,17 +7,13 @@ meta {
 post {
   url: {{baseUrl}}/authors
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{token}}
+  auth: inherit
 }
 
 body:json {
   {
-    "lastName": "Rowling",
-    "firstName": "J.K."
+    "nom": "Rowling",
+    "prenom": "J.K."
   }
 }
 

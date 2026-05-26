@@ -7,16 +7,15 @@ meta {
 post {
   url: {{baseUrl}}/categories
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{token}}
+  auth: inherit
 }
 
 body:json {
   {
-    "name": "Roman"
+    "id": 11,
+    "name": "Roman",
+    "createdAt": "2026-05-05T13:54:02.000+00:00",
+    "updatedAt": "2026-05-05T13:54:02.000+00:00"
   }
 }
 

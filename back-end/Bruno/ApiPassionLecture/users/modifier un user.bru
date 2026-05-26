@@ -1,23 +1,21 @@
 meta {
   name: modifier un user
   type: http
-  seq: 4
+  seq: 3
 }
 
 put {
   url: {{baseUrl}}/users/1
   body: json
-  auth: bearer
-}
-
-auth:bearer {
-  token: {{token}}
+  auth: inherit
 }
 
 body:json {
   {
-    "fullName": "Stepan Modifié",
-    "email": "step_modif@gmail.com"
+    "nom": "Chat",
+    "email": "chat@example.com",
+    "mot_de_passe": "secret123",
+    "role": "user"
   }
 }
 

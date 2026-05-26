@@ -5,18 +5,13 @@ meta {
 }
 
 delete {
-  url: {{baseUrl}}/books/:book_id/comments/:id
-  body: none
-  auth: bearer
+  url: {{baseUrl}}/commentaires/:id
+  body: json
+  auth: inherit
 }
 
 params:path {
-  book_id: 1
-  id: 1
-}
-
-auth:bearer {
-  token: {{token}}
+  id: 11
 }
 
 settings {

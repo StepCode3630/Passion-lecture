@@ -1,18 +1,17 @@
 meta {
   name: Recup un com
   type: http
-  seq: 3
+  seq: 2
 }
 
 get {
-  url: {{baseUrl}}/books/:book_id/comments/:id
-  body: none
+  url: {{baseUrl}}/books/:bookId/comments
+  body: json
   auth: inherit
 }
 
 params:path {
-  book_id: 1
-  id: 1
+  bookId: 2
 }
 
 settings {
