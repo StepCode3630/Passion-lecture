@@ -1,10 +1,6 @@
 <template>
   <div v-if="book" class="detail-page">
-    <AppBanner
-      v-if="commentError"
-      :message="commentError"
-      @close="commentError = ''"
-    />
+    <AppBanner v-if="commentError" :message="commentError" @close="commentError = ''" />
 
     <h1 class="main-title">Detail de {{ book.titre }}</h1>
 
@@ -181,7 +177,7 @@ const submitComment = async () => {
     }
     handleApiError(error, {
       toast,
-      fallback: "Connectez-vous pour commenter.",
+      fallback: 'Connectez-vous pour commenter.',
     })
   } finally {
     isSubmitting.value = false
@@ -195,7 +191,6 @@ const averageRating = computed(() => {
 })
 </script>
 
-
 <style scoped>
 .detail-page {
   max-width: 1000px;
@@ -204,17 +199,61 @@ const averageRating = computed(() => {
   font-family: 'Courier New', Courier, monospace;
   text-align: left;
 }
-.main-title { text-align: center; margin-bottom: 50px; font-size: 1.8rem; }
-.top-section { display: flex; justify-content: center; gap: 60px; margin-bottom: 60px; }
-.book-cover { width: 250px; height: auto; border: 1px solid #000; box-shadow: 5px 5px 15px rgba(0,0,0,0.1); }
-.stars-row { text-align: center; margin-top: 10px; color: #ffb400; font-size: 1.5rem; }
-.info-column { display: flex; flex-direction: column; gap: 12px; }
-.info-group { display: flex; flex-direction: column; }
-.label { font-weight: bold; margin-bottom: 2px; }
-.extrait-link { margin-top: 20px; color: #000; font-weight: bold; transition: 0.2s all; }
-.extrait-link:hover { text-decoration: underline; color: #00a6ff; }
-.bottom-section { display: flex; gap: 80px; }
-.comments-column, .summary-column { flex: 1; }
+.main-title {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 1.8rem;
+}
+.top-section {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  margin-bottom: 60px;
+}
+.book-cover {
+  width: 250px;
+  height: auto;
+  border: 1px solid #000;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+}
+.stars-row {
+  text-align: center;
+  margin-top: 10px;
+  color: #ffb400;
+  font-size: 1.5rem;
+}
+.info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.info-group {
+  display: flex;
+  flex-direction: column;
+}
+.label {
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+.extrait-link {
+  margin-top: 20px;
+  color: #000;
+  font-weight: bold;
+  transition: 0.2s all;
+}
+.extrait-link:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #00a6ff;
+}
+.bottom-section {
+  display: flex;
+  gap: 80px;
+}
+.comments-column,
+.summary-column {
+  flex: 1;
+}
 .btn-action {
   background-color: #a8d1e7;
   border: 1px solid #333;
@@ -226,31 +265,111 @@ const averageRating = computed(() => {
   font-weight: bold;
   transition: transform 0.2s;
 }
-.btn-action:hover:not(:disabled) { transform: scale(1.02); }
-.btn-small { width: auto; padding: 8px 30px; display: block; margin: 20px auto; }
-.comment-card { margin-top: 25px; }
-.comment-header { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
-.comment-user { font-weight: bold; }
-.comment-stars { color: #ffb400; }
-.comment-box { border: 1px solid #333; border-radius: 15px; padding: 15px; min-height: 60px; }
-.summary-title { margin-top: 0; font-size: 1.3rem; text-decoration: underline; }
-.summary-text { line-height: 1.5; text-align: justify; }
+.btn-action:hover:not(:disabled) {
+  transform: scale(1.02);
+}
+.btn-small {
+  width: auto;
+  padding: 8px 30px;
+  display: block;
+  margin: 20px auto;
+}
+.comment-card {
+  margin-top: 25px;
+}
+.comment-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 5px;
+}
+.comment-user {
+  font-weight: bold;
+}
+.comment-stars {
+  color: #ffb400;
+}
+.comment-box {
+  border: 1px solid #333;
+  border-radius: 15px;
+  padding: 15px;
+  min-height: 60px;
+}
+.summary-title {
+  margin-top: 0;
+  font-size: 1.3rem;
+  text-decoration: underline;
+}
+.summary-text {
+  line-height: 1.5;
+  text-align: justify;
+}
 .modal-overlay {
-  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.6); display: flex; justify-content: center;
-  align-items: center; z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
-.modal-content { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 500px; border: 2px solid #333; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-.close-btn { background: none; border: none; font-size: 2rem; cursor: pointer; }
+.modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  border: 2px solid #333;
+}
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
 .comment-input {
-  width: 90%; max-width: 90%; min-width: 90%;
-  min-height: 120px; height: 120px; max-height: 400px;
-  padding: 15px; border-radius: 10px; border: 1px solid #333;
-  font-family: inherit; margin-bottom: 15px;
+  width: 90%;
+  max-width: 90%;
+  min-width: 90%;
+  min-height: 120px;
+  height: 120px;
+  max-height: 400px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  font-family: inherit;
+  margin-bottom: 15px;
 }
-.form-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
-.star-select { padding: 10px; border-radius: 8px; border: 1px solid #333; font-family: inherit; }
-.loading { text-align: center; padding: 100px; font-size: 1.5rem; }
-.error { color: #b94a48; font-size: 0.9rem; margin: 0.5rem 0 0; font-weight: bold; }
+.form-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+.star-select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-family: inherit;
+}
+.loading {
+  text-align: center;
+  padding: 100px;
+  font-size: 1.5rem;
+}
+.error {
+  color: #b94a48;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+  font-weight: bold;
+}
 </style>
