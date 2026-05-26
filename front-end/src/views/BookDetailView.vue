@@ -1,5 +1,11 @@
 <template>
   <div v-if="book" class="detail-page">
+    <AppBanner
+      v-if="commentError"
+      :message="commentError"
+      @close="commentError = ''"
+    />
+
     <h1 class="main-title">Detail de {{ book.titre }}</h1>
 
     <section class="top-section">
@@ -76,6 +82,7 @@
           placeholder="Votre message (ex: Banger !)"
           class="comment-input"
         ></textarea>
+        <p v-if="commentFieldError" class="error">{{ commentFieldError }}</p>
 
         <div class="form-controls">
           <select v-model="commentStars" class="star-select">
@@ -94,6 +101,10 @@
     </div>
   </div>
 
+  <div v-else-if="loadError" class="loading">
+    <AppBanner :message="loadError" action-label="Réessayer" @action="loadBook" />
+  </div>
+
   <div v-else class="loading">
     <p>Chargement de l'ouvrage...</p>
   </div>
@@ -104,10 +115,17 @@ import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { getBookById } from '../../api/api_book'
 import { getComments, addComment } from '../../api/api_comment'
+import { useToast } from '@/composables/useToast'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const route = useRoute()
+const toast = useToast()
 const book = ref(null)
 const comments = ref([])
+const loadError = ref('')
+const commentError = ref('')
+const commentFieldError = ref('')
 
 const showModal = ref(false)
 const commentText = ref('')
@@ -122,19 +140,29 @@ const loadComments = async () => {
   }
 }
 
-onMounted(async () => {
+async function loadBook() {
+  loadError.value = ''
+
   try {
     book.value = await getBookById(route.params.id)
     await loadComments()
   } catch (error) {
-    console.error('Erreur chargement livre:', error)
+    loadError.value = 'Ce livre est introuvable ou inaccessible.'
+    handleApiError(error, { silent: true })
   }
-})
+}
+
+onMounted(loadBook)
 
 const submitComment = async () => {
-  if (!commentText.value.trim()) return
+  if (!commentText.value.trim()) {
+    commentFieldError.value = 'Écrivez un message avant de publier.'
+    return
+  }
 
   isSubmitting.value = true
+  commentError.value = ''
+  commentFieldError.value = ''
 
   try {
     await addComment(route.params.id, {
@@ -143,10 +171,18 @@ const submitComment = async () => {
     })
     commentText.value = ''
     showModal.value = false
+    toast.success('Commentaire publié.')
     await loadComments()
   } catch (error) {
-    console.error(error)
-    alert("Erreur lors de l'envoi du commentaire.")
+    commentError.value = "Le commentaire n'a pas pu être envoyé."
+    const fieldErrors = { message: error?.fieldErrors?.message }
+    if (fieldErrors.message) {
+      commentFieldError.value = fieldErrors.message
+    }
+    handleApiError(error, {
+      toast,
+      fallback: "Connectez-vous pour commenter.",
+    })
   } finally {
     isSubmitting.value = false
   }
@@ -216,4 +252,5 @@ const averageRating = computed(() => {
 .form-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
 .star-select { padding: 10px; border-radius: 8px; border: 1px solid #333; font-family: inherit; }
 .loading { text-align: center; padding: 100px; font-size: 1.5rem; }
+.error { color: #b94a48; font-size: 0.9rem; margin: 0.5rem 0 0; font-weight: bold; }
 </style>

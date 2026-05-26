@@ -7,12 +7,11 @@ export default class AuthController {
     const { email, password } = await request.validateUsing(loginValidator)
 
     const user = await User.verifyCredentials(email, password)
-    const token = await User.accessTokens.create(user)
+    const accessToken = await User.accessTokens.create(user)
 
-    // Return the token and user data
     return response.ok({
-      type: token,
       ...user.serialize(),
+      token: accessToken.value!.release(),
     })
   }
 
@@ -25,11 +24,11 @@ export default class AuthController {
       role: 'user',
     })
 
-    const token = await User.accessTokens.create(user)
+    const accessToken = await User.accessTokens.create(user)
 
     return response.created({
-      type: token,
       ...user.serialize(),
+      token: accessToken.value!.release(),
     })
   }
 

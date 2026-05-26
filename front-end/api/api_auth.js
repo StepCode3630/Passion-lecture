@@ -1,45 +1,30 @@
+import { API_BASE, getAuthHeaders, parseResponse } from './apiClient.js'
+
 export async function register(fullName, email, password) {
-  const api_url = `http://localhost:3333/user/register`
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/user/register`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-    },
-
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ fullName, email, password }),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }
 
 export async function login(email, password) {
-  const api_url = `http://localhost:3333/user/login`
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/user/login`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-    },
-
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }
 
 export async function logout() {
-  const api_url = `http://localhost:3333/user/logout`
-  const token = localStorage.getItem('token')
-
-  await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/user/logout`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
+
+  await parseResponse(response)
 }

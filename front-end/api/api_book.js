@@ -1,95 +1,61 @@
+import { API_BASE, getAuthHeaders, parseResponse } from './apiClient.js'
+
 export async function getAllBooks(params = {}) {
-  const query = new URLSearchParams(params).toString()
-  const api_url = query
-    ? `http://localhost:3333/books?${query}`
-    : `http://localhost:3333/books`
+  const queryParams = { limit: 100, ...params }
+  const query = new URLSearchParams(queryParams).toString()
+  const response = await fetch(`${API_BASE}/books?${query}`)
+  const data = await parseResponse(response)
 
-  const response = await fetch(api_url)
-  const data = await response.json()
-
-  return data.data ?? data
+  return Array.isArray(data) ? data : (data.data ?? [])
 }
 
 export async function getBookById(id) {
-  const api_url = `http://localhost:3333/books/${id}`
-
-  const response = await fetch(api_url)
-
-  return await response.json()
+  const response = await fetch(`${API_BASE}/books/${id}`)
+  return await parseResponse(response)
 }
 
 export async function createAuthor(firstName, lastName) {
-  const api_url = `http://localhost:3333/authors`
-  const token = localStorage.getItem('token')
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/authors`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
+    headers: getAuthHeaders(),
     body: JSON.stringify({ firstName, lastName }),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }
 
 export async function createBook(bookData) {
-  const api_url = `http://localhost:3333/books`
-  const token = localStorage.getItem('token')
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/books`, {
     method: 'POST',
-
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
+    headers: getAuthHeaders(),
     body: JSON.stringify(bookData),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }
 
 export async function updateBook(id, bookData) {
-  const api_url = `http://localhost:3333/books/${id}`
-  const token = localStorage.getItem('token')
-
-  const response = await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/books/${id}`, {
     method: 'PUT',
-
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`,
-    },
-
+    headers: getAuthHeaders(),
     body: JSON.stringify(bookData),
   })
 
-  return await response.json()
+  return await parseResponse(response)
 }
 
 export async function deleteBook(id) {
-  const api_url = `http://localhost:3333/books/${id}`
-  const token = localStorage.getItem('token')
-
-  await fetch(api_url, {
+  const response = await fetch(`${API_BASE}/books/${id}`, {
     method: 'DELETE',
-
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    headers: getAuthHeaders(),
   })
+
+  await parseResponse(response)
 }
 
 export async function getAllCategories() {
-  const api_url = `http://localhost:3333/categories`
+  const response = await fetch(`${API_BASE}/categories?limit=100`)
+  const data = await parseResponse(response)
 
-  const response = await fetch(api_url)
-  const data = await response.json()
-
-  return data.data ?? data
+  return Array.isArray(data) ? data : (data.data ?? [])
 }

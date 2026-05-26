@@ -7,8 +7,8 @@ export const createBookValidator = vine.compile(
     resume: vine.string().minLength(10).maxLength(2000),
     editeur: vine.string().minLength(1).maxLength(255),
     annee_publication: vine.number().min(1000).max(9999),
-    lien_extrait: vine.string().url().optional(),
-    image: vine.string().optional(),
+    lien_extrait: vine.string().trim().url().optional(),
+    image: vine.string().trim().optional(),
     categoryId: vine.number(),
     authorId: vine.number(),
   })
@@ -20,9 +20,9 @@ export const updateBookValidator = vine.compile(
     nb_page: vine.number().min(1).max(9999).optional(),
     resume: vine.string().minLength(10).maxLength(2000).optional(),
     editeur: vine.string().minLength(1).maxLength(255).optional(),
-    annee_publication: vine.number().min(1000).max(9999),
-    lien_extrait: vine.string().url().optional(),
-    image: vine.string().optional(),
+    annee_publication: vine.number().min(1000).max(9999).optional(),
+    lien_extrait: vine.string().trim().url().optional(),
+    image: vine.string().trim().optional(),
     categoryId: vine.number().optional(),
     authorId: vine.number().optional(),
   })

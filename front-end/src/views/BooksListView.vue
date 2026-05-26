@@ -1,5 +1,13 @@
 <template>
   <section class="page">
+    <AppBanner
+      v-if="loadError"
+      :message="loadError"
+      action-label="Réessayer"
+      @action="loadData"
+      @close="loadError = ''"
+    />
+
     <h1 class="section-title">Livres</h1>
 
     <div class="filters">
@@ -44,25 +52,28 @@
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { getAllBooks, getAllCategories } from '../../api/api_book'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const selectedCategory = ref('')
 const books = ref([])
 const categories = ref([])
+const loadError = ref('')
 
-onMounted(async () => {
-  try {
-    categories.value = await getAllCategories()
-  } catch (error) {
-    console.error('Erreur chargement catégories:', error)
-    alert('Erreur lors du chargement des catégories.')
-  }
+async function loadData() {
+  loadError.value = ''
 
   try {
-    books.value = await getAllBooks()
+    const [cats, allBooks] = await Promise.all([getAllCategories(), getAllBooks()])
+    categories.value = cats
+    books.value = allBooks
   } catch (error) {
-    console.error('Erreur chargement livres:', error)
+    loadError.value = 'Impossible de charger les livres.'
+    handleApiError(error, { silent: true })
   }
-})
+}
+
+onMounted(loadData)
 
 const filteredBooks = computed(() => {
   if (!selectedCategory.value) return books.value

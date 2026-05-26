@@ -17,10 +17,17 @@
         <p class="image-tip">Cliquez sur l'image pour changer l'URL</p>
       </div>
 
+      <AppBanner
+        v-if="formError"
+        :message="formError"
+        @close="formError = ''"
+      />
+
       <form class="form" @submit.prevent="handleUpdate">
         <div class="row">
           <label>Titre *</label>
           <input v-model.trim="form.titre" type="text" />
+          <p v-if="fieldErrors.titre" class="error">{{ fieldErrors.titre }}</p>
         </div>
 
         <div class="row row-half">
@@ -41,6 +48,7 @@
         <div class="row">
           <label>Résumé *</label>
           <textarea v-model.trim="form.resume" rows="6"></textarea>
+          <p v-if="fieldErrors.resume" class="error">{{ fieldErrors.resume }}</p>
         </div>
 
         <div class="row">
@@ -68,12 +76,18 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getBookById, updateBook, getAllCategories } from '../../api/api_book'
+import { useToast } from '@/composables/useToast'
+import { handleApiError } from '@/utils/formatApiError'
+import AppBanner from '@/components/AppBanner.vue'
 
 const route = useRoute()
 const router = useRouter()
+const toast = useToast()
 const isSaving = ref(false)
 const form = ref(null)
 const categories = ref([])
+const formError = ref('')
+const fieldErrors = ref({})
 
 onMounted(async () => {
   try {
@@ -82,10 +96,14 @@ onMounted(async () => {
     try {
       categories.value = await getAllCategories()
     } catch (catErr) {
-      console.error('Erreur chargement catégories:', catErr)
+      handleApiError(catErr, {
+        toast,
+        fallback: 'Impossible de charger les catégories.',
+      })
     }
-  } catch {
-    alert('Impossible de charger les données du livre.')
+  } catch (error) {
+    formError.value = 'Impossible de charger ce livre.'
+    handleApiError(error, { toast })
     router.push('/')
   }
 })
@@ -99,6 +117,8 @@ const promptImageUrl = () => {
 
 const handleUpdate = async () => {
   isSaving.value = true
+  formError.value = ''
+  fieldErrors.value = {}
 
   try {
     await updateBook(form.value.id, {
@@ -110,11 +130,14 @@ const handleUpdate = async () => {
       image: form.value.image || undefined,
       categoryId: form.value.categoryId,
     })
-    alert('Ouvrage mis à jour avec succès !')
+    toast.success('Livre mis à jour.')
     router.push({ name: 'book-details', params: { id: form.value.id } })
   } catch (error) {
-    console.error(error)
-    alert('Erreur lors de la sauvegarde.')
+    handleApiError(error, {
+      toast,
+      errors: fieldErrors,
+      fallback: 'Erreur lors de la sauvegarde.',
+    })
   } finally {
     isSaving.value = false
   }
@@ -200,6 +223,12 @@ input, textarea, select {
   border-radius: 10px;
   font-family: inherit;
   background-color: #fcfcfc;
+}
+.error {
+  color: #b94a48;
+  font-size: 0.85rem;
+  margin-top: 5px;
+  font-weight: bold;
 }
 .btn-action {
   background-color: #a8d1e7;
