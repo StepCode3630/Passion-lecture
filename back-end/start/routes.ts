@@ -16,8 +16,11 @@ router.group(() => {
     .apiOnly()
     .use(['store', 'update', 'destroy'], middleware.auth())
 
-  router.resource('authors', AuthorsController).apiOnly()
-  router.resource('categories', CategoriesController).apiOnly()
+  router.get('/authors', [AuthorsController, 'index'])
+  router.get('/author/:id', [AuthorsController, 'show'])
+
+  router.get('/categories', [CategoriesController, 'index'])
+  router.get('/categorie/:id', [CategoriesController, 'show'])
 
   router
     .group(() => {

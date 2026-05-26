@@ -16,10 +16,7 @@ export default class CommentsController {
       search,
     } = await request.validateUsing(getCommentsQueryValidator)
 
-    const query = Comment.query()
-      .where('book_id', params.book_id)
-      .preload('user')
-      .preload('book')
+    const query = Comment.query().where('book_id', params.book_id).preload('user').preload('book')
 
     if (userId) {
       query.where('user_id', userId)

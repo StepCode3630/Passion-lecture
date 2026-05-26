@@ -54,7 +54,6 @@ export default class BooksController {
     return response.ok(books)
   }
 
-  
   async store({ request, response, auth }: HttpContext) {
     const data = await request.validateUsing(createBookValidator)
     const book = await Book.create({

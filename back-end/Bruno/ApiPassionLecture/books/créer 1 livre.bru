@@ -7,20 +7,24 @@ meta {
 post {
   url: {{baseUrl}}/books
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
     "titre": "Harry Potter",
     "image": "https://example.com/image.jpg",
-    "annee_publication": "2001-01-01",
+    "annee_publication": 2011,
     "nb_page": 350,
     "lien_extrait": "https://example.com/extrait.pdf",
     "resume": "Un jeune sorcier découvre...",
     "editeur": "Gallimard",
-    "auteur_fk": 1,
-    "categorie_fk": 1,
+    "authorId": 1,
+    "categoryId": 1,
     "utilisateur_fk": 1
   }
 }
