@@ -180,6 +180,16 @@
       "duration": 135,
       "status": "DONE",
       "author": "StepCode3630"
+    },
+    {
+      "id": "94bf94ab-e0af-4fde-a359-647c47f88598",
+      "type": "commitless",
+      "name": "doc: maj le tableau de routes",
+      "description": "",
+      "date": "2026-05-26T11:54:00.000Z",
+      "duration": 10,
+      "status": "DONE",
+      "author": "StepCode3630"
     }
   ]
 }
