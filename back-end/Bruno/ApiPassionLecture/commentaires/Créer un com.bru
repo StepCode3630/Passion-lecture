@@ -5,9 +5,17 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/commentaires
+  url: {{baseUrl}}/books/:book_id/comments
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+params:path {
+  book_id: 57
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {

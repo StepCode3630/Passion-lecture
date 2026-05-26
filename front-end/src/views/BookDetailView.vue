@@ -142,7 +142,11 @@ onMounted(async () => {
 })
 
 const loadComments = async () => {
-  comments.value = await getComments(route.params.id)
+  const id = route.params.id
+  const response = await getComments(id)
+
+  comments.value = response.data
+  console.log(comments.value)
 }
 
 // Envoyer le commentaire
