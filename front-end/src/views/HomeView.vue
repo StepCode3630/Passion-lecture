@@ -21,11 +21,11 @@
                 class="book-card-link"
               >
                 <div class="card-content">
-                  <img :src="livre.imagePath" :alt="livre.title" class="cover" />
+                  <img :src="livre.lienExtrait" :alt="livre.titre" class="cover" />
 
                   <div class="info-overlay">
-                    <h3 class="title">{{ livre.title }}</h3>
-                    <p class="author">{{ livre.writer.firstname + ' ' + livre.writer.lastname }}</p>
+                    <h3 class="title">{{ livre.titre }}</h3>
+                    <p class="author">{{ livre.author.firstname + ' ' + livre.author.lastname }}</p>
 
                     <div class="hover-details">
                       <div class="stars-row">
@@ -33,7 +33,7 @@
                         <span class="star">5★</span>
                       </div>
                       <p class="added-by">
-                        Ajouté par : <span>{{ livre.user.username }}</span>
+                        Ajouté par : <span>{{ livre.userId }}</span>
                       </p>
                     </div>
                   </div>
@@ -53,10 +53,11 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue'
-import BookServices from '@/services/BookServices' // Importation du service API
+// import BookServices from '@/services/BookServices' // Importation du service API
+import { getAllBooks } from '../../api/api_book'
 
 // 1. État réactif
-const ouvrages = ref([]) // Liste des livres (chargée via l'API)
+const books = ref([]) // Liste des livres (chargée via l'API)
 const carouselTrack = ref(null) // Référence vers l'élément HTML pour le scroll
 const scrollLeftPosition = ref(0) // Position actuelle du scroll
 const maxScroll = ref(0) // Valeur maximale de scroll possible
@@ -64,8 +65,9 @@ const maxScroll = ref(0) // Valeur maximale de scroll possible
 // 2. Chargement des données au montage du composant
 onMounted(async () => {
   try {
-    const response = await BookServices.getBooks()
-    ouvrages.value = response.data
+    const response = await getAllBooks()
+
+    books.value = response.data
 
     // On attend un petit peu que le DOM se dessine pour calculer le scroll max
     setTimeout(() => {
@@ -77,9 +79,7 @@ onMounted(async () => {
 })
 
 const limitBooks = computed(() => {
-  return [...ouvrages.value]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 5)
+  return [...books.value].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5)
 })
 
 // 3. Logique du Carousel
