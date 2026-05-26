@@ -2,32 +2,42 @@
   <div class="admin-container">
     <div class="header-actions">
       <h1>Mes livres</h1>
-      <RouterLink to="/books/add" class="btn-add"> + Ajouter un livre </RouterLink>
+      <RouterLink v-if="isLoggedIn" to="/books/add" class="btn-add"> + Ajouter un livre </RouterLink>
     </div>
 
-    <div class="books-grid">
+    <p v-if="!isLoggedIn" class="empty">
+      Connectez-vous pour voir vos livres.
+      <RouterLink :to="{ name: 'profile' }">Se connecter</RouterLink>
+    </p>
+
+    <p v-else-if="loading" class="empty">Chargement...</p>
+
+    <p v-else-if="books.length === 0" class="empty">Vous n'avez pas encore ajouté de livre.</p>
+
+    <div v-else class="books-grid">
       <div v-for="book in books" :key="book.id" class="book-item">
-        <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="card-link">
-          <div class="book-card">
+        <div class="book-card">
+          <RouterLink
+            :to="{ name: 'book-details', params: { id: book.id } }"
+            class="card-link"
+          >
             <img :src="book.image" :alt="book.titre" class="book-image" />
             <div class="book-info">
               <h3>{{ book.titre }}</h3>
               <p>{{ book.author?.firstName }} {{ book.author?.lastName }}</p>
             </div>
+          </RouterLink>
 
-            <div class="hover-actions">
-              <RouterLink
-                :to="{ name: 'book-edit', params: { id: book.id } }"
-                class="action-btn edit"
-              >
-                ✏️
-              </RouterLink>
-              <button class="action-btn delete" @click.stop.prevent="removeBook(book.id)">
-                🗑️
-              </button>
-            </div>
+          <div class="hover-actions">
+            <RouterLink
+              :to="{ name: 'book-edit', params: { id: book.id } }"
+              class="action-btn edit"
+            >
+              ✏️
+            </RouterLink>
+            <button class="action-btn delete" @click="removeBook(book.id)">🗑️</button>
           </div>
-        </RouterLink>
+        </div>
       </div>
     </div>
   </div>
@@ -38,28 +48,46 @@ import { ref, onMounted } from 'vue'
 import { getAllBooks, deleteBook } from '../../api/api_book'
 
 const books = ref([])
+const loading = ref(false)
+const isLoggedIn = ref(false)
 
 const loadBooks = async () => {
-  const user = JSON.parse(localStorage.getItem('user'))
-  books.value = await getAllBooks({ userId: user.id })
+  const userRaw = localStorage.getItem('user')
+  if (!userRaw) {
+    isLoggedIn.value = false
+    books.value = []
+    return
+  }
+
+  isLoggedIn.value = true
+  loading.value = true
+
+  try {
+    const user = JSON.parse(userRaw)
+    books.value = await getAllBooks({ userId: user.id })
+  } catch (error) {
+    console.error('Erreur chargement livres:', error)
+    alert('Impossible de charger vos livres.')
+  } finally {
+    loading.value = false
+  }
 }
 
 onMounted(loadBooks)
 
 const removeBook = async (id) => {
-  if (confirm('Es-tu sûr de vouloir supprimer ce livre ?')) {
-    try {
-      await deleteBook(id)
-      await loadBooks()
-      alert('Livre supprimé avec succès !')
-    } catch (error) {
-      console.error('Erreur lors de la suppression :', error)
-      alert('Impossible de supprimer le livre.')
-    }
+  if (!confirm('Es-tu sûr de vouloir supprimer ce livre ?')) return
+
+  try {
+    await deleteBook(id)
+    await loadBooks()
+    alert('Livre supprimé avec succès !')
+  } catch (error) {
+    console.error('Erreur lors de la suppression :', error)
+    alert(error.message || 'Impossible de supprimer le livre.')
   }
 }
 </script>
-
 
 <style scoped>
 .admin-container {
@@ -94,7 +122,12 @@ const removeBook = async (id) => {
   transform: scale(1.05);
 }
 
-/* Grille de livres */
+.empty {
+  text-align: center;
+  font-style: italic;
+  color: #666;
+}
+
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -104,16 +137,15 @@ const removeBook = async (id) => {
 .card-link {
   text-decoration: none;
   color: inherit;
+  display: block;
 }
 
 .book-card {
-  position: relative; /* Important pour l'overlay */
+  position: relative;
   border: 1px solid #eee;
   padding: 15px;
   border-radius: 10px;
-  transition:
-    transform 0.3s,
-    box-shadow 0.3s;
+  transition: transform 0.3s, box-shadow 0.3s;
   height: 100%;
   background-color: white;
 }
@@ -131,10 +163,8 @@ const removeBook = async (id) => {
   margin-bottom: 10px;
 }
 
-/* Actions au survol */
 .hover-actions {
   position: absolute;
-  text-decoration: none;
   bottom: 0;
   left: 0;
   right: 0;
@@ -142,14 +172,14 @@ const removeBook = async (id) => {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  opacity: 0; /* Caché par défaut */
+  opacity: 0;
   transition: opacity 0.3s;
   border-radius: 0 0 10px 10px;
   border-top: 1px solid #eee;
 }
 
 .book-card:hover .hover-actions {
-  opacity: 1; /* Apparaît au survol */
+  opacity: 1;
 }
 
 .action-btn {
@@ -164,7 +194,6 @@ const removeBook = async (id) => {
 
 .action-btn:hover {
   transform: scale(1.2);
-  text-decoration: none;
 }
 
 .delete:hover {

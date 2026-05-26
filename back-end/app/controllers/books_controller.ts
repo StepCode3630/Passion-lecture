@@ -54,7 +54,7 @@ export default class BooksController {
 
     // Config des URLs de pagination
     books.baseUrl('/books')
-    books.queryString({ page, limit, sort, order, categoryId, authorId, search })
+    books.queryString({ page, limit, sort, order, categoryId, authorId, userId, search })
 
     return response.ok(books)
   }

@@ -34,38 +34,26 @@ const router = createRouter({
       component: LoginView,
     },
     {
+      path: '/books/add',
+      name: 'book-add',
+      component: AddBookView,
+    },
+    {
+      path: '/books/:id/edit',
+      name: 'book-edit',
+      component: EditBookView,
+      props: true,
+    },
+    {
       path: '/books/:id',
       name: 'book-details',
       component: BookDetailView,
-      // on peut recevoir l'id directement comme une prop
       props: true,
     },
     {
       path: '/books',
       name: 'booksList',
       component: BookMyList,
-    },
-    {
-      path: '/books/add',
-      name: 'book-add',
-      component: AddBookView,
-    },
-    //{
-    //  path: '/books/:id/edit',
-    //  name: 'books-edit',
-    //  component: EditBookView,
-    //},
-    // {
-    //   path: '/users/:id',
-    //   name: 'user-details',
-    //   component: UserDetailView,
-    // },
-
-    {
-      path: '/books/:id/edit',
-      name: 'book-edit',
-      component: EditBookView,
-      props: true,
     },
     {
       path: '/contact',

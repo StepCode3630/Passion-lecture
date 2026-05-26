@@ -73,7 +73,7 @@ const submit = async () => {
 
   try {
     const data = await login(form.value.email, form.value.password)
-    localStorage.setItem('token', data.type.token)
+    localStorage.setItem('token', data.token)
     localStorage.setItem('user', JSON.stringify({
       id: data.id,
       fullName: data.fullName,

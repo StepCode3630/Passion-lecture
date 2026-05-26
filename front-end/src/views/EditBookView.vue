@@ -114,7 +114,7 @@ const handleUpdate = async () => {
     router.push({ name: 'book-details', params: { id: form.value.id } })
   } catch (error) {
     console.error(error)
-    alert('Erreur lors de la sauvegarde.')
+    alert(error.message || 'Erreur lors de la sauvegarde.')
   } finally {
     isSaving.value = false
   }

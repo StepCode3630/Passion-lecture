@@ -15,7 +15,8 @@
 
         <div class="row">
           <label>Catégorie *</label>
-          <select v-model="form.categoryId">
+          <select v-model.number="form.categoryId">
+            <option disabled :value="null">Choisir une catégorie</option>
             <option v-for="categorie in categories" :key="categorie.id" :value="categorie.id">
               {{ categorie.name }}
             </option>
@@ -107,6 +108,9 @@ const errors = ref({})
 onMounted(async () => {
   try {
     categories.value = await getAllCategories()
+    if (categories.value.length > 0 && form.value.categoryId == null) {
+      form.value.categoryId = categories.value[0].id
+    }
   } catch {
     alert('Impossible de charger les catégories. Vérifiez que le serveur est démarré.')
   }
@@ -119,10 +123,19 @@ const validateForm = () => {
   if (!form.value.titre) { errors.value.titre = 'Le titre est requis.'; valid = false }
   if (!form.value.categoryId) { errors.value.categoryId = 'La catégorie est requise.'; valid = false }
   if (!form.value.nb_page || form.value.nb_page < 1) { errors.value.nb_page = 'Nombre de pages invalide.'; valid = false }
-  if (!form.value.annee_publication) { errors.value.annee_publication = "L'année est requise."; valid = false }
-  if (!form.value.resume) { errors.value.resume = 'Le résumé est requis.'; valid = false }
+  if (!form.value.annee_publication || form.value.annee_publication < 1000 || form.value.annee_publication > 9999) {
+    errors.value.annee_publication = "L'année doit être entre 1000 et 9999."
+    valid = false
+  }
+  if (!form.value.resume || form.value.resume.length < 10) {
+    errors.value.resume = 'Le résumé doit contenir au moins 10 caractères.'
+    valid = false
+  }
   if (!form.value.editeur) { errors.value.editeur = "L'éditeur est requis."; valid = false }
-  if (!authorFirstName.value || !authorLastName.value) { errors.value.author = "Le prénom et le nom de l'auteur sont requis."; valid = false }
+  if (!authorFirstName.value || authorFirstName.value.length < 2 || !authorLastName.value || authorLastName.value.length < 2) {
+    errors.value.author = "Le prénom et le nom de l'auteur doivent contenir au moins 2 caractères."
+    valid = false
+  }
 
   return valid
 }
@@ -136,23 +149,31 @@ const submit = async () => {
     // créer d'abord l'auteur pour récupérer son ID
     const author = await createAuthor(authorFirstName.value, authorLastName.value)
 
-    // On crée ensuite le livre avec l'authorId récupéré
-    const book = await createBook({
+    if (!author?.id) {
+      throw new Error("Impossible de récupérer l'auteur créé.")
+    }
+
+    const bookPayload = {
       titre: form.value.titre,
-      nb_page: form.value.nb_page,
-      annee_publication: form.value.annee_publication,
+      nb_page: Number(form.value.nb_page),
+      annee_publication: Number(form.value.annee_publication),
       resume: form.value.resume,
       editeur: form.value.editeur,
-      image: form.value.image || undefined,
-      lien_extrait: form.value.lien_extrait || undefined,
-      categoryId: form.value.categoryId,
-      authorId: author.id,
-    })
+      categoryId: Number(form.value.categoryId),
+      authorId: Number(author.id),
+    }
+
+    const imageUrl = form.value.image?.trim()
+    const extraitUrl = form.value.lien_extrait?.trim()
+    if (imageUrl) bookPayload.image = imageUrl
+    if (extraitUrl) bookPayload.lien_extrait = extraitUrl
+
+    const book = await createBook(bookPayload)
 
     router.push({ name: 'book-details', params: { id: book.id } })
   } catch (error) {
     console.error(error)
-    alert("Erreur lors de l'ajout du livre.")
+    alert(error.message || "Erreur lors de l'ajout du livre. Êtes-vous connecté ?")
   } finally {
     isSubmitting.value = false
   }
