@@ -1,12 +1,12 @@
 # ⚡ Passion Lecture API
 
-Une application web pour créer et réviser des **flashcards** organisées par **Decks**.
+Une application web pour créer et partager des **livres**.
 
 ---
 
 ## 📝 Description
 
-Blablabla
+Cette application à pour but de faire découvrir les livres que l'on aime a d'autres lecteurs ainsi que de découvrir les leurs.
 
 
 
