@@ -1,9 +1,17 @@
-const api_url = 'http://127.0.0.1:3333/books'
-
-
+const api_url = 'localhost:3333/books'
 
 async function getAllBooks() {
-  const getBooks = fetch(api_url)
-  return getBooks.then((response) => response.json()).then((data) =>{ console.log(data)})
+  try {
+    const response = await fetch(api_url)
+
+    const data = await response.json()
+
+    console.log(data)
+
+    return data
+  } catch (error) {
+    console.error(error)
+  }
 }
+
 getAllBooks()
