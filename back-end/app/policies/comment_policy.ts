@@ -4,13 +4,15 @@ import { BasePolicy } from '@adonisjs/bouncer'
 import type { AuthorizerResponse } from '@adonisjs/bouncer/types'
 
 export default class CommentPolicy extends BasePolicy {
-  async create(user: User): AuthorizerResponse {
+  create(_user: User): AuthorizerResponse {
     return true
   }
-  async edit(user: User, comment: Comment): AuthorizerResponse {
-    return user.id === comment.user.id
+
+  update(user: User, comment: Comment): AuthorizerResponse {
+    return user.id === comment.userId || user.role === 'admin'
   }
-  async delete(user: User, comment: Comment): AuthorizerResponse {
-    return user.id === comment.user.id
+
+  delete(user: User, comment: Comment): AuthorizerResponse {
+    return user.id === comment.userId || user.role === 'admin'
   }
 }

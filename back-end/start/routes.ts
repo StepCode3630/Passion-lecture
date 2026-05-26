@@ -1,25 +1,26 @@
 import router from '@adonisjs/core/services/router'
+import { middleware } from '#start/kernel'
+import swagger from '#config/swagger'
+import AutoSwagger from 'adonis-autoswagger'
+
 const BooksController = () => import('#controllers/books_controller')
 const AuthorsController = () => import('#controllers/authors_controller')
 const CategoriesController = () => import('#controllers/categories_controller')
 const CommentsController = () => import('#controllers/comments_controller')
 const UsersController = () => import('#controllers/users_controller')
-import User from '#models/user'
-import { middleware } from '#start/kernel'
-import { validateHeaderValue } from 'http'
 const AuthController = () => import('#controllers/auth_controller')
-import { create } from 'domain'
-import swagger from '#config/swagger'
-import AutoSwagger from 'adonis-autoswagger'
 
 router.group(() => {
-  // routes publique
   router
     .resource('books', BooksController)
     .apiOnly()
     .use(['store', 'update', 'destroy'], middleware.auth())
-  router.resource('authors', AuthorsController).apiOnly()
-  router.resource('categories', CategoriesController).apiOnly()
+
+  router.get('/authors', [AuthorsController, 'index'])
+  router.get('/author/:id', [AuthorsController, 'show'])
+
+  router.get('/categories', [CategoriesController, 'index'])
+  router.get('/categorie/:id', [CategoriesController, 'show'])
 
   router
     .group(() => {
@@ -31,17 +32,10 @@ router.group(() => {
     .prefix('books/:book_id')
 })
 
-// routes protégées besoin d'auth
-router.resource('users', UsersController).apiOnly()
-
-//router
-/*
-  .group(() => {
-    router.resource('comments', CommentsByUserController).apiOnly()
-  })
-  .prefix('users/:userId')
-  .use(middleware.auth())
-  */
+router
+  .resource('users', UsersController)
+  .apiOnly()
+  .use(['index', 'show', 'store', 'update', 'destroy'], middleware.auth())
 
 router
   .group(() => {
@@ -51,7 +45,6 @@ router
   })
   .prefix('user')
 
-// Documentation Swagger
 router.get('swagger', async () => {
   return AutoSwagger.default.docs(router.toJSON(), swagger)
 })
