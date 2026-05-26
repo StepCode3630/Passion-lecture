@@ -1,7 +1,7 @@
 meta {
   name: Se login
   type: http
-  seq: 6
+  seq: 2
 }
 
 post {
@@ -12,10 +12,13 @@ post {
 
 body:json {
   {
-    "fullName": "Patricny Stepan",
     "email": "Step@gmail.com",
     "password": "Qwertz1234."
   }
+}
+
+script:post-response {
+  bru.setEnvVar("token", res.body.type.token);
 }
 
 settings {

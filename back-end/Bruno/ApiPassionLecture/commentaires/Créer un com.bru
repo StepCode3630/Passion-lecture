@@ -1,22 +1,27 @@
 meta {
   name: Créer un com
   type: http
-  seq: 3
+  seq: 2
 }
 
 post {
-  url: {{baseUrl}}/commentaires
+  url: {{baseUrl}}/books/:book_id/comments
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+params:path {
+  book_id: 1
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "id": 11,
-    "message": "Salam",
-    "etoile": 1,
-    "createdAt": "2026-05-04T11:22:32.000+00:00",
-    "updatedAt": "2026-05-04T11:22:32.000+00:00"
+    "message": "Super livre !",
+    "etoile": 5
   }
 }
 

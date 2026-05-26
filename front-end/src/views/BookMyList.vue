@@ -5,15 +5,15 @@
       <RouterLink to="/books/add" class="btn-add"> + Ajouter un livre </RouterLink>
     </div>
 
-    <div class="books-grid">
-      <div v-for="book in books" :key="book.id" class="book-item">
-        <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="card-link">
-          <div class="book-card">
-            <img :src="book.imagePath" :alt="book.title" class="book-image" />
-            <div class="book-info">
-              <h3>{{ book.title }}</h3>
-              <p>{{ book.writer.firstname }} {{ book.writer.lastname }}</p>
-            </div>
+  <div class="books-grid">
+    <div v-for="book in books" :key="book.id" class="book-item">
+      <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="card-link">
+        <div class="book-card">
+          <img :src="book.image" :alt="book.titre" class="book-image" />
+          <div class="book-info">
+            <h3>{{ book.titre }}</h3>
+            <p>{{ book.author?.firstName }} {{ book.author?.lastName }}</p>
+          </div>
 
             <div class="hover-actions">
               <RouterLink
@@ -41,8 +41,9 @@ const books = ref([])
 
 // Fonction pour charger (ou recharger) les livres
 const loadBooks = async () => {
-  const response = await BookServices.getBooks()
-  books.value = response.data
+  const user = JSON.parse(localStorage.getItem('user'))
+  const response = await BookServices.getBooks({ userId: user.id })
+  books.value = response.data.data ?? response.data
 }
 
 onMounted(loadBooks)

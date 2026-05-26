@@ -8,9 +8,9 @@
     <div class="form-container">
       <form class="form" @submit.prevent="submit">
         <div class="row">
-          <label>Nom d'utilisateur *</label>
-          <input v-model.trim="form.username" type="text" />
-          <p v-if="errors.username" class="error">{{ errors.username }}</p>
+          <label>Nom complet *</label>
+          <input v-model.trim="form.fullName" type="text" />
+          <p v-if="errors.fullName" class="error">{{ errors.fullName }}</p>
         </div>
 
         <div class="row">
@@ -51,13 +51,14 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AuthService from '@/services/AuthService'
 
 const router = useRouter()
 
 const isSubmitting = ref(false)
 
 const form = ref({
-  username: '',
+  fullName: '',
   email: '',
   password: '',
   confirmPassword: '',
@@ -69,18 +70,18 @@ const validateForm = () => {
   errors.value = {}
   let valid = true
 
-  if (!form.value.username) {
-    errors.value.username = "Le nom d'utilisateur est requis."
+  if (!form.value.fullName) {
+    errors.value.fullName = 'Le nom complet est requis.'
     valid = false
   }
 
   if (!form.value.email) {
-    errors.value.email = 'Email requis.'
+    errors.value.email = "L'email est requis."
     valid = false
   }
 
   if (!form.value.password) {
-    errors.value.password = 'Mot de passe requis.'
+    errors.value.password = 'Le mot de passe est requis.'
     valid = false
   }
 
@@ -98,23 +99,17 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    const newUser = {
-      id: 'user_' + Date.now(),
-      username: form.value.username,
-      email: form.value.email,
-      password: form.value.password,
-      role: 'user',
-      createdAt: new Date().toISOString(),
-    }
-
-    console.log('Utilisateur créé :', newUser)
+    await AuthService.register(form.value.fullName, form.value.email, form.value.password)
 
     alert('Compte créé avec succès !')
-
-    router.push({ name: 'login' })
+    router.push({ name: 'profile' })
   } catch (error) {
     console.error(error)
-    alert('Erreur lors de la création du compte')
+    if (error.response?.data?.messages) {
+      alert(error.response.data.messages[0]?.message || 'Erreur lors de la création du compte.')
+    } else {
+      alert('Erreur lors de la création du compte.')
+    }
   } finally {
     isSubmitting.value = false
   }

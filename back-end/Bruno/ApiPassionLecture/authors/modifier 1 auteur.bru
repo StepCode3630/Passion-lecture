@@ -1,19 +1,22 @@
 meta {
-  name: modifier 1 auteur
+  name: créer 1 catégorie
   type: http
-  seq: 4
+  seq: 3
 }
 
-put {
-  url: {{baseUrl}}/authors/1
+post {
+  url: {{baseUrl}}/categories
   body: json
-  auth: inherit
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
 }
 
 body:json {
   {
-    "nom": "Rowling",
-    "prenom": "J.K."
+    "name": "Roman"
   }
 }
 
