@@ -1,6 +1,6 @@
-const api_url = 'localhost:3333/books'
+const api_url = 'http://localhost:3333/books'
 
-async function getAllBooks() {
+export async function getAllBooks() {
   try {
     const response = await fetch(api_url)
 
@@ -13,5 +13,3 @@ async function getAllBooks() {
     console.error(error)
   }
 }
-
-getAllBooks()
