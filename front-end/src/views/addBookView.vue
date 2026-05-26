@@ -83,9 +83,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
-import BookServices from '@/services/BookServices'
-import CategorieServices from '@/services/CategorieServices'
+import { getAllCategories, createAuthor, createBook } from '../../api/api_book'
 
 const router = useRouter()
 const isSubmitting = ref(false)
@@ -106,52 +104,25 @@ const form = ref({
 
 const errors = ref({})
 
-const loadCategories = async () => {
+onMounted(async () => {
   try {
-    const response = await CategorieServices.getCategories()
-    categories.value = response.data.data ?? response.data
-  } catch (error) {
-    console.error('Erreur chargement catégories:', error)
+    categories.value = await getAllCategories()
+  } catch {
     alert('Impossible de charger les catégories. Vérifiez que le serveur est démarré.')
   }
-}
-
-onMounted(() => {
-  loadCategories()
 })
 
 const validateForm = () => {
   errors.value = {}
   let valid = true
 
-  if (!form.value.titre) {
-    errors.value.titre = 'Le titre est requis.'
-    valid = false
-  }
-  if (!form.value.categoryId) {
-    errors.value.categoryId = 'La catégorie est requise.'
-    valid = false
-  }
-  if (!form.value.nb_page || form.value.nb_page < 1) {
-    errors.value.nb_page = 'Nombre de pages invalide.'
-    valid = false
-  }
-  if (!form.value.annee_publication) {
-    errors.value.annee_publication = "L'année est requise."
-    valid = false
-  }
-  if (!form.value.resume) {
-    errors.value.resume = 'Le résumé est requis.'
-    valid = false
-  }
-  if (!form.value.editeur) {
-    errors.value.editeur = "L'éditeur est requis."
-    valid = false
-  }
-  if (!authorFirstName.value || !authorLastName.value) {
-    errors.value.author = "Le prénom et le nom de l'auteur sont requis."
-    valid = false
-  }
+  if (!form.value.titre) { errors.value.titre = 'Le titre est requis.'; valid = false }
+  if (!form.value.categoryId) { errors.value.categoryId = 'La catégorie est requise.'; valid = false }
+  if (!form.value.nb_page || form.value.nb_page < 1) { errors.value.nb_page = 'Nombre de pages invalide.'; valid = false }
+  if (!form.value.annee_publication) { errors.value.annee_publication = "L'année est requise."; valid = false }
+  if (!form.value.resume) { errors.value.resume = 'Le résumé est requis.'; valid = false }
+  if (!form.value.editeur) { errors.value.editeur = "L'éditeur est requis."; valid = false }
+  if (!authorFirstName.value || !authorLastName.value) { errors.value.author = "Le prénom et le nom de l'auteur sont requis."; valid = false }
 
   return valid
 }
@@ -162,19 +133,11 @@ const submit = async () => {
   isSubmitting.value = true
 
   try {
-    const token = localStorage.getItem('token')
-    const headers = { Authorization: `Bearer ${token}` }
+    // créer d'abord l'auteur pour récupérer son ID
+    const author = await createAuthor(authorFirstName.value, authorLastName.value)
 
-    // On crée d'abord l'auteur pour récupérer son ID
-    const authorResponse = await axios.post(
-      'http://localhost:3333/authors',
-      { firstName: authorFirstName.value, lastName: authorLastName.value },
-      { headers }
-    )
-    const authorId = authorResponse.data.id
-
-    // On crée le livre avec l'authorId récupéré
-    const response = await BookServices.addBook({
+    // On crée ensuite le livre avec l'authorId récupéré
+    const book = await createBook({
       titre: form.value.titre,
       nb_page: form.value.nb_page,
       annee_publication: form.value.annee_publication,
@@ -183,10 +146,10 @@ const submit = async () => {
       image: form.value.image || undefined,
       lien_extrait: form.value.lien_extrait || undefined,
       categoryId: form.value.categoryId,
-      authorId: authorId,
+      authorId: author.id,
     })
 
-    router.push({ name: 'book-details', params: { id: response.data.id } })
+    router.push({ name: 'book-details', params: { id: book.id } })
   } catch (error) {
     console.error(error)
     alert("Erreur lors de l'ajout du livre.")

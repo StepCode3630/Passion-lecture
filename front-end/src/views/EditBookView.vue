@@ -17,7 +17,7 @@
         <p class="image-tip">Cliquez sur l'image pour changer l'URL</p>
       </div>
 
-      <form class="form" @submit.prevent="updateBook">
+      <form class="form" @submit.prevent="handleUpdate">
         <div class="row">
           <label>Titre *</label>
           <input v-model.trim="form.titre" type="text" />
@@ -67,8 +67,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import BookServices from '@/services/BookServices'
-import CategorieServices from '@/services/CategorieServices'
+import { getBookById, updateBook, getAllCategories } from '../../api/api_book'
 
 const route = useRoute()
 const router = useRouter()
@@ -78,16 +77,14 @@ const categories = ref([])
 
 onMounted(async () => {
   try {
-    const response = await BookServices.getBook(route.params.id)
-    form.value = response.data
+    form.value = await getBookById(route.params.id)
 
     try {
-      const catResponse = await CategorieServices.getCategories()
-      categories.value = catResponse.data.data ?? catResponse.data
+      categories.value = await getAllCategories()
     } catch (catErr) {
       console.error('Erreur chargement catégories:', catErr)
     }
-  } catch{
+  } catch {
     alert('Impossible de charger les données du livre.')
     router.push('/')
   }
@@ -100,11 +97,11 @@ const promptImageUrl = () => {
   }
 }
 
-const updateBook = async () => {
+const handleUpdate = async () => {
   isSaving.value = true
 
   try {
-    await BookServices.updateBook(form.value.id, {
+    await updateBook(form.value.id, {
       titre: form.value.titre,
       resume: form.value.resume,
       editeur: form.value.editeur,

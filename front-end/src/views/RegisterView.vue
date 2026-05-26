@@ -111,7 +111,7 @@ const submit = async () => {
 
     alert('Compte créé avec succès !')
 
-    router.push({ name: 'login' })
+    router.push({ name: 'profile' })
   } catch (error) {
     console.error(error)
     alert('Erreur lors de la création du compte')

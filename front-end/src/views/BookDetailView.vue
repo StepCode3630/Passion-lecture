@@ -102,7 +102,8 @@
 <script setup>
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import BookServices from '@/services/BookServices'
+import { getBookById } from '../../api/api_book'
+import { getComments, addComment } from '../../api/api_comment'
 
 const route = useRoute()
 const book = ref(null)
@@ -115,8 +116,7 @@ const isSubmitting = ref(false)
 
 const loadComments = async () => {
   try {
-    const response = await BookServices.getComments(route.params.id)
-    comments.value = response.data.data ?? response.data
+    comments.value = await getComments(route.params.id)
   } catch (error) {
     console.error('Erreur chargement commentaires:', error)
   }
@@ -124,8 +124,7 @@ const loadComments = async () => {
 
 onMounted(async () => {
   try {
-    const response = await BookServices.getBook(route.params.id)
-    book.value = response.data
+    book.value = await getBookById(route.params.id)
     await loadComments()
   } catch (error) {
     console.error('Erreur chargement livre:', error)
@@ -138,7 +137,7 @@ const submitComment = async () => {
   isSubmitting.value = true
 
   try {
-    await BookServices.addComment(route.params.id, {
+    await addComment(route.params.id, {
       message: commentText.value,
       etoile: parseInt(commentStars.value),
     })
@@ -159,6 +158,7 @@ const averageRating = computed(() => {
   return (total / comments.value.length).toFixed(1)
 })
 </script>
+
 
 <style scoped>
 .detail-page {

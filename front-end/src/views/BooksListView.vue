@@ -43,8 +43,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
-import BookServices from '@/services/BookServices'
-import CategorieServices from '@/services/CategorieServices'
+import { getAllBooks, getAllCategories } from '../../api/api_book'
 
 const selectedCategory = ref('')
 const books = ref([])
@@ -52,15 +51,14 @@ const categories = ref([])
 
 onMounted(async () => {
   try {
-    const response = await CategorieServices.getCategories()
-    categories.value = response.data.data ?? response.data
+    categories.value = await getAllCategories()
   } catch (error) {
     console.error('Erreur chargement catégories:', error)
     alert('Erreur lors du chargement des catégories.')
   }
+
   try {
-    const bookResponse = await BookServices.getBooks()
-    books.value = bookResponse.data.data ?? bookResponse.data
+    books.value = await getAllBooks()
   } catch (error) {
     console.error('Erreur chargement livres:', error)
   }

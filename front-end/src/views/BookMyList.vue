@@ -9,10 +9,10 @@
       <div v-for="book in books" :key="book.id" class="book-item">
         <RouterLink :to="{ name: 'book-details', params: { id: book.id } }" class="card-link">
           <div class="book-card">
-            <img :src="book.imagePath" :alt="book.title" class="book-image" />
+            <img :src="book.image" :alt="book.titre" class="book-image" />
             <div class="book-info">
-              <h3>{{ book.title }}</h3>
-              <p>{{ book.writer.firstname }} {{ book.writer.lastname }}</p>
+              <h3>{{ book.titre }}</h3>
+              <p>{{ book.author?.firstName }} {{ book.author?.lastName }}</p>
             </div>
 
             <div class="hover-actions">
@@ -34,30 +34,23 @@
 </template>
 
 <script setup>
-import BookServices from '@/services/BookServices'
 import { ref, onMounted } from 'vue'
+import { getAllBooks, deleteBook } from '../../api/api_book'
 
 const books = ref([])
 
-// Fonction pour charger (ou recharger) les livres
 const loadBooks = async () => {
-  const response = await BookServices.getBooks()
-  books.value = response.data
+  const user = JSON.parse(localStorage.getItem('user'))
+  books.value = await getAllBooks({ userId: user.id })
 }
 
 onMounted(loadBooks)
 
-// LA FONCTION DE SUPPRESSION
 const removeBook = async (id) => {
-  // 1. Sécurité : Toujours demander confirmation
   if (confirm('Es-tu sûr de vouloir supprimer ce livre ?')) {
     try {
-      // 2. Appel au serveur
-      await BookServices.deleteBook(id)
-
-      // 3. Mise à jour de l'interface (on recharge la liste)
+      await deleteBook(id)
       await loadBooks()
-
       alert('Livre supprimé avec succès !')
     } catch (error) {
       console.error('Erreur lors de la suppression :', error)
@@ -66,6 +59,7 @@ const removeBook = async (id) => {
   }
 }
 </script>
+
 
 <style scoped>
 .admin-container {
